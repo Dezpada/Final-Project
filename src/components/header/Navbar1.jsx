@@ -15,11 +15,10 @@ const Navbar1 = () => {
           />
         </Navbar.Brand>
         <Nav className="">
-          <Form className="d-flex">
+          <Form className="form-search">
             <Form.Control
               type="search"
               placeholder="Cari disini .."
-              className="search"
               aria-label="Search"
             />
             <Button variant="transparent" className="icon-search">
@@ -28,11 +27,7 @@ const Navbar1 = () => {
           </Form>
         </Nav>
         <Button variant="transparent" as={Link} to={"/login"}>
-          <img
-            src="../../../img/masuk.svg"
-            alt="Logo"
-            className="icon-search"
-          />
+          <img src="../../../img/masuk.svg" alt="Logo" />
         </Button>
       </Container>
     </Navbar>
