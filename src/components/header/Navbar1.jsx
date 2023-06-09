@@ -30,7 +30,6 @@ const Navbar1 = () => {
           <button>
             <img src="../../../img/masuk.svg" alt="Logo" />
           </button>
-        </Link>
       </Container>
     </Navbar>
   );

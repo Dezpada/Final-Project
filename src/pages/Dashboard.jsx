@@ -1,6 +1,7 @@
 import React from "react";
 import Navbar1 from "../components/header/Navbar1";
-import { Container } from "react-bootstrap";
+import FlightForm from "../components/form/FlightForm";
+import { Container, Row, Col } from "react-bootstrap";
 import "./style.css";
 
 const Dashboard = () => {
@@ -15,6 +16,11 @@ const Dashboard = () => {
             className="w-100"
           />
         </div>
+        <Row className="mt-2">
+          <Col>
+            <FlightForm />
+          </Col>
+        </Row>
       </Container>
       <div className="bg-banner p-5 w-100"></div>
     </>
