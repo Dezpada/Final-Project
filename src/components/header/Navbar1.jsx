@@ -1,5 +1,5 @@
 import React from "react";
-import { Navbar, Container, Form, Nav, Button } from "react-bootstrap";
+import { Navbar, Container, Form, Nav } from "react-bootstrap";
 import "./style.css";
 import { Link } from "react-router-dom";
 
@@ -21,14 +21,16 @@ const Navbar1 = () => {
               placeholder="Cari disini .."
               aria-label="Search"
             />
-            <Button variant="transparent" className="icon-search">
+            <button className="icon-search">
               <img src="../../../img/search-ikon.svg" alt="search" />
-            </Button>
+            </button>
           </Form>
         </Nav>
-        <Button variant="transparent" as={Link} to={"/login"}>
-          <img src="../../../img/masuk.svg" alt="Logo" />
-        </Button>
+        <Link to={"/login"}>
+          <button>
+            <img src="../../../img/masuk.svg" alt="Logo" />
+          </button>
+        </Link>
       </Container>
     </Navbar>
   );

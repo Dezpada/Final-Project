@@ -5,9 +5,7 @@
 
 .navbar {
   background-color: #fff;
-  box-shadow: 0px 5px 15px -5px rgba(0, 0, 0, 0.24);
-  -webkit-box-shadow: 0px 5px 15px -5px rgba(0, 0, 0, 0.24);
-  -moz-box-shadow: 0px 5px 15px -5px rgba(0, 0, 0, 0.24);
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
 }
 
 .form-search {
@@ -17,6 +15,11 @@
 
 .icon-search {
   position: absolute;
-  top: 0;
+  top: 5px;
   right: 30px;
+}
+
+button {
+  border: none;
+  background: none;
 }
