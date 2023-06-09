@@ -1,0 +1,10 @@
+
+.custom-button {
+  min-width: 700px;
+  background-color: #7126b5 !important;
+  font-weight: bold;
+}
+.label {
+  /* text-align: left; */
+  font-weight:500;
+}
