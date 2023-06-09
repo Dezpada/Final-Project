@@ -16,7 +16,7 @@ const Dashboard = () => {
           />
         </div>
       </Container>
-      <div className="bg-dark p-5 w-100"></div>
+      <div className="bg-banner p-5 w-100"></div>
     </>
   );
 };
