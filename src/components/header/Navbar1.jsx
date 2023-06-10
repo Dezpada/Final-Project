@@ -1,9 +1,17 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Navbar, Container, Form, Nav } from "react-bootstrap";
 import "./style.css";
 import { Link } from "react-router-dom";
 
 const Navbar1 = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      setIsLoggedIn(true);
+    }
+  }, []);
   return (
     <Navbar className="navbar">
       <Container>
@@ -26,11 +34,51 @@ const Navbar1 = () => {
             </button>
           </Form>
         </Nav>
-        <Link to={"/login"}>
-          <button>
-            <img src="../../../img/masuk.svg" alt="Logo" />
-          </button>
-        </Link>
+
+        {isLoggedIn ? (
+          <>
+            {/* <button
+            // onClick={() => {
+            //   localStorage.removeItem("token");
+            //   setIsLoggedIn(false);
+            //   return navigate("/");
+            // }}
+            >
+              Logout
+            </button> */}
+            <div className="d-flex">
+              <div className="mx-2">
+                <Link to={"/riwayat"}>
+                  <button>
+                    <img src="/img/fi_list.svg" alt="" />
+                  </button>
+                </Link>
+              </div>
+              <div className="mx-2">
+                <Link to={"/notifikasi"}>
+                  <button>
+                    <img src="/img/fi_bell.svg" alt="" />
+                  </button>
+                </Link>
+              </div>
+              <div className="mx-2">
+                <Link to={"/user"}>
+                  <button>
+                    <img src="/img/fi_user.svg" alt="" />
+                  </button>
+                </Link>
+              </div>
+            </div>
+          </>
+        ) : (
+          <>
+            <Link to={"/login"}>
+              <button>
+                <img src="../../../img/masuk.svg" alt="Logo" />
+              </button>
+            </Link>
+          </>
+        )}
       </Container>
     </Navbar>
   );
