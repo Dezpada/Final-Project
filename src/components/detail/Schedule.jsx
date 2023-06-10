@@ -18,6 +18,7 @@ const Schedule = () => {
                   </button>
                   <div className=" d-flex items">
                     <h6>JKT</h6>
+                    <h6 className="mx-1">-</h6>
                     <h6>MLB</h6>
                     <h6 className="mx-1">-</h6>
                     <h6>2 Penumpang</h6>
@@ -27,58 +28,58 @@ const Schedule = () => {
                 </div>
               </Col>
               <Col sm={3} className="edit-search rounded-4 ms-auto my-1">
-                <button className="w-100 h-100 text-light search-button">
+                <button className="w-100 h-100 text-white search-button">
                   Ubah Pencarian
                 </button>
               </Col>
             </Row>
             <Row xs="auto mt-3 mx-auto">
-              <Col className="  rounded-3 date px-1 mx-auto">
+              <Col className="  rounded-3 px-2 mx-auto">
                 <button className="w-100 h-100 ">
-                  <h6>Selasa</h6>
-                  <p>12/12/2001</p>
+                  <h6 className="fw-bold">Selasa</h6>
+                  <h6 className="fw-semibold fs-12">12/12/2001</h6>
                 </button>
               </Col>
-              <Col className="  rounded-3 date px-1 mx-auto ">
+              <Col className="  rounded-3 px-2 mx-auto">
                 <button className="w-100 h-100 ">
-                  <h6>Selasa</h6>
-                  <p>12/12/2001</p>
+                  <h6 className="fw-bold">Selasa</h6>
+                  <h6 className="fw-semibold fs-12">12/12/2001</h6>
                 </button>
               </Col>
-              <Col className=" bg-purple  rounded-3 date px-1 mx-auto">
+              <Col className="  rounded-3 px-2 mx-auto bg-purple">
                 <button className="w-100 h-100 ">
-                  <h6>Selasa</h6>
-                  <p>12/12/2001</p>
+                  <h6 className="fw-bold text-white">Selasa</h6>
+                  <h6 className="fw-semibold fs-12 text-white">12/12/2001</h6>
                 </button>
               </Col>
-              <Col className="  rounded-3 date px-1 mx-auto">
+              <Col className="  rounded-3 px-2 mx-auto">
                 <button className="w-100 h-100 ">
-                  <h6>Selasa</h6>
-                  <p>12/12/2001</p>
+                  <h6 className="fw-bold">Selasa</h6>
+                  <h6 className="fw-semibold fs-12">12/12/2001</h6>
                 </button>
               </Col>
-              <Col className="  rounded-3 date px-1 mx-auto">
+              <Col className="  rounded-3 px-2 mx-auto">
                 <button className="w-100 h-100 ">
-                  <h6>Selasa</h6>
-                  <p>12/12/2001</p>
+                  <h6 className="fw-bold">Selasa</h6>
+                  <h6 className="fw-semibold fs-12">12/12/2001</h6>
                 </button>
               </Col>
-              <Col className="  rounded-3 date px-1 mx-auto">
+              <Col className="  rounded-3 px-2 mx-auto">
                 <button className="w-100 h-100 ">
-                  <h6>Selasa</h6>
-                  <p>12/12/2001</p>
+                  <h6 className="fw-bold">Selasa</h6>
+                  <h6 className="fw-semibold fs-12">12/12/2001</h6>
                 </button>
               </Col>
-              <Col className="  rounded-3 date px-1 mx-auto">
+              <Col className="  rounded-3 px-2 mx-auto">
                 <button className="w-100 h-100 ">
-                  <h6>Selasa</h6>
-                  <p>12/12/2001</p>
+                  <h6 className="fw-bold">Selasa</h6>
+                  <h6 className="fw-semibold fs-12">12/12/2001</h6>
                 </button>
               </Col>
-              <Col className="  rounded-3 date px-1 mx-auto">
+              <Col className="  rounded-3 px-2 mx-auto">
                 <button className="w-100 h-100 ">
-                  <h6>Selasa</h6>
-                  <p>12/12/2001</p>
+                  <h6 className="fw-bold">Selasa</h6>
+                  <h6 className="fw-semibold fs-12">12/12/2001</h6>
                 </button>
               </Col>
             </Row>

@@ -1,7 +1,7 @@
 .rounded-3 {
   height: 50px;
 }
-
+/* 
 .date h6 {
   font-size: 14px;
   font-weight: 700;
@@ -12,8 +12,10 @@
   font-size: 12px;
   font-weight: 500;
   margin-top: -5px;
+} */
+.fs-12 {
+  font-size: 12px;
 }
-
 .list-items {
   color: #fff;
   height: 50px;
