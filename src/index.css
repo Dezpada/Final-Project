@@ -12,3 +12,43 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+* {
+  font-size: 100%;
+  font-family: "Poppins", sans-serif;
+}
+
+.bg-logo {
+  background-image: linear-gradient(
+      180deg,
+      #dec9ff 59.55%,
+      rgba(255, 233, 202, 0) 100%
+    ),
+    url("../public/img/bg-login.jpg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 560px;
+  height: 948px;
+  position: relative;
+}
+
+.btn-ungu {
+  background-color: #7126b5 !important;
+  background-color: cutom-color;
+  border-color: #7126b5 !important;
+  border-color: cutom-cor;
+}
+
+.text-ungu {
+  color: #7126b5;
+  color: cutom-color;
+  color: #7126b5;
+  color: cutom-cor;
+}
+
+@media (min-width: 1025px) {
+  .h-custom-2 {
+    height: 100%;
+  }
+}
