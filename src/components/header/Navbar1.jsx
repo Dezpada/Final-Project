@@ -14,8 +14,8 @@ const Navbar1 = () => {
             alt="Logo"
           />
         </Navbar.Brand>
-        <Nav className="w-100">
-          <Form className="form-search w-75 mx-auto">
+        <Nav className="w-50">
+          <Form className="form-search w-100 mx-auto">
             <Form.Control
               type="search"
               placeholder="Cari disini .."
