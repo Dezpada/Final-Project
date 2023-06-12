@@ -1,34 +1,84 @@
-import React from "react";
-import { Navbar, Container, Form, Nav, Button } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { Navbar, Container, Form, Nav } from "react-bootstrap";
 import "./style.css";
 import { Link } from "react-router-dom";
 
 const Navbar1 = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      setIsLoggedIn(true);
+    }
+  }, []);
   return (
     <Navbar className="navbar">
       <Container>
         <Navbar.Brand as={Link} to={"/"}>
           <img
-            src="../../../img/logo.svg"
+            src="/img/logo.svg"
             className="d-inline-block align-top"
             alt="Logo"
           />
         </Navbar.Brand>
-        <Nav className="">
-          <Form className="form-search">
+        <Nav className="w-50">
+          <Form className="form-search w-100 mx-auto">
             <Form.Control
               type="search"
               placeholder="Cari disini .."
               aria-label="Search"
             />
-            <Button variant="transparent" className="icon-search">
+            <button className="icon-search">
               <img src="../../../img/search-ikon.svg" alt="search" />
-            </Button>
+            </button>
           </Form>
         </Nav>
-        <Button variant="transparent" as={Link} to={"/login"}>
-          <img src="../../../img/masuk.svg" alt="Logo" />
-        </Button>
+
+        {isLoggedIn ? (
+          <>
+            {/* <button
+            // onClick={() => {
+            //   localStorage.removeItem("token");
+            //   setIsLoggedIn(false);
+            //   return navigate("/");
+            // }}
+            >
+              Logout
+            </button> */}
+            <div className="d-flex">
+              <div className="mx-2">
+                <Link to={"/riwayat"}>
+                  <button>
+                    <img src="/img/fi_list.svg" alt="" />
+                  </button>
+                </Link>
+              </div>
+              <div className="mx-2">
+                <Link to={"/notifikasi"}>
+                  <button>
+                    <img src="/img/fi_bell.svg" alt="" />
+                  </button>
+                </Link>
+              </div>
+              <div className="mx-2">
+                <Link to={"/user"}>
+                  <button>
+                    <img src="/img/fi_user.svg" alt="" />
+                  </button>
+                </Link>
+              </div>
+            </div>
+          </>
+        ) : (
+          <>
+            <Link to={"/login"}>
+              <button>
+                <img src="../../../img/masuk.svg" alt="Logo" />
+              </button>
+            </Link>
+          </>
+        )}
       </Container>
     </Navbar>
   );
