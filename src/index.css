@@ -19,7 +19,12 @@ code {
 }
 
 .bg-logo {
-  background-image: url("assets/bg-login.jpg");
+  background-image: linear-gradient(
+      180deg,
+      #dec9ff 59.55%,
+      rgba(255, 233, 202, 0) 100%
+    ),
+    url("../public/img/bg-login.jpg");
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
