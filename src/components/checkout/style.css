@@ -1,0 +1,24 @@
+.search {
+  background-color: #eeeeee;
+  color: #8a8a8a;
+}
+
+.navbar {
+  background-color: #fff;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+}
+
+.form-search {
+  position: relative;
+}
+
+.icon-search {
+  position: absolute;
+  top: 3px;
+  right: 30px;
+}
+
+button {
+  border: none;
+  background: none;
+}
