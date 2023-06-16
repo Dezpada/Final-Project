@@ -1,7 +1,7 @@
 import React from "react";
 import { Container, Row, Col, Button, Form, Card } from "react-bootstrap";
 
-function Login() {
+function ForgetPass() {
   return (
     <Container className="my-5">
       <Card>
@@ -21,48 +21,27 @@ function Login() {
                 className="fw-bold mb-3 ps-5 pb-3"
                 style={{ fontWeight: "bold" }}
               >
-                Masuk
+                Reset Password
               </h2>
               <Form className="mb-4 mx-5 w-100">
-                <Form.Group className="my-4" controlId="formBasicEmail">
-                  <Form.Label>Email/No Telepon</Form.Label>
-                  <Form.Control
-                    type="email"
-                    placeholder="Contoh: johndoe@gmail.com"
-                  />
+                <Form.Group className="my-4" controlId="formBasicPassword">
+                  <Form.Label>Masukkan Password Baru</Form.Label>
+                  <Form.Control type="password" placeholder="Password Baru" />
                 </Form.Group>
 
                 <Form.Group className="my-4" controlId="formBasicPassword">
-                  <Row>
-                    <Col sm={8}>
-                      <Form.Label>Password</Form.Label>
-                    </Col>
-                    <Col sm={4} style={{ textAlign: "end" }}>
-                      <a href="/reset-pass" class="text-ungu">
-                        Lupa Kata Sandi
-                      </a>
-                    </Col>
-                  </Row>
+                  <Form.Label>Ulangi Password Baru</Form.Label>
                   <Form.Control
                     type="password"
-                    placeholder="Masukkan password"
+                    placeholder="Ulangi Password Baru"
                   />
                 </Form.Group>
+
                 <div className="d-grid gap-2">
                   <Button type="submit" className="mt-4 btn-ungu">
-                    Masuk
+                    Simpan
                   </Button>
                 </div>
-                <p className="text-center mt-3">
-                  Belum punya akun?{" "}
-                  <a
-                    href="/register"
-                    class="text-ungu"
-                    style={{ fontWeight: "bold" }}
-                  >
-                    Daftar di sini
-                  </a>
-                </p>
               </Form>
             </Card.Body>
           </Col>
@@ -72,4 +51,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default ForgetPass;
