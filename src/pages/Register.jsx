@@ -39,7 +39,7 @@ function Login() {
 
                 <Form.Group className="my-4" controlId="formBasicEmail">
                   <Form.Label>Nomor Telepon</Form.Label>
-                  <Form.Control type="email" placeholder="+62 ." />
+                  <Form.Control type="tel" placeholder="+62 ." />
                 </Form.Group>
 
                 <Form.Group className="my-4" controlId="formBasicPassword">

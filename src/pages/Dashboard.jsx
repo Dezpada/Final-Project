@@ -1,6 +1,7 @@
 import React from "react";
 import Navbar1 from "../components/header/Navbar1";
 import FlightForm from "../components/form/FlightForm";
+import DesFav from "../components/DesFav/DesFav";
 import { Container, Row, Col } from "react-bootstrap";
 import "./style.css";
 
@@ -19,6 +20,11 @@ const Dashboard = () => {
         <Row className="mt-2">
           <Col>
             <FlightForm />
+          </Col>
+        </Row>
+        <Row className="mt-2">
+          <Col>
+            <DesFav />
           </Col>
         </Row>
       </Container>
