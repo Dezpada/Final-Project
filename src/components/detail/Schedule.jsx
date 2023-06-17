@@ -1,67 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import "./style.css";
+import { Link } from "react-router-dom";
 
 const Schedule = () => {
-  const flight = [
-    {
-      id: 1,
-      day: "Senin",
-      date: "12/12/2023",
-      // maskapai: "Jet Air",
-      // class: "Economy",
-      // price: "450000",
-      // fromhour: "07:00",
-      // fromcity: "JKT",
-      // estimate: "4h 0m",
-      // tohour: "11:00",
-      // fromdate: "03/03/2023",
-      // todate: "03/03/2023",
-      // fromairport: "Soetta",
-      // toairport: "melbourne",
-    },
-    {
-      id: "2",
-      day: "Selasa",
-      date: "13/12/2023",
-    },
-    {
-      id: "3",
-      day: "Rabu",
-      date: "14/12/2023",
-    },
-    {
-      id: "4",
-      day: "Kamis",
-      date: "15/12/2023",
-    },
-    {
-      id: "5",
-      day: "Jumat",
-      date: "16/12/2023",
-    },
-    {
-      id: "6",
-      day: "Sabtu",
-      date: "17/12/2023",
-    },
-    {
-      id: "7",
-      day: "Minggu",
-      date: "18/12/2023",
-    },
-    {
-      id: "8",
-      day: "Senin",
-      date: "19/12/2023",
-    },
-  ];
-  const [changeColor, setChangeColor] = useState();
-
-  const handleScheduleClick = (id) => {
-    setChangeColor(!changeColor);
-  };
-
   return (
     <div className="bg-detail pt-5 pb-4">
       <Container className="">
@@ -72,12 +14,14 @@ const Schedule = () => {
             <Row>
               <Col
                 sm={9}
-                className="rounded-4 my-1 py-2 px-2 bg-purple text-white"
+                className="rounded-4 my-1 py-2 px-2 bg-purple text-white  "
               >
                 <div className="d-flex h-100 ">
-                  <button>
-                    <img src="../../../img/arrow-left.svg" alt="" />
-                  </button>
+                  <Link to={"/"}>
+                    <button>
+                      <img src="/img/fi_arrow-left.svg" alt="" />
+                    </button>
+                  </Link>
                   <div className=" d-flex  ">
                     <h6 className="my-auto fw-semibold">JKT</h6>
                     <h6 className="mx-1 my-auto fw-semibold">-</h6>
@@ -95,28 +39,55 @@ const Schedule = () => {
                 </button>
               </Col>
             </Row>
-            <Row>
-              <Col className="mx-auto button-schedule">
-                <button
-                  className={`rounded-3 px-3 py-2 border ${
-                    changeColor === true ? "bg-purple text-white" : ""
-                  }`}
-                  onClick={handleScheduleClick()}
-                >
-                  <h6 className="fw-bold my-auto">Selasa</h6>
-                  <h6 className="fw-normal fs-12 date my-auto">12/12/2001</h6>
+            <Row xs="auto mt-3 mx-auto">
+              <Col className="  rounded-3 px-2 mx-auto border">
+                <button className="w-100 h-100 ">
+                  <h6 className="fw-bold">Selasa</h6>
+                  <h6 className="fw-normal fs-12 date">12/12/2001</h6>
                 </button>
               </Col>
-
-              <Col className="mx-auto button-schedule">
-                <button
-                  className={`rounded-3 px-3 py-2 border ${
-                    changeColor === true ? "" : "bg-purple text-white"
-                  }`}
-                  onClick={handleScheduleClick(2)}
-                >
-                  <h6 className="fw-bold my-auto">Selasa</h6>
-                  <h6 className="fw-normal fs-12 date my-auto">12/12/2001</h6>
+              <Col className="  rounded-3 px-2 mx-auto border">
+                <button className="w-100 h-100 ">
+                  <h6 className="fw-bold">Selasa</h6>
+                  <h6 className="fw-normal fs-12 date">12/12/2001</h6>
+                </button>
+              </Col>
+              <Col className="  rounded-3 px-2 mx-auto bg-purple">
+                <button className="w-100 h-100 ">
+                  <h6 className="fw-semibold text-white">Selasa</h6>
+                  <h6 className="fw-normal fs-12 text-white date">
+                    12/12/2001
+                  </h6>
+                </button>
+              </Col>
+              <Col className="  rounded-3 px-2 mx-auto border">
+                <button className="w-100 h-100 ">
+                  <h6 className="fw-bold">Selasa</h6>
+                  <h6 className="fw-normal fs-12 date">12/12/2001</h6>
+                </button>
+              </Col>
+              <Col className="  rounded-3 px-2 mx-auto border">
+                <button className="w-100 h-100 ">
+                  <h6 className="fw-bold">Selasa</h6>
+                  <h6 className="fw-normal fs-12 date">12/12/2001</h6>
+                </button>
+              </Col>
+              <Col className="  rounded-3 px-2 mx-auto border">
+                <button className="w-100 h-100 ">
+                  <h6 className="fw-bold">Selasa</h6>
+                  <h6 className="fw-normal fs-12 date">12/12/2001</h6>
+                </button>
+              </Col>
+              <Col className="  rounded-3 px-2 mx-auto border">
+                <button className="w-100 h-100 ">
+                  <h6 className="fw-bold">Selasa</h6>
+                  <h6 className="fw-normal fs-12 date">12/12/2001</h6>
+                </button>
+              </Col>
+              <Col className="  rounded-3 px-2 mx-auto border">
+                <button className="w-100 h-100 ">
+                  <h6 className="fw-bold">Selasa</h6>
+                  <h6 className="fw-normal fs-12 date">12/12/2001</h6>
                 </button>
               </Col>
             </Row>
