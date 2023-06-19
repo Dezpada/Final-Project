@@ -1,6 +1,7 @@
 import React from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import "./style.css";
+import { Link } from "react-router-dom";
 
 const Schedule = () => {
   return (
@@ -16,9 +17,11 @@ const Schedule = () => {
                 className="rounded-4 my-1 py-2 px-2 bg-purple text-white  "
               >
                 <div className="d-flex h-100 ">
-                  <button>
-                    <img src="../../../img/arrow-left.svg" alt="" />
-                  </button>
+                  <Link to={"/"}>
+                    <button>
+                      <img src="/img/fi_arrow-left.svg" alt="" />
+                    </button>
+                  </Link>
                   <div className=" d-flex  ">
                     <h6 className="my-auto fw-semibold">JKT</h6>
                     <h6 className="mx-1 my-auto fw-semibold">-</h6>
