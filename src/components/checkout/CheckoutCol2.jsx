@@ -80,7 +80,7 @@ function CheckoutCol2() {
         </h6>
       </div>
       <div className=" mx-auto ">
-        <Link to={"/"}>
+        <Link to={"/page-payment"}>
           <button className="w-100 btn btn-danger rounded-3 px-5 py-2 text-white fw-normal fs-30">
             Lanjut Bayar
           </button>
