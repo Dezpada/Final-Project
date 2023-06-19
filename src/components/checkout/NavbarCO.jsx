@@ -15,14 +15,17 @@ const NavbarCO = () => {
   return (
     <Container className="container-fluid my-3" width="100%">
       <p style={{ fontWeight: "bold" }}>
-        <a href="?" style={{ textDecoration: "none" }}>
-          Isi Data Diri{" "}
+        <a href="?" style={{ textDecoration: "none", color: "black" }}>
+          Isi Data Diri
         </a>
-        {">"}
-        <> Bayar </>
-        {">"}
-        <> Selesai </>
-        {">"}
+        {"  >  "}
+        <a href="?" style={{ textDecoration: "none", color: "#8A8A8A" }}>
+          Bayar
+        </a>
+        {"  >  "}
+        <a href="?" style={{ textDecoration: "none", color: "#8A8A8A" }}>
+          Selesai
+        </a>
       </p>
       {isLoggedIn ? <></> : <></>}
     </Container>
