@@ -9,6 +9,8 @@ import Notifikasi from "./pages/Notifikasi";
 import ResetPass from "./pages/ResetPass";
 import Otp from "./pages/Otp";
 import Countdown from "./pages/Countdown";
+import PagePayment from "./pages/PagePayment";
+import PaymentSuccess from "./pages/PaymentSuccess";
 
 function App() {
   return (
@@ -23,6 +25,8 @@ function App() {
         <Route path="/reset-pass" element={<ResetPass />} />
         <Route path="/otp" element={<Otp />} />
         <Route path="/countdown" element={<Countdown />} />
+        <Route path="/page-payment" element={<PagePayment />} />
+        <Route path="/payment-success" element={<PaymentSuccess />} />
       </Routes>
     </BrowserRouter>
   );
