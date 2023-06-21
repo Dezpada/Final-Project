@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Form, Row, Col, Button, Card, Container } from "react-bootstrap";
 import "./FlightForm.css";
+import { Link } from "react-router-dom";
 
 const FlightForm = () => {
   const [formData, setFormData] = useState({
@@ -51,7 +52,7 @@ const FlightForm = () => {
                         onChange={handleInputChange}
                         // onKeyUp={handleSearchInputChange}
                       >
-                        <option value="">Jakarta</option>
+                        <option value="">Jakarta (JKT)</option>
                         <option value="">Bangkok</option>
                         <option value="">Kuala Lumpur</option>
                         <option value="">Singapura</option>
@@ -67,7 +68,7 @@ const FlightForm = () => {
                         value={formData.to}
                         onChange={handleInputChange}
                       >
-                        <option value="">Kuala Lumpur</option>
+                        <option value="">Melbourne (MLB)</option>
                         <option value="">Singapura</option>
                         <option value="">Jakarta</option>
                         <option value="">Bangkok</option>
@@ -149,8 +150,11 @@ const FlightForm = () => {
                 {/* <Row className="mt-2"></Row> */}
                 <Col className="p-2 text-center">
                   <Button
-                    type="submit"
                     className="custom-button mt-4 text-light"
+                    type="submit"
+                    size="md"
+                    as={Link}
+                    to="/detail-penerbangan"
                   >
                     Cari Penerbangan
                   </Button>
