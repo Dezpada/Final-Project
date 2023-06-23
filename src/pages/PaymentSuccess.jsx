@@ -1,5 +1,6 @@
 import React from "react";
 import Navbar1 from "../components/header/Navbar1";
+import NavbarCO from "../components/checkout/NavbarCO";
 import { Container, Row, Button } from "react-bootstrap";
 import successImage from "../assets/success.png";
 import "./style.css";
@@ -9,6 +10,7 @@ const Dashboard = () => {
   return (
     <>
       <Navbar1 />
+      <NavbarCO />
       <Container>
         <Row className="mt-5 text-center">
           <p className="custom-box">Terima Kasih Sudah Melakukan Transaksi</p>
@@ -35,10 +37,10 @@ const Dashboard = () => {
               size="md"
               className="custom-button-lgn text-light w-40"
               as={Link}
-              to="/"
+              to="/riwayat"
             >
               Terbitkan Tiket
-            </Button>{" "}
+            </Button>
           </div>
           <div>
             <Button

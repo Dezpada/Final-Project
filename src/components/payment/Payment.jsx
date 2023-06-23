@@ -6,20 +6,44 @@ import "./Payment.css";
 import { Link } from "react-router-dom";
 
 function Payment() {
-  const [showForm, setShowForm] = useState(false);
-  const [isFormVisible, setIsFormVisible] = useState(false);
+  const [setShowForm] = useState(false);
+  const [isGopayFormVisible, setIsGopayFormVisible] = useState(false);
+  const [isVirtualAccountFormVisible, setIsVirtualAccountFormVisible] =
+    useState(false);
+  const [isCreditCardFormVisible, setIsCreditCardFormVisible] = useState(false);
+
+  const [isGopayButtonActive, setIsGopayButtonActive] = useState(false);
+  const [isVirtualAccountButtonActive, setIsVirtualAccountButtonActive] =
+    useState(false);
+  const [isCreditCardButtonActive, setIsCreditCardButtonActive] =
+    useState(false);
+
   const [formData, setFormData] = useState({
     cardNumber: "",
     cardHolderName: "",
-    ccv: "",
-    expiryDate: "",
+    // ccv: "",
+    // expiryDate: "",
   });
 
-  const handleClick = (e) => {
-    e.preventDefault();
-    setShowForm(!showForm);
-    setIsFormVisible(!showForm);
+  const handleToggleForm = (formType) => {
+    if (formType === "gopay") {
+      setIsGopayFormVisible(!isGopayFormVisible);
+      setIsGopayButtonActive(!isGopayButtonActive);
+    } else if (formType === "virtualAccount") {
+      setIsVirtualAccountFormVisible(!isVirtualAccountFormVisible);
+      setIsVirtualAccountButtonActive(!isVirtualAccountButtonActive);
+    } else if (formType === "creditCard") {
+      setIsCreditCardFormVisible(!isCreditCardFormVisible);
+      setIsCreditCardButtonActive(!isCreditCardButtonActive);
+    }
   };
+
+  // const handleClick = (formType) => {
+  //   // Mengatur form yang ditampilkan berdasarkan tombol yang diklik
+  //   setIsGopayFormVisible(formType === "gopay");
+  //   setIsVirtualAccountFormVisible(formType === "virtualAccount");
+  //   setIsCreditCardFormVisible(formType === "creditCard");
+  // };
 
   const handleChange = (e) => {
     setFormData({
@@ -48,15 +72,12 @@ function Payment() {
     setShowModal(false);
   };
 
-  // const handleButtonClick = () => {
-  //   alert("Pembayaran telah diselesaikan.");
-  // };
   return (
-    <Container className="my-5 row-w">
+    <Container className="my-1 row-w">
       <Row className="custom-button-cost justify-content-center text-cente">
         <div>
           <Button onClick={handleModalShow} variant="danger" size="md">
-            Selesaikan Pembayaran sampai tanggal 10 Maret 2023 12:00
+            Segera Selesaikan pembayaran Anda!
           </Button>
           <Modal show={showModal} onHide={handleModalClose}>
             <Modal.Header closeButton>
@@ -67,7 +88,7 @@ function Payment() {
                 <span className="fw-medium">Status Pembayaran (Unpaid)</span>
                 <br />{" "}
                 <span className="fw-bold">
-                  Selesaikan pembayaran Anda sebelum tanggal 10 Maret 2023!
+                  Selesaikan Pembayaran Anda 3 Hari sebelum Keberangkatan!
                 </span>
               </p>
             </Modal.Body>
@@ -90,34 +111,154 @@ function Payment() {
             <p className="fw-bold">Isi Data Pembayaran</p>
             <div className="d-grid gap-2">
               <Button
-                variant="secondary"
-                size="md"
-                style={{ textAlign: "left" }}
-              >
-                Gopay <FiChevronDown className="icon-right" />
-              </Button>
-              <Button
-                variant="secondary"
-                size="md"
-                style={{ textAlign: "left" }}
-              >
-                Virtual Account <FiChevronDown className="icon-right" />
-              </Button>
-              <Button
                 type="button"
-                onClick={handleClick}
-                variant="secondary"
+                onClick={() => handleToggleForm("gopay")}
                 size="md"
-                style={{ textAlign: "left", backgroundColor: "#7126B5" }}
+                style={{
+                  textAlign: "left",
+                  backgroundColor: isGopayButtonActive ? "#7126B5" : "#8A8A8A",
+                  color: isGopayButtonActive ? "#ffffff" : "#ffffff",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
               >
-                Credit Card{" "}
-                {isFormVisible ? (
+                Gopay{" "}
+                {isGopayFormVisible ? (
                   <FiChevronUp className="icon-right" />
                 ) : (
                   <FiChevronDown className="icon-right" />
                 )}
               </Button>
-              {showForm && (
+              {isGopayFormVisible && (
+                <form
+                  onSubmit={handleSubmit}
+                  className="form"
+                  style={{ textAlign: "left" }}
+                >
+                  <Row>
+                    <label
+                      className="fw-medium mt-2"
+                      style={{ textIndent: "50px" }}
+                    >
+                      Card Number
+                      <br />
+                      <input
+                        type="text"
+                        name="cardNumber"
+                        placeholder=" "
+                        value={formData.cardNumber}
+                        onChange={handleChange}
+                        className="borderless-input"
+                        style={{ width: "80%", marginLeft: "46px" }} // Mengatur lebar input menjadi 100%
+                      />
+                    </label>
+                  </Row>
+                  <Row className="justify-content-center mt-3">
+                    <Button
+                      type="submit"
+                      size="md"
+                      // className="custom-button-lgn text-light custom-button-small"
+                      style={{
+                        width: "96%",
+                        backgroundColor: "#7126B5",
+                      }}
+                      as={Link}
+                      to="/payment-success"
+                    >
+                      Bayar
+                    </Button>
+                  </Row>
+                </form>
+              )}
+
+              <Button
+                type="button"
+                onClick={() => handleToggleForm("virtualAccount")}
+                size="md"
+                style={{
+                  textAlign: "left",
+                  backgroundColor: isVirtualAccountButtonActive
+                    ? "#7126B5"
+                    : "#8A8A8A",
+                  color: isVirtualAccountButtonActive ? "#ffffff" : "#ffffff",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                Virtual Account{" "}
+                {isVirtualAccountFormVisible ? (
+                  <FiChevronUp className="icon-right" />
+                ) : (
+                  <FiChevronDown className="icon-right" />
+                )}
+              </Button>
+              {isVirtualAccountFormVisible && (
+                <form
+                  onSubmit={handleSubmit}
+                  className="form"
+                  style={{ textAlign: "left" }}
+                >
+                  <Row>
+                    <label
+                      className="fw-medium mt-2"
+                      style={{ textIndent: "50px" }}
+                    >
+                      Card Number
+                      <br />
+                      <input
+                        type="text"
+                        name="cardNumber"
+                        placeholder=" "
+                        value={formData.cardNumber}
+                        onChange={handleChange}
+                        className="borderless-input"
+                        style={{ width: "80%", marginLeft: "46px" }} // Mengatur lebar input menjadi 100%
+                      />
+                    </label>
+                  </Row>
+                  <Row className="justify-content-center mt-3">
+                    <Button
+                      type="submit"
+                      size="md"
+                      // className="custom-button-lgn text-light custom-button-small"
+                      style={{
+                        width: "96%",
+                        backgroundColor: "#7126B5",
+                      }}
+                      as={Link}
+                      to="/payment-success"
+                    >
+                      Bayar
+                    </Button>
+                  </Row>
+                </form>
+              )}
+
+              <Button
+                type="button"
+                onClick={() => handleToggleForm("creditCard")}
+                size="md"
+                style={{
+                  textAlign: "left",
+                  backgroundColor: isCreditCardButtonActive
+                    ? "#7126B5"
+                    : "#8A8A8A",
+                  color: isCreditCardButtonActive ? "#ffffff" : "#ffffff",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                Credit Card{" "}
+                {isCreditCardFormVisible ? (
+                  <FiChevronUp className="icon-right" />
+                ) : (
+                  <FiChevronDown className="icon-right" />
+                )}
+              </Button>
+              {isCreditCardFormVisible && (
                 <form
                   onSubmit={handleSubmit}
                   className="form"
@@ -153,50 +294,16 @@ function Payment() {
                         style={{ width: "80%", marginLeft: "46px" }} // Mengatur lebar input menjadi 100%
                       />
                     </label>
-                    <Row>
-                      <Col>
-                        <label
-                          className="fw-medium"
-                          style={{ textIndent: "50px" }}
-                        >
-                          CVV
-                          <br />
-                          <input
-                            type="text"
-                            name="cvv"
-                            placeholder=" "
-                            value={formData.cvv}
-                            onChange={handleChange}
-                            className="borderless-input"
-                            style={{ width: "80%", marginLeft: "46px" }} // Mengatur lebar input menjadi 100%
-                          />
-                        </label>
-                      </Col>
-                      <Col>
-                        <label
-                          className="fw-medium"
-                          style={{ textIndent: "40px" }}
-                        >
-                          Expiry Date
-                          <br />
-                          <input
-                            type="text"
-                            name="expiryDate"
-                            placeholder=" "
-                            value={formData.expiryDate}
-                            onChange={handleChange}
-                            className="borderless-input"
-                            style={{ width: "80%", marginLeft: "38px" }} // Mengatur lebar input menjadi 100%
-                          />
-                        </label>
-                      </Col>
-                    </Row>
                   </Row>
                   <Row className="justify-content-center mt-3">
                     <Button
                       type="submit"
                       size="md"
-                      className="custom-button-lgn text-light w-100"
+                      // className="custom-button-lgn text-light custom-button-small"
+                      style={{
+                        width: "96%",
+                        backgroundColor: "#7126B5",
+                      }}
                       as={Link}
                       to="/payment-success"
                     >
@@ -221,7 +328,9 @@ function Payment() {
                   <p className="fw-bold">07:00</p>
                 </Col>
                 <Col style={{ textAlign: "right" }}>
-                  <p className="txt-clr fw-bold">Keberangkatan</p>
+                  <p className="ms-auto my-auto fs-12 txt-clr fw-bold">
+                    Keberangkatan
+                  </p>
                 </Col>
               </Row>
               <p>
@@ -237,18 +346,26 @@ function Payment() {
           <Row>
             <Col xs={1} className="d-flex align-items-center"></Col>
             <Col>
-              <p className="fw-bold">
-                Jet Air - Economy <br />
-                JT - 203
-              </p>
-              <div className="information">
-                <img src="/img/logo_leaf.svg" alt=" " />
-                <p>
-                  <span className="fw-bold">Informasi: </span>
-                  <br /> <span className="fw-medium">Baggage 20 kg</span>
-                  <br /> Cabin baggage 7 kg
-                  <br /> In Flight Entertainment
-                </p>
+              <div className="d-flex">
+                <div className="me-1 my-auto">
+                  <img src="/img/logo_leaf.svg" alt="" />
+                </div>
+                <div className="d-flex flex-column ml-1">
+                  <div>
+                    <div className="d-flex">
+                      <p className="fw-bold fs-14">
+                        Jet Air - Economy <br />
+                        JT - 203
+                      </p>
+                    </div>
+                  </div>
+                  <p>
+                    <span className="fw-bold">Informasi: </span>
+                    <br /> <span className="fw-medium">Baggage 20 kg</span>
+                    <br /> Cabin baggage 7 kg
+                    <br /> In Flight Entertainment
+                  </p>
+                </div>
               </div>
             </Col>
             <hr />
@@ -259,7 +376,9 @@ function Payment() {
                 <p className="fw-bold">11:00</p>
               </Col>
               <Col style={{ textAlign: "right" }}>
-                <p className="txt-clr fw-bold">Kedatangan</p>
+                <p className="ms-auto my-auto fs-12 txt-clr fw-bold">
+                  Kedatangan
+                </p>
               </Col>
             </Row>
             <p>
@@ -279,7 +398,7 @@ function Payment() {
                 Tax
               </p>
             </Col>
-            <Col>
+            <Col style={{ textAlign: "right" }}>
               <p>
                 IDR 9.550.000
                 <br />
@@ -294,7 +413,7 @@ function Payment() {
             <Col>
               <p>Total</p>
             </Col>
-            <Col>
+            <Col style={{ textAlign: "right" }}>
               <p className="total-clr">IDR 9.850.000</p>
             </Col>
           </Row>
