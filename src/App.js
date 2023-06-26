@@ -13,6 +13,8 @@ import Countdown from "./pages/Countdown";
 import PagePayment from "./pages/PagePayment";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import Checkout from "./pages/Checkout";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
@@ -32,6 +34,7 @@ function App() {
         <Route path="/payment-success" element={<PaymentSuccess />} />
         <Route path="/checkout" element={<Checkout />} />
       </Routes>
+      <ToastContainer theme="colored" position="bottom-center" />
     </BrowserRouter>
   );
 }
