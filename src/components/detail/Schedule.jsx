@@ -1,66 +1,49 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import "./style.css";
+import { Link } from "react-router-dom";
+import axios from "axios";
 
 const Schedule = () => {
-  const flight = [
-    {
-      id: 1,
-      day: "Senin",
-      date: "12/12/2023",
-      // maskapai: "Jet Air",
-      // class: "Economy",
-      // price: "450000",
-      // fromhour: "07:00",
-      // fromcity: "JKT",
-      // estimate: "4h 0m",
-      // tohour: "11:00",
-      // fromdate: "03/03/2023",
-      // todate: "03/03/2023",
-      // fromairport: "Soetta",
-      // toairport: "melbourne",
-    },
-    {
-      id: "2",
-      day: "Selasa",
-      date: "13/12/2023",
-    },
-    {
-      id: "3",
-      day: "Rabu",
-      date: "14/12/2023",
-    },
-    {
-      id: "4",
-      day: "Kamis",
-      date: "15/12/2023",
-    },
-    {
-      id: "5",
-      day: "Jumat",
-      date: "16/12/2023",
-    },
-    {
-      id: "6",
-      day: "Sabtu",
-      date: "17/12/2023",
-    },
-    {
-      id: "7",
-      day: "Minggu",
-      date: "18/12/2023",
-    },
-    {
-      id: "8",
-      day: "Senin",
-      date: "19/12/2023",
-    },
-  ];
-  const [changeColor, setChangeColor] = useState();
+  // FUNCTION DATE NOW
+  const currentDate = Date.now();
+  const dates = [];
 
-  const handleScheduleClick = (id) => {
-    setChangeColor(!changeColor);
+  // LOOPING 8 DAYS
+  for (let i = 0; i < 8; i++) {
+    const loopDate = new Date(currentDate + i * 24 * 60 * 60 * 1000);
+    dates.push(loopDate);
+  }
+  // FUNCTION NAMA HARI
+
+  const getDay = (date) => {
+    const options = { weekday: "long" };
+    return new Intl.DateTimeFormat("id-ID", options).format(date);
   };
+
+  // FUNCTION DATE (dd,mm,yyyy)
+  const getDate = (date) => {
+    const options = { day: "2-digit", month: "2-digit", year: "numeric" };
+    return new Intl.DateTimeFormat("id-ID", options).format(date);
+  };
+
+  // const url = `https://finalproject-develop-9a08.up.railway.app/flight`;
+
+  // const [data, setData] = useState();
+
+  // const fetchData = async () => {
+  //   try {
+  //     const response = await axios.get(url);
+  //     console.log(response.data.data);
+  //     setData(response.data.data);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   fetchData();
+  // }, [url]);
 
   return (
     <div className="bg-detail pt-5 pb-4">
@@ -72,12 +55,14 @@ const Schedule = () => {
             <Row>
               <Col
                 sm={9}
-                className="rounded-4 my-1 py-2 px-2 bg-purple text-white"
+                className="rounded-4 my-1 py-2 px-2 bg-purple text-white  "
               >
                 <div className="d-flex h-100 ">
-                  <button>
-                    <img src="../../../img/arrow-left.svg" alt="" />
-                  </button>
+                  <Link to={"/"}>
+                    <button>
+                      <img src="/img/fi_arrow-left.svg" alt="" />
+                    </button>
+                  </Link>
                   <div className=" d-flex  ">
                     <h6 className="my-auto fw-semibold">JKT</h6>
                     <h6 className="mx-1 my-auto fw-semibold">-</h6>
@@ -90,35 +75,22 @@ const Schedule = () => {
                 </div>
               </Col>
               <Col className="rounded-4 my-1 ms-1 bg-green">
-                <button className=" h-100 w-100 text-white ">
-                  <h6 className="my-auto fw-semibold">Ubah Pencarian</h6>
-                </button>
+                <Link to={"/"}>
+                  <button className=" h-100 w-100 text-white ">
+                    <h6 className="my-auto fw-semibold">Ubah Pencarian</h6>
+                  </button>
+                </Link>
               </Col>
             </Row>
-            <Row>
-              <Col className="mx-auto button-schedule">
-                <button
-                  className={`rounded-3 px-3 py-2 border ${
-                    changeColor === true ? "bg-purple text-white" : ""
-                  }`}
-                  onClick={handleScheduleClick()}
-                >
-                  <h6 className="fw-bold my-auto">Selasa</h6>
-                  <h6 className="fw-normal fs-12 date my-auto">12/12/2001</h6>
-                </button>
-              </Col>
-
-              <Col className="mx-auto button-schedule">
-                <button
-                  className={`rounded-3 px-3 py-2 border ${
-                    changeColor === true ? "" : "bg-purple text-white"
-                  }`}
-                  onClick={handleScheduleClick(2)}
-                >
-                  <h6 className="fw-bold my-auto">Selasa</h6>
-                  <h6 className="fw-normal fs-12 date my-auto">12/12/2001</h6>
-                </button>
-              </Col>
+            <Row xs="auto mt-3 mx-auto">
+              {dates.map((date, index) => (
+                <Col className="mx-auto rounded-3 px-2 border button-schedule ">
+                  <button className="  ">
+                    <h6 className="fw-bold">{getDay(date)}</h6>
+                    <h6 className="fw-normal fs-12 date">{getDate(date)}</h6>
+                  </button>
+                </Col>
+              ))}
             </Row>
           </Col>
           <Col sm={2}></Col>

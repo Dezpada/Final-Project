@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, Row, Col, Button, Card, Container } from "react-bootstrap";
 import "./FlightForm.css";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const FlightForm = () => {
   const [formData, setFormData] = useState({
@@ -12,6 +14,23 @@ const FlightForm = () => {
     seatClass: "economy",
   });
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          "https://finalproject-develop-9a08.up.railway.app/airports"
+        );
+        setAirports(response.data.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const [airports, setAirports] = useState([]);
+
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setFormData((prevState) => ({
@@ -22,8 +41,11 @@ const FlightForm = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    console.log("sampai disini", formData);
     // Perform actions based on the filled data
   };
+
+  const navigate = useNavigate();
 
   // const handleSearchInputChange = (event) => {
   //   const searchValue = event.target.value.toLowerCase();
@@ -51,10 +73,11 @@ const FlightForm = () => {
                         onChange={handleInputChange}
                         // onKeyUp={handleSearchInputChange}
                       >
-                        <option value="">Jakarta</option>
-                        <option value="">Bangkok</option>
-                        <option value="">Kuala Lumpur</option>
-                        <option value="">Singapura</option>
+                        {airports.map((airport) => (
+                          <option key={airport.id} value={airport.id}>
+                            {airport.city}
+                          </option>
+                        ))}
                       </Form.Control>
                     </Form.Group>
                   </Col>
@@ -67,10 +90,11 @@ const FlightForm = () => {
                         value={formData.to}
                         onChange={handleInputChange}
                       >
-                        <option value="">Kuala Lumpur</option>
-                        <option value="">Singapura</option>
-                        <option value="">Jakarta</option>
-                        <option value="">Bangkok</option>
+                        {airports.map((airport) => (
+                          <option key={airport.id} value={airport.id}>
+                            {airport.city}
+                          </option>
+                        ))}
                       </Form.Control>
                     </Form.Group>
                   </Col>
@@ -149,8 +173,11 @@ const FlightForm = () => {
                 {/* <Row className="mt-2"></Row> */}
                 <Col className="p-2 text-center">
                   <Button
-                    type="submit"
                     className="custom-button mt-4 text-light"
+                    type="submit"
+                    size="md"
+                    // as={Link}
+                    // to="/detail-penerbangan"
                   >
                     Cari Penerbangan
                   </Button>
