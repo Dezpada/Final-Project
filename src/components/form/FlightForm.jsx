@@ -1,17 +1,44 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, Row, Col, Button, Card, Container } from "react-bootstrap";
+import {
+  FaPlaneDeparture,
+  FaPlaneArrival,
+  FaCalendarAlt,
+  FaUser,
+  FaCogs,
+} from "react-icons/fa";
 import "./FlightForm.css";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const FlightForm = () => {
   const [formData, setFormData] = useState({
-    from: "",
-    to: "",
-    departureDate: "",
+    class: "",
+    destination_airport: 1,
+    flight_date: "",
+    origin_airport: 1,
     returnDate: "",
-    passengers: 1,
-    seatClass: "economy",
+    total_passenger: 1,
+    tripType: "oneway",
   });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          "https://finalproject-develop-9a08.up.railway.app/airports?page=1&per_page=50"
+        );
+        setAirports(response.data.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const [airports, setAirports] = useState([]);
+  const navigate = useNavigate();
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -21,18 +48,19 @@ const FlightForm = () => {
     }));
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // Perform actions based on the filled data
+  const handleTripTypeChange = (event) => {
+    const tripType = event.target.checked ? "twoway" : "oneway";
+    setFormData((prevState) => ({
+      ...prevState,
+      tripType: tripType,
+    }));
   };
 
-  // const handleSearchInputChange = (event) => {
-  //   const searchValue = event.target.value.toLowerCase();
-  //   const filteredOptions = options.filter((option) =>
-  //     option.toLowerCase().includes(searchValue)
-  //   );
-  //   // Lakukan sesuatu dengan filteredOptions, seperti mengubah state atau menampilkan hasil pencarian.
-  // };
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    navigate("/detail-penerbangan", { state: { formData } });
+    // Perform actions based on the filled data
+  };
 
   return (
     <Container className="mt-1">
@@ -42,104 +70,119 @@ const FlightForm = () => {
             <Card.Body>
               <Form onSubmit={handleSubmit}>
                 <Row>
-                  <Col>
-                    <Form.Group controlId="from">
-                      <Form.Label className="label">Dari</Form.Label>
+                  <Col xs={12} md={6}>
+                    <Form.Group controlId="origin_airport">
+                      <Form.Label className="label">
+                        <FaPlaneDeparture className="icon" /> Dari
+                      </Form.Label>
                       <Form.Control
                         as="select"
-                        name="from"
-                        value={formData.from}
+                        name="origin_airport"
+                        value={formData.origin_airport}
                         onChange={handleInputChange}
-                        // onKeyUp={handleSearchInputChange}
                       >
-                        <option value="">Jakarta (JKT)</option>
-                        <option value="">Bangkok</option>
-                        <option value="">Kuala Lumpur</option>
-                        <option value="">Singapura</option>
+                        {airports.map((airport) => (
+                          <option key={airport.id} value={airport.id}>
+                            {airport.city} ({airport.name})
+                          </option>
+                        ))}
                       </Form.Control>
                     </Form.Group>
                   </Col>
-                  <Col>
-                    <Form.Group controlId="to">
-                      <Form.Label className="label">Tujuan</Form.Label>
+                  <Col xs={12} md={6}>
+                    <Form.Group controlId="destination_airport">
+                      <Form.Label className="label">
+                        <FaPlaneArrival className="icon" /> Tujuan
+                      </Form.Label>
                       <Form.Control
                         as="select"
-                        name="to"
-                        value={formData.to}
+                        name="destination_airport"
+                        value={formData.destination_airport}
                         onChange={handleInputChange}
                       >
-                        <option value="">Melbourne (MLB)</option>
-                        <option value="">Singapura</option>
-                        <option value="">Jakarta</option>
-                        <option value="">Bangkok</option>
+                        {airports.map((airport) => (
+                          <option key={airport.id} value={airport.id}>
+                            {airport.city} ({airport.name})
+                          </option>
+                        ))}
                       </Form.Control>
                     </Form.Group>
                   </Col>
                 </Row>
 
                 <Row>
-                  <Col>
+                  <Col xs={12} md={6}>
                     <Row>
-                      <Col className="mt-2">
-                        <Form.Group controlId="departureDate">
+                      <Col xs={12} md={6} className="mt-2">
+                        <Form.Group controlId="flight_date">
                           <Form.Label className="label">
-                            Tanggal Keberangkatan
+                            <FaCalendarAlt className="icon" /> Tanggal
+                            Keberangkatan
                           </Form.Label>
                           <Form.Control
                             type="date"
-                            name="departureDate"
-                            value={formData.departureDate}
+                            name="flight_date"
+                            value={formData.flight_date}
                             onChange={handleInputChange}
                           />
                         </Form.Group>
                       </Col>
-                      <Col className="mt-2">
-                        <Form.Group controlId="returnDate">
-                          <Form.Label className="label">
-                            Tanggal Kembali
-                          </Form.Label>
-                          <Form.Control
-                            type="date"
-                            name="returnDate"
-                            value={formData.returnDate}
-                            onChange={handleInputChange}
-                          />
-                        </Form.Group>
+                      <Col xs={6} md={6} className="mt-2">
+                        <Form.Check
+                          type="switch"
+                          id="tripTypeSwitch"
+                          label=""
+                          checked={formData.tripType === "twoway"}
+                          onChange={handleTripTypeChange}
+                        />
                       </Col>
+                      {formData.tripType === "twoway" && (
+                        <Col xs={12} md={6} className="mt-2">
+                          <Form.Group controlId="returnDate">
+                            <Form.Label className="label">
+                              <FaCalendarAlt className="icon" /> Tanggal Kembali
+                            </Form.Label>
+                            <Form.Control
+                              type="date"
+                              name="returnDate"
+                              value={formData.returnDate}
+                              onChange={handleInputChange}
+                            />
+                          </Form.Group>
+                        </Col>
+                      )}
                     </Row>
                   </Col>
 
-                  <Col>
+                  <Col xs={12} md={6}>
                     <Row>
-                      <Col className="mt-2">
-                        <Form.Group controlId="passengers">
+                      <Col xs={6} md={6} className="mt-2">
+                        <Form.Group controlId="total_passenger">
                           <Form.Label className="label">
-                            Jumlah Penumpang
+                            <FaUser className="icon" /> Jumlah Penumpang
                           </Form.Label>
                           <Form.Control
                             type="number"
-                            name="passengers"
+                            name="total_passenger"
                             min={1}
-                            value={formData.passengers}
+                            value={formData.total_passenger}
                             onChange={handleInputChange}
                           />
                         </Form.Group>
                       </Col>
-                      <Col className="mt-2">
-                        <Form.Group controlId="seatClass">
-                          <Form.Label className="label">Kelas</Form.Label>
+                      <Col xs={6} md={6} className="mt-2">
+                        <Form.Group controlId="class">
+                          <Form.Label className="label">
+                            <FaCogs className="icon" /> Kelas
+                          </Form.Label>
                           <Form.Control
                             as="select"
-                            name="seatClass"
-                            value={formData.seatClass}
+                            name="class"
+                            value={formData.class}
                             onChange={handleInputChange}
                           >
-                            <option value="economy">Economy</option>
-                            <option value="premium economy">
-                              Premium Economy
-                            </option>
-                            <option value="business">Business</option>
-                            <option value="first Class">First Class</option>
+                            <option value="ECONOMY">Economy</option>
+                            <option value="BUSINESS">Business</option>
                           </Form.Control>
                         </Form.Group>
                       </Col>
@@ -147,14 +190,11 @@ const FlightForm = () => {
                   </Col>
                 </Row>
 
-                {/* <Row className="mt-2"></Row> */}
                 <Col className="p-2 text-center">
                   <Button
                     className="custom-button mt-4 text-light"
                     type="submit"
                     size="md"
-                    as={Link}
-                    to="/detail-penerbangan"
                   >
                     Cari Penerbangan
                   </Button>
