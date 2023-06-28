@@ -74,7 +74,7 @@ function Payment() {
 
   return (
     <Container className="my-1 row-w">
-      <Row className="custom-button-cost justify-content-center text-cente">
+      <Row className="custom-button-cost justify-content-center text-center">
         <div>
           <Button onClick={handleModalShow} variant="danger" size="md">
             Segera Selesaikan pembayaran Anda!
@@ -105,7 +105,7 @@ function Payment() {
       </Row>
       <hr />
       <Row className="my-5">
-        <Col>
+        <Col md={6}>
           <Row>
             <div className="d-flex justify-content-between"></div>
             <p className="fw-bold">Isi Data Pembayaran</p>
@@ -316,9 +316,10 @@ function Payment() {
           </Row>
         </Col>
 
-        <Col>
+        <Col md={6}>
           <Row>
             <Col>
+              <div style={{ margin: "40px 0" }}></div>
               <div className="d-flex justify-content-between"></div>
               <p className="fw-bold">
                 Booking Code: <b className="total-clr">6723y2GHK</b>

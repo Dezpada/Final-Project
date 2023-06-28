@@ -28,19 +28,6 @@ const Dashboard = () => {
             <DesFav />
           </Col>
         </Row>
-        <Row>
-          <div>
-            <Button
-              type="submit"
-              size="md"
-              className="custom-button-lgn-two text-light w-40 my-2"
-              as={Link}
-              to="/checkout"
-            >
-              Go
-            </Button>
-          </div>
-        </Row>
       </Container>
       <div className="bg-dark p-5 w-100"></div>
     </>
