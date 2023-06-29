@@ -70,7 +70,7 @@ const ResultSearch = () => {
                       <h6 className="fs-12 mx-auto">
                         {flight.flight_duration} m
                       </h6>
-                      <img src="/img/arrow.svg" alt="" />
+                      <img src="/img/Arrow.svg" alt="" />
                       <h6 className="fs-12 mt-2 mx-auto">Direct</h6>
                     </div>
                     <div className="my-auto">
