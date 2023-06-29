@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Col, Container, Row } from "react-bootstrap";
-import "./style.css";
+import "./detailPagestyle.css";
 import { Link, useLocation } from "react-router-dom";
 import axios from "axios";
 

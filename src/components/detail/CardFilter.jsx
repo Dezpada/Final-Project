@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, ListGroup } from "react-bootstrap";
-import "./style.css";
+import "./detailPagestyle.css";
 
 const CardFilter = () => {
   return (

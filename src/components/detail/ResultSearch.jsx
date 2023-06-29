@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Accordion } from "react-bootstrap";
 import { Link, useLocation } from "react-router-dom";
 import NotFoundSearch from "../../pages/NotFoundSearch";
+import "./detailPagestyle.css";
 
 const ResultSearch = () => {
   const formatter = new Intl.NumberFormat("id-ID", {
