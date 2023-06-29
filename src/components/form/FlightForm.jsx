@@ -13,7 +13,7 @@ import axios from "axios";
 
 const FlightForm = () => {
   const [formData, setFormData] = useState({
-    class: "",
+    class: "ECONOMY",
     destination_airport: 1,
     flight_date: "",
     origin_airport: 1,
@@ -26,7 +26,7 @@ const FlightForm = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "https://finalproject-develop-9a08.up.railway.app/airports?page=1&per_page=50"
+          "https://final-project-production-b6fe.up.railway.app/airports?page=1&per_page=50"
         );
         setAirports(response.data.data);
       } catch (error) {
@@ -38,7 +38,6 @@ const FlightForm = () => {
   }, []);
 
   const [airports, setAirports] = useState([]);
-  const navigate = useNavigate();
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -47,6 +46,7 @@ const FlightForm = () => {
       [name]: value,
     }));
   };
+  const navigate = useNavigate();
 
   const handleTripTypeChange = (event) => {
     const tripType = event.target.checked ? "twoway" : "oneway";
@@ -124,6 +124,7 @@ const FlightForm = () => {
                             name="flight_date"
                             value={formData.flight_date}
                             onChange={handleInputChange}
+                            required
                           />
                         </Form.Group>
                       </Col>

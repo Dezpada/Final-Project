@@ -13,17 +13,17 @@ const DetailPenerbangan = () => {
       <Schedule />
       <Container>
         <Row className="my-3">
-          <Col sm={9}></Col>
-          <Col cm={1}>
+          <Col md={9}></Col>
+          <Col md={1}>
             <ModalFilter />
           </Col>
           <Col></Col>
         </Row>
         <Row>
-          <Col sm={3}>
+          <Col md={3}>
             <CardFilter />
           </Col>
-          <Col sm={7}>
+          <Col md={7}>
             <ResultSearch />
           </Col>
           <Col></Col>
