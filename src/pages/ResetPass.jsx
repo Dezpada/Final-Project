@@ -13,7 +13,6 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { toast } from "react-toastify";
 
 function ForgetPass() {
-  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordType, setPasswordType] = useState("password");
@@ -37,10 +36,6 @@ function ForgetPass() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    if (email.length === 0) {
-      toast.error("Email Address can not be empty");
-      return;
-    }
     if (password.length < 8) {
       toast.error(
         "Password must contain greater than or equal to 8 characters."
