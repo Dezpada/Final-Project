@@ -91,7 +91,7 @@ const Schedule = () => {
                       />
                     </div>
                     <h6 className="my-auto fw-semibold">
-                      {formData.formData.total_passengers} Penumpang
+                      {formData.formData.total_passenger} Penumpang
                     </h6>
                     <div className="mx-2">
                       <img
