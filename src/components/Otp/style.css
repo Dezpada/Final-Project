@@ -1,0 +1,28 @@
+.navbar {
+  background-color: #fff;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+}
+
+button {
+  border: none;
+  background: none;
+}
+
+.otp {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  width: 100%;
+  align-items: center;
+}
+
+.inputStyle {
+  width: 3em !important;
+  height: 45px;
+  border-radius: 7px;
+  border: 0px;
+  margin-left: 8px;
+  margin-right: 8px;
+  background: #dddddd;
+  font-size: 20px;
+}

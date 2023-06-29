@@ -57,6 +57,7 @@ const Schedule = () => {
 
     fetchData();
   }, [idFrom, idTo]);
+
   return (
     <div className="bg-detail pt-5 pb-4">
       <Container className="">
