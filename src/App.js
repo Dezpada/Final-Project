@@ -9,15 +9,18 @@ import User from "./pages/User";
 import Notifikasi from "./pages/Notifikasi";
 import ResetPass from "./pages/ResetPass";
 import Otp from "./pages/Otp";
-import Countdown from "./pages/Countdown";
 import PagePayment from "./pages/PagePayment";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import Checkout from "./pages/Checkout";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+// import { GoogleOAuthProvider } from "@react-oauth/google";
 
 function App() {
   return (
+    //<GoogleOAuthProvider
+    //   clientId={process.env.REACT_APP_GOOGLE_OAUTH_CLIENT_ID}
+    // >
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Dashboard />} />
@@ -29,13 +32,13 @@ function App() {
         <Route path="/notifikasi" element={<Notifikasi />} />
         <Route path="/reset-pass" element={<ResetPass />} />
         <Route path="/otp" element={<Otp />} />
-        <Route path="/countdown" element={<Countdown />} />
         <Route path="/page-payment" element={<PagePayment />} />
         <Route path="/payment-success" element={<PaymentSuccess />} />
         <Route path="/checkout" element={<Checkout />} />
       </Routes>
       <ToastContainer theme="colored" position="bottom-center" />
     </BrowserRouter>
+    // </GoogleOAuthProvider>
   );
 }
 

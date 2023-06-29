@@ -1,3 +1,4 @@
+import "./style.css";
 import axios from "axios";
 import React, { useState } from "react";
 import {
@@ -18,9 +19,125 @@ function Register() {
   const [name, setName] = useState("");
   const [telp, setTelp] = useState("");
   const [passwordType, setPasswordType] = useState("password");
+  const [resendOtp, setResendOtp] = useState(false);
+
+  const resendClick = async (e) => {
+    e.preventDefault();
+    try {
+      let data = JSON.stringify({
+        email,
+      });
+
+      let config = {
+        method: "post",
+        url: `https://final-project-production-b6fe.up.railway.app/resend-otp`,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: data,
+      };
+
+      const response = await axios.request(config);
+      toast.success(response.data.message);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response.data.message);
+        return;
+      }
+      toast.error(error.message);
+    }
+  };
 
   const onSubmit = async (e) => {
     e.preventDefault();
+
+    if (name.length === 0) {
+      toast.error("Name can not be empty");
+      return;
+    }
+
+    if (email.length === 0) {
+      toast.error("Email Address can not be empty");
+      return;
+    }
+
+    if (telp.length === 0) {
+      toast.error("Phone Number can not be empty");
+      return;
+    }
+
+    if (password.length < 8) {
+      toast.error(
+        "Password must contain greater than or equal to 8 characters."
+      );
+      return;
+    }
+
+    let countUpperCase = 0;
+    let countLowerCase = 0;
+    let countDigit = 0;
+    let countSpecialCharacters = 0;
+
+    for (let i = 0; i < password.length; i++) {
+      const specialChars = [
+        "!",
+        "@",
+        "#",
+        "$",
+        "%",
+        "^",
+        "&",
+        "*",
+        "(",
+        ")",
+        "_",
+        "-",
+        "+",
+        "=",
+        "[",
+        "{",
+        "]",
+        "}",
+        ":",
+        ";",
+        "<",
+        ">",
+      ];
+
+      if (specialChars.includes(password[i])) {
+        countSpecialCharacters++;
+      } else if (!isNaN(password[i] * 1)) {
+        countDigit++;
+      } else {
+        if (password[i] === password[i].toUpperCase()) {
+          countUpperCase++;
+        }
+        if (password[i] === password[i].toLowerCase()) {
+          countLowerCase++;
+        }
+      }
+    }
+
+    if (countLowerCase === 0) {
+      toast.error("Invalid Form, 0 lower case characters in password");
+      return;
+    }
+
+    if (countUpperCase === 0) {
+      toast.error("Invalid Form, 0 upper case characters in password");
+      return;
+    }
+
+    if (countDigit === 0) {
+      toast.error("Invalid Form, 0 digit characters in password");
+      return;
+    }
+
+    if (countSpecialCharacters === 0) {
+      toast.error("Invalid Form, 0 special characters in password");
+      return;
+    }
+
     try {
       let data = JSON.stringify({
         name,
@@ -31,7 +148,7 @@ function Register() {
 
       let config = {
         method: "post",
-        url: `https://finalproject-production-0b25.up.railway.app/auth/register`,
+        url: `${process.env.REACT_APP_API_KEY}/auth/register`,
         headers: {
           "Content-Type": "application/json",
         },
@@ -40,8 +157,7 @@ function Register() {
 
       const response = await axios.request(config);
       toast.success(response.data.message);
-      //localStorage.setItem("token", token);
-      window.location.href = "/login";
+      setResendOtp(true);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         toast.error(error.response.data.message);
@@ -58,27 +174,30 @@ function Register() {
     setPasswordType("password");
   };
   return (
-    <Container className="my-5">
+    <Container className="my-4">
       <Card>
         <Row className="g-0">
-          <Col md="6" className="bg-logo rounded-start">
-            <Card.Body className="d-flex flex-column justify-content-center h-custom-2 w-75 pt-4">
+          <Col md="6">
+            <img
+              src="../../../img/bg-login.jpg"
+              className="rounded-start w-100 d-none d-md-block px-0"
+              alt="?"
+            />
+          </Col>
+          <Col md="6">
+            <Card.Body className="d-flex flex-column">
               <img
                 src="../../../img/logo.svg"
                 alt="logo-login"
-                className="mb-4 mx-5 w-50"
+                className="mb-4 mx-5"
+                style={{ alignSelf: "center" }}
+                width={200}
+                height={200}
               />
-            </Card.Body>
-          </Col>
-          <Col md="6">
-            <Card.Body className="d-flex flex-column justify-content-center h-custom-2 w-75 pt-4">
-              <h2
-                className="fw-bold mb-3 ps-5 pb-3"
-                style={{ fontWeight: "bold" }}
-              >
+              <h2 className="mb-3 ps-5 pb-3" style={{ fontWeight: "bold" }}>
                 Daftar
               </h2>
-              <Form className="mb-4 mx-5 w-100" onSubmit={onSubmit}>
+              <Form className="mb-4 mx-5" onSubmit={onSubmit}>
                 <Form.Group className="my-4" controlId="formBasicEmail">
                   <Form.Label>Nama</Form.Label>
                   <Form.Control
@@ -133,6 +252,17 @@ function Register() {
                     </Button>
                   </InputGroup>
                 </Form.Group>
+                {resendOtp ? (
+                  <div className="text-center">
+                    Tidak menerima email otp?{" "}
+                    {
+                      <a href="?" onClick={resendClick}>
+                        Klik disini
+                      </a>
+                    }
+                  </div>
+                ) : null}
+
                 <div className="d-grid gap-2">
                   <Button type="submit" className="mt-4 btn-ungu">
                     Daftar

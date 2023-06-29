@@ -57,3 +57,52 @@
   order: 1;
   flex-grow: 0;
 }
+
+.btn-ungu:hover {
+  background-color: #a06ece !important;
+  background-color: custom-color;
+  border-color: #a06ece !important;
+  border-color: custom-color;
+}
+
+.bg-logo {
+  background-image: linear-gradient(
+    180deg,
+    #dec9ff 59.55%,
+    rgba(255, 233, 202, 0) 100%
+  );
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 560px;
+  height: 948px;
+  position: relative;
+}
+
+.btn-ungu {
+  background-color: #7126b5 !important;
+  background-color: custom-color;
+  border-color: #7126b5 !important;
+  border-color: custom-color;
+}
+
+.btn-ungu:hover {
+  background-color: #a06ece !important;
+  background-color: custom-color;
+  border-color: #a06ece !important;
+  border-color: custom-color;
+}
+
+.text-ungu {
+  color: #7126b5;
+  color: custom-color;
+  color: #7126b5;
+  color: custom-color;
+}
+
+.text-ungu:hover {
+  color: #a06ece;
+  color: custom-color;
+  color: #a06ece;
+  color: custom-color;
+}
