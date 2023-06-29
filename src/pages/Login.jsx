@@ -11,13 +11,17 @@ import {
 } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { FaEyeSlash, FaEye } from "react-icons/fa";
+<<<<<<< HEAD
 //import GoogleLogin from "../components/login/GoogleLogin";
+=======
+>>>>>>> 0d15132e4d675b7e0d38549de45eb8cdc23eec73
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordType, setPasswordType] = useState("password");
 
+<<<<<<< HEAD
   const resetPassword = async (e) => {
     e.preventDefault();
     if (email.length === 0) {
@@ -55,6 +59,10 @@ function Login() {
       toast.error("Email Address can not be empty");
       return;
     }
+=======
+  const onSubmit = async (e) => {
+    e.preventDefault();
+>>>>>>> 0d15132e4d675b7e0d38549de45eb8cdc23eec73
     try {
       let data = JSON.stringify({
         email,
@@ -63,7 +71,11 @@ function Login() {
 
       let config = {
         method: "post",
+<<<<<<< HEAD
         url: `${process.env.REACT_APP_API_KEY}/auth/login`,
+=======
+        url: `https://finalproject-production-0b25.up.railway.app/auth/login`,
+>>>>>>> 0d15132e4d675b7e0d38549de45eb8cdc23eec73
         headers: {
           "Content-Type": "application/json",
         },
@@ -72,6 +84,10 @@ function Login() {
 
       const response = await axios.request(config);
       const { token } = response.data.data;
+<<<<<<< HEAD
+=======
+      console.log(token);
+>>>>>>> 0d15132e4d675b7e0d38549de45eb8cdc23eec73
       localStorage.setItem("token", token);
       toast.success(response.data.message);
       setTimeout(3000);
@@ -116,7 +132,11 @@ function Login() {
               <h2 className="mb-3 ps-5 pb-3" style={{ fontWeight: "bold" }}>
                 Masuk
               </h2>
+<<<<<<< HEAD
               <Form className="mb-4 mx-5" onSubmit={onSubmit}>
+=======
+              <Form className="mb-4 mx-5 w-100" onSubmit={onSubmit}>
+>>>>>>> 0d15132e4d675b7e0d38549de45eb8cdc23eec73
                 <Form.Group className="my-4" controlId="formBasicEmail">
                   <Form.Label>Email/No Telepon</Form.Label>
                   <Form.Control

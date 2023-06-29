@@ -17,10 +17,10 @@ const Dashboard = () => {
         </Row>
         <hr />
         <Row className="mt-5 text-center">
-          <div className="mb-5">
+          <div xs={12} md={6} className="mb-5">
             <img src={successImage} alt=" " />
           </div>
-          <div>
+          <div xs={12} md={6}>
             <p>
               <span className="custom-text">Selamat!</span>
               <br />{" "}
@@ -31,7 +31,7 @@ const Dashboard = () => {
           </div>
         </Row>
         <Row className="mt-3 text-center justify-content-center">
-          <div>
+          <div xs={12} md={6} lg={4}>
             <Button
               type="submit"
               size="md"
@@ -42,7 +42,7 @@ const Dashboard = () => {
               Terbitkan Tiket
             </Button>
           </div>
-          <div>
+          <div xs={12} md={6} lg={4}>
             <Button
               type="submit"
               size="md"
