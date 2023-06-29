@@ -9,11 +9,8 @@
 
 .button-schedule:hover {
   background-color: #a06ece;
-  transition: background-color 0.5s ease;
-}
-.button-schedule button:hover {
-  transition: background-color 0.5s ease;
   color: #fff;
+  transition: background-color 0.5s ease;
 }
 
 .bg-detail {

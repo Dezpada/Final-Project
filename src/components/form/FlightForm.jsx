@@ -1,24 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { Form, Row, Col, Button, Card, Container } from "react-bootstrap";
 import "./FlightForm.css";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const FlightForm = () => {
   const [formData, setFormData] = useState({
-    from: "",
-    to: "",
-    departureDate: "",
+    class: "ECONOMY",
+    destination_airport: 1,
+    flight_date: "",
+    origin_airport: 1,
     returnDate: "",
-    passengers: 1,
-    seatClass: "economy",
+    total_passenger: 1,
   });
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "https://finalproject-develop-9a08.up.railway.app/airports"
+          "https://final-project-production-b6fe.up.railway.app/airports?page=1&per_page=50"
         );
         setAirports(response.data.data);
       } catch (error) {
@@ -38,14 +38,13 @@ const FlightForm = () => {
       [name]: value,
     }));
   };
+  const navigate = useNavigate();
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log("sampai disini", formData);
+    navigate("/detail-penerbangan", { state: { formData } });
     // Perform actions based on the filled data
   };
-
-  const navigate = useNavigate();
 
   // const handleSearchInputChange = (event) => {
   //   const searchValue = event.target.value.toLowerCase();
@@ -64,35 +63,36 @@ const FlightForm = () => {
               <Form onSubmit={handleSubmit}>
                 <Row>
                   <Col>
-                    <Form.Group controlId="from">
+                    <Form.Group controlId="origin_airport">
                       <Form.Label className="label">Dari</Form.Label>
                       <Form.Control
                         as="select"
-                        name="from"
-                        value={formData.from}
+                        name="origin_airport"
+                        value={formData.origin_airport}
                         onChange={handleInputChange}
+
                         // onKeyUp={handleSearchInputChange}
                       >
                         {airports.map((airport) => (
                           <option key={airport.id} value={airport.id}>
-                            {airport.city}
+                            {airport.city} ({airport.name})
                           </option>
                         ))}
                       </Form.Control>
                     </Form.Group>
                   </Col>
                   <Col>
-                    <Form.Group controlId="to">
+                    <Form.Group controlId="destination_airport">
                       <Form.Label className="label">Tujuan</Form.Label>
                       <Form.Control
                         as="select"
-                        name="to"
-                        value={formData.to}
+                        name="destination_airport"
+                        value={formData.destination_airport}
                         onChange={handleInputChange}
                       >
                         {airports.map((airport) => (
                           <option key={airport.id} value={airport.id}>
-                            {airport.city}
+                            {airport.city} ({airport.name})
                           </option>
                         ))}
                       </Form.Control>
@@ -104,15 +104,16 @@ const FlightForm = () => {
                   <Col>
                     <Row>
                       <Col className="mt-2">
-                        <Form.Group controlId="departureDate">
+                        <Form.Group controlId="flight_date">
                           <Form.Label className="label">
                             Tanggal Keberangkatan
                           </Form.Label>
                           <Form.Control
                             type="date"
-                            name="departureDate"
-                            value={formData.departureDate}
+                            name="flight_date"
+                            value={formData.flight_date}
                             onChange={handleInputChange}
+                            required
                           />
                         </Form.Group>
                       </Col>
@@ -135,34 +136,30 @@ const FlightForm = () => {
                   <Col>
                     <Row>
                       <Col className="mt-2">
-                        <Form.Group controlId="passengers">
+                        <Form.Group controlId="total_passengers">
                           <Form.Label className="label">
                             Jumlah Penumpang
                           </Form.Label>
                           <Form.Control
                             type="number"
-                            name="passengers"
+                            name="total_passengers"
                             min={1}
-                            value={formData.passengers}
+                            value={formData.total_passenger}
                             onChange={handleInputChange}
                           />
                         </Form.Group>
                       </Col>
                       <Col className="mt-2">
-                        <Form.Group controlId="seatClass">
+                        <Form.Group controlId="class">
                           <Form.Label className="label">Kelas</Form.Label>
                           <Form.Control
                             as="select"
-                            name="seatClass"
-                            value={formData.seatClass}
+                            name="class"
+                            value={formData.class}
                             onChange={handleInputChange}
                           >
-                            <option value="economy">Economy</option>
-                            <option value="premium economy">
-                              Premium Economy
-                            </option>
-                            <option value="business">Business</option>
-                            <option value="first Class">First Class</option>
+                            <option value="ECONOMY">Economy</option>
+                            <option value="BUSINESS">Business</option>
                           </Form.Control>
                         </Form.Group>
                       </Col>
@@ -176,8 +173,6 @@ const FlightForm = () => {
                     className="custom-button mt-4 text-light"
                     type="submit"
                     size="md"
-                    // as={Link}
-                    // to="/detail-penerbangan"
                   >
                     Cari Penerbangan
                   </Button>

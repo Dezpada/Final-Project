@@ -11,39 +11,21 @@ const CardFilter = () => {
         </Card.Title>
         <Card.Text>
           <ListGroup variant="flush">
-            <button>
-              <div className="d-flex py-2 border-bottom">
-                <img src="/img/fi_box.svg" alt="" />
-                <h6 className="my-auto ms-2 fw-normal">Transit</h6>
-                <img
-                  src="/img/fi_chevron-right.svg"
-                  alt=""
-                  className="ms-auto"
-                />
-              </div>
-            </button>
-            <button>
-              <div className="d-flex py-2 border-bottom">
-                <img src="/img/fi_heart.svg" alt="" />
-                <h6 className="my-auto ms-2 fw-normal">Fasilitas</h6>
-                <img
-                  src="/img/fi_chevron-right.svg"
-                  alt=""
-                  className="ms-auto"
-                />
-              </div>
-            </button>
-            <button>
-              <div className="d-flex py-2 ">
-                <img src="/img/fi_dollar-sign.svg" alt="" />
-                <h6 className="my-auto ms-2 fw-normal">Harga</h6>
-                <img
-                  src="/img/fi_chevron-right.svg"
-                  alt=""
-                  className="ms-auto"
-                />
-              </div>
-            </button>
+            <div className="d-flex py-2 border-bottom">
+              <img src="/img/fi_box.svg" alt="" />
+              <p className="my-auto ms-2 fw-normal">Transit</p>
+              <img src="/img/fi_chevron-right.svg" alt="" className="ms-auto" />
+            </div>
+            <div className="d-flex py-2 border-bottom">
+              <img src="/img/fi_heart.svg" alt="" />
+              <p className="my-auto ms-2 fw-normal">Fasilitas</p>
+              <img src="/img/fi_chevron-right.svg" alt="" className="ms-auto" />
+            </div>
+            <div className="d-flex py-2 ">
+              <img src="/img/fi_dollar-sign.svg" alt="" />
+              <p className="my-auto ms-2 fw-normal">Harga</p>
+              <img src="/img/fi_chevron-right.svg" alt="" className="ms-auto" />
+            </div>
           </ListGroup>
         </Card.Text>
       </Card.Body>
