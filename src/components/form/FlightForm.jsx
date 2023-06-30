@@ -56,8 +56,11 @@ const FlightForm = () => {
     }));
   };
 
+  const [total_passenger, setTotalPassenger] = useState(0);
+
   const handleSubmit = (event) => {
     event.preventDefault();
+    localStorage.setItem("passengers", total_passenger);
     navigate("/detail-penerbangan", { state: { formData } });
     // Perform actions based on the filled data
   };
@@ -192,13 +195,15 @@ const FlightForm = () => {
                 </Row>
 
                 <Col className="p-2 text-center">
-                  <Button
-                    className="custom-button mt-4 text-light"
-                    type="submit"
-                    size="md"
-                  >
-                    Cari Penerbangan
-                  </Button>
+                  <form onSubmit={handleSubmit}>
+                    <Button
+                      className="custom-button mt-4 text-light"
+                      type="submit"
+                      size="md"
+                    >
+                      Cari Penerbangan
+                    </Button>
+                  </form>
                 </Col>
               </Form>
             </Card.Body>
