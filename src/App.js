@@ -34,7 +34,7 @@ function App() {
         <Route path="/otp" element={<Otp />} />
         <Route path="/page-payment" element={<PagePayment />} />
         <Route path="/payment-success" element={<PaymentSuccess />} />
-        <Route path="/checkout" element={<Checkout />} />
+        <Route path="/checkout/:id" element={<Checkout />} />
       </Routes>
       <ToastContainer theme="colored" position="bottom-center" />
     </BrowserRouter>

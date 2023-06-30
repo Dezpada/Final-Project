@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Accordion, Card, Col, Container, Form, Row } from "react-bootstrap";
 import Navbar1 from "../components/header/Navbar1";
 import NavbarCO from "../components/checkout/NavbarCO";
@@ -6,8 +6,93 @@ import "../components/checkout/style.css";
 import CheckoutCol2 from "../components/checkout/CheckoutCol2";
 
 function Checkout() {
-  const [show, setShow] = React.useState(false);
+  const [show, setShow] = useState(false);
+  const [adultPassenger, setAdultPassenger] = useState(0);
+  const [kidPassenger, setKidPassenger] = useState(0);
+  const [totalPassenger, setTotalPassenger] = useState(0);
+  let components = [];
   const toggleFamilyName = () => setShow(!show);
+
+  useEffect(() => {
+    formData();
+    function calculatePassenger() {
+      const adult = window.localStorage.getItem("adult_passengers");
+      setAdultPassenger(adult);
+      const kid = window.localStorage.getItem("kid_passengers");
+      setKidPassenger(kid);
+    }
+    function totalAllPassenger() {
+      setTotalPassenger(parseInt(adultPassenger) + parseInt(kidPassenger));
+      console.log(totalPassenger);
+    }
+    async function formData() {
+      await calculatePassenger();
+      await totalAllPassenger();
+      for (let i = 0; i < totalPassenger.value; i++) {
+        components.push(
+          <Card className="mb-3">
+            <Card.Header style={{ background: "#3C3C3C", color: "white" }}>
+              Data Diri Penumpang
+            </Card.Header>
+            <Card.Body>
+              <Form className="mb-4 mx-3 ">
+                <Form.Group className="my-3" controlId="formBasicName">
+                  <Form.Label style={{ fontWeight: "bold", color: "#4B1979" }}>
+                    Nama Lengkap
+                  </Form.Label>
+                  <Form.Control
+                    type="name"
+                    placeholder="Masukkan Nama Lengkap"
+                  />
+                </Form.Group>
+
+                <Form.Group className="my-3" controlId="formBasicFamilyName">
+                  <Form.Label style={{ fontWeight: "bold", color: "#4B1979" }}>
+                    Nomor Telepon
+                  </Form.Label>
+                  <Form.Control type="tel" placeholder="+62 ." />
+                </Form.Group>
+                <Form.Group className="my-3" controlId="formBasicBirthDate">
+                  <Form.Label style={{ fontWeight: "bold", color: "#4B1979" }}>
+                    Tanggal Lahir
+                  </Form.Label>
+                  <Form.Control type="date" />
+                </Form.Group>
+                <Form.Group className="my-3" controlId="formBasicCountry">
+                  <Form.Label style={{ fontWeight: "bold", color: "#4B1979" }}>
+                    Kewarganegaraan
+                  </Form.Label>
+                  <Form.Control type="text" />
+                </Form.Group>
+                <Form.Group className="my-3" controlId="formBasicID">
+                  <Form.Label style={{ fontWeight: "bold", color: "#4B1979" }}>
+                    KTP/Paspor
+                  </Form.Label>
+                  <Form.Control type="text" />
+                </Form.Group>
+                <Form.Group
+                  className="my-3"
+                  controlId="formBasicPublishCountry"
+                >
+                  <Form.Label style={{ fontWeight: "bold", color: "#4B1979" }}>
+                    Negara Penerbit
+                  </Form.Label>
+                  <Form.Control type="text" />
+                </Form.Group>
+                <Form.Group className="my-3" controlId="formBasicExpireDate">
+                  <Form.Label style={{ fontWeight: "bold", color: "#4B1979" }}>
+                    Berlaku Sampai
+                  </Form.Label>
+                  <Form.Control type="date" />
+                </Form.Group>
+              </Form>
+            </Card.Body>
+          </Card>
+        );
+      }
+    }
+  }, []);
+
   return (
     <>
       <Navbar1 />
@@ -116,260 +201,7 @@ function Checkout() {
                   <Accordion.Header as={"h5"}>
                     Isi Data Penumpang
                   </Accordion.Header>
-                  <Accordion.Body>
-                    <Card className="mb-3">
-                      <Card.Header
-                        style={{ background: "#3C3C3C", color: "white" }}
-                      >
-                        Data Diri Penumpang
-                      </Card.Header>
-                      <Card.Body>
-                        <Form className="mb-4 mx-3 ">
-                          <Form.Group
-                            className="my-3"
-                            controlId="formBasicName"
-                          >
-                            <Form.Label
-                              style={{ fontWeight: "bold", color: "#4B1979" }}
-                            >
-                              Nama Lengkap
-                            </Form.Label>
-                            <Form.Control
-                              type="name"
-                              placeholder="Masukkan Nama Lengkap"
-                            />
-                          </Form.Group>
-
-                          <Form.Group
-                            className="my-3"
-                            controlId="formBasicPassword"
-                          >
-                            <Row>
-                              <Col sm={8}>
-                                <Form.Label>Punya Nama Keluarga?</Form.Label>
-                              </Col>
-                              <Col sm={4} style={{ textAlign: "end" }}>
-                                <Form.Check
-                                  type="switch"
-                                  id="custom-switch"
-                                  onChange={toggleFamilyName}
-                                  trackColor={{
-                                    true: "#4B1979",
-                                    false: "grey",
-                                  }}
-                                />
-                              </Col>
-                            </Row>
-                          </Form.Group>
-                          {show ? (
-                            <Form.Group
-                              className="my-3"
-                              controlId="formBasicFamilyName"
-                            >
-                              <Form.Label
-                                style={{ fontWeight: "bold", color: "#4B1979" }}
-                              >
-                                Nama Keluarga
-                              </Form.Label>
-                              <Form.Control
-                                type="name"
-                                placeholder="Masukkan Nama Keluarga"
-                              />
-                            </Form.Group>
-                          ) : null}
-                          <Form.Group
-                            className="my-3"
-                            controlId="formBasicFamilyName"
-                          >
-                            <Form.Label
-                              style={{ fontWeight: "bold", color: "#4B1979" }}
-                            >
-                              Nomor Telepon
-                            </Form.Label>
-                            <Form.Control type="tel" placeholder="+62 ." />
-                          </Form.Group>
-                          <Form.Group
-                            className="my-3"
-                            controlId="formBasicBirthDate"
-                          >
-                            <Form.Label
-                              style={{ fontWeight: "bold", color: "#4B1979" }}
-                            >
-                              Tanggal Lahir
-                            </Form.Label>
-                            <Form.Control type="date" />
-                          </Form.Group>
-                          <Form.Group
-                            className="my-3"
-                            controlId="formBasicCountry"
-                          >
-                            <Form.Label
-                              style={{ fontWeight: "bold", color: "#4B1979" }}
-                            >
-                              Kewarganegaraan
-                            </Form.Label>
-                            <Form.Control type="text" />
-                          </Form.Group>
-                          <Form.Group className="my-3" controlId="formBasicID">
-                            <Form.Label
-                              style={{ fontWeight: "bold", color: "#4B1979" }}
-                            >
-                              KTP/Paspor
-                            </Form.Label>
-                            <Form.Control type="text" />
-                          </Form.Group>
-                          <Form.Group
-                            className="my-3"
-                            controlId="formBasicPublishCountry"
-                          >
-                            <Form.Label
-                              style={{ fontWeight: "bold", color: "#4B1979" }}
-                            >
-                              Negara Penerbit
-                            </Form.Label>
-                            <Form.Control type="text" />
-                          </Form.Group>
-                          <Form.Group
-                            className="my-3"
-                            controlId="formBasicExpireDate"
-                          >
-                            <Form.Label
-                              style={{ fontWeight: "bold", color: "#4B1979" }}
-                            >
-                              Berlaku Sampai
-                            </Form.Label>
-                            <Form.Control type="date" />
-                          </Form.Group>
-                        </Form>
-                      </Card.Body>
-                    </Card>
-                    <Card className="mb-3">
-                      <Card.Header
-                        style={{ background: "#3C3C3C", color: "white" }}
-                      >
-                        Data Diri Penumpang
-                      </Card.Header>
-                      <Card.Body>
-                        <Form className="mb-4 mx-3 ">
-                          <Form.Group
-                            className="my-3"
-                            controlId="formBasicName"
-                          >
-                            <Form.Label
-                              style={{ fontWeight: "bold", color: "#4B1979" }}
-                            >
-                              Nama Lengkap
-                            </Form.Label>
-                            <Form.Control
-                              type="name"
-                              placeholder="Masukkan Nama Lengkap"
-                            />
-                          </Form.Group>
-
-                          <Form.Group
-                            className="my-3"
-                            controlId="formBasicPassword"
-                          >
-                            <Row>
-                              <Col sm={8}>
-                                <Form.Label>Punya Nama Keluarga?</Form.Label>
-                              </Col>
-                              <Col sm={4} style={{ textAlign: "end" }}>
-                                <Form.Check
-                                  type="switch"
-                                  id="custom-switch"
-                                  onChange={toggleFamilyName}
-                                  trackColor={{
-                                    true: "#4B1979",
-                                    false: "grey",
-                                  }}
-                                />
-                              </Col>
-                            </Row>
-                          </Form.Group>
-                          {show ? (
-                            <Form.Group
-                              className="my-3"
-                              controlId="formBasicFamilyName"
-                            >
-                              <Form.Label
-                                style={{ fontWeight: "bold", color: "#4B1979" }}
-                              >
-                                Nama Keluarga
-                              </Form.Label>
-                              <Form.Control
-                                type="name"
-                                placeholder="Masukkan Nama Keluarga"
-                              />
-                            </Form.Group>
-                          ) : null}
-                          <Form.Group
-                            className="my-3"
-                            controlId="formBasicFamilyName"
-                          >
-                            <Form.Label
-                              style={{ fontWeight: "bold", color: "#4B1979" }}
-                            >
-                              Nomor Telepon
-                            </Form.Label>
-                            <Form.Control type="tel" placeholder="+62 ." />
-                          </Form.Group>
-                          <Form.Group
-                            className="my-3"
-                            controlId="formBasicBirthDate"
-                          >
-                            <Form.Label
-                              style={{ fontWeight: "bold", color: "#4B1979" }}
-                            >
-                              Tanggal Lahir
-                            </Form.Label>
-                            <Form.Control type="date" />
-                          </Form.Group>
-                          <Form.Group
-                            className="my-3"
-                            controlId="formBasicCountry"
-                          >
-                            <Form.Label
-                              style={{ fontWeight: "bold", color: "#4B1979" }}
-                            >
-                              Kewarganegaraan
-                            </Form.Label>
-                            <Form.Control type="text" />
-                          </Form.Group>
-                          <Form.Group className="my-3" controlId="formBasicID">
-                            <Form.Label
-                              style={{ fontWeight: "bold", color: "#4B1979" }}
-                            >
-                              KTP/Paspor
-                            </Form.Label>
-                            <Form.Control type="text" />
-                          </Form.Group>
-                          <Form.Group
-                            className="my-3"
-                            controlId="formBasicPublishCountry"
-                          >
-                            <Form.Label
-                              style={{ fontWeight: "bold", color: "#4B1979" }}
-                            >
-                              Negara Penerbit
-                            </Form.Label>
-                            <Form.Control type="text" />
-                          </Form.Group>
-                          <Form.Group
-                            className="my-3"
-                            controlId="formBasicExpireDate"
-                          >
-                            <Form.Label
-                              style={{ fontWeight: "bold", color: "#4B1979" }}
-                            >
-                              Berlaku Sampai
-                            </Form.Label>
-                            <Form.Control type="date" />
-                          </Form.Group>
-                        </Form>
-                      </Card.Body>
-                    </Card>
-                  </Accordion.Body>
+                  <Accordion.Body>{components}</Accordion.Body>
                 </Accordion.Item>
               </Accordion>
               <div className=" mx-auto my-3 ">
