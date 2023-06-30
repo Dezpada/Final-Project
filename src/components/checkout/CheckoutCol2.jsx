@@ -12,12 +12,8 @@ function CheckoutCol2() {
   const [arrivalAirport, setArrivalAirport] = useState("");
   const [airplane, setAirplane] = useState("");
   const [airline, setAirline] = useState("");
-  const [adultPassenger, setAdultPassenger] = useState("");
-  const [kidPassenger, setKidPassenger] = useState("");
-  const [babyPassenger, setBabyPassenger] = useState("");
-  const [priceAdults, setPriceAdults] = useState();
-  const [priceKids, setPriceKids] = useState();
-  const [priceBaby, setPriceBaby] = useState();
+  const [passenger, setPassenger] = useState(0);
+  const [price, setPrice] = useState(0);
   const [totalPrice, setTotalPrice] = useState();
 
   const params = useParams();
@@ -33,32 +29,35 @@ function CheckoutCol2() {
         setArrivalAirport(response.data.data.arrivalAirport);
         setAirplane(response.data.data.airplane);
         setAirline(response.data.data.airplane.airline);
+        //console.log(flight.price);
+        calculatePricePassengers();
+        calculatePriceTotal();
+      } catch (error) {
+        alert(error);
+      }
+    }
+
+    function calculatePricePassengers() {
+      try {
+        const passengers = window.localStorage.getItem("passengers");
+        setPassenger(passengers);
+
+        setPrice(parseInt(passenger) * parseInt(flight.price));
+      } catch (error) {
+        alert(error);
+      }
+    }
+
+    function calculatePriceTotal() {
+      try {
+        setTotalPrice(parseInt(price) + 300000);
       } catch (error) {
         alert(error);
       }
     }
 
     if (params?.id) {
-      fetchPost().then(calculatePricePassengers()).then(calculatePriceTotal());
-    }
-
-    async function calculatePricePassengers() {
-      await fetchPost();
-      const adult = window.localStorage.getItem("adult_passengers");
-      setAdultPassenger(adult);
-      const kid = window.localStorage.getItem("kid_passengers");
-      setKidPassenger(kid);
-      const baby = window.localStorage.getItem("baby_passengers");
-      setBabyPassenger(baby);
-
-      setPriceAdults(adultPassenger * flight.price);
-      setPriceKids(kidPassenger * flight.price);
-      setPriceBaby(babyPassenger * 0);
-    }
-    async function calculatePriceTotal() {
-      await fetchPost();
-      await calculatePricePassengers();
-      setTotalPrice(priceAdults + priceKids + priceBaby + 300000);
+      fetchPost();
     }
   }, [params]);
 
@@ -148,16 +147,12 @@ function CheckoutCol2() {
       <h6 className="fw-bold fs-14">Rincian Harga</h6>
       <div className="d-flex flex-row justify-content-between">
         <div className="d-flex flex-column">
-          <h6 className="fw-normal fs-14">{adultPassenger} Adults</h6>
-          <h6 className="fw-normal fs-14">{kidPassenger} Kids</h6>
-          <h6 className="fw-normal fs-14">{babyPassenger} Baby</h6>
+          <h6 className="fw-normal fs-14">{passenger} Passenger</h6>
           <h6 className="fw-normal fs-14">Tax</h6>
         </div>
         <div className="d-flex flex-column">
           <h6 className="fw-bold fs-14 text-end"> </h6>
-          <h6 className="fw-normal fs-14 text-end">IDR {priceAdults}</h6>
-          <h6 className="fw-normal fs-14 text-end">IDR {priceKids}</h6>
-          <h6 className="fw-normal fs-14 text-end">IDR {priceBaby}</h6>
+          <h6 className="fw-normal fs-14 text-end">IDR {price}</h6>
           <h6 className="fw-normal fs-14 text-end">IDR 300000</h6>
         </div>
       </div>

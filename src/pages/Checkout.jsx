@@ -7,25 +7,26 @@ import CheckoutCol2 from "../components/checkout/CheckoutCol2";
 
 function Checkout() {
   const [show, setShow] = useState(false);
-  const [adultPassenger, setAdultPassenger] = useState("");
-  const [kidPassenger, setKidPassenger] = useState("");
-  const [totalPassenger, setTotalPassenger] = useState("");
+  const [adultPassenger, setAdultPassenger] = useState(0);
+  const [kidPassenger, setKidPassenger] = useState(0);
+  const [totalPassenger, setTotalPassenger] = useState(0);
   let components = [];
   const toggleFamilyName = () => setShow(!show);
 
   useEffect(() => {
-    calculatePassenger().then(totalAllPassenger()).then(formData());
-    async function calculatePassenger() {
+    formData();
+    function calculatePassenger() {
       const adult = window.localStorage.getItem("adult_passengers");
       setAdultPassenger(adult);
       const kid = window.localStorage.getItem("kid_passengers");
       setKidPassenger(kid);
     }
-    async function totalAllPassenger() {
-      await calculatePassenger();
-      setTotalPassenger(adultPassenger + kidPassenger);
+    function totalAllPassenger() {
+      setTotalPassenger(parseInt(adultPassenger) + parseInt(kidPassenger));
+      console.log(totalPassenger);
     }
     async function formData() {
+      await calculatePassenger();
       await totalAllPassenger();
       for (let i = 0; i < totalPassenger.value; i++) {
         components.push(
