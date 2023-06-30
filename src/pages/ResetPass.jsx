@@ -120,7 +120,7 @@ function ForgetPass() {
       });
 
       let config = {
-        method: "post",
+        method: "put",
         url: `${process.env.REACT_APP_API_KEY}/auth/reset-password`,
         headers: {
           "Content-Type": "application/json",
