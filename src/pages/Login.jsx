@@ -11,7 +11,6 @@ import {
 } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { FaEyeSlash, FaEye } from "react-icons/fa";
-import {Link} from "react-router-dom";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -105,16 +104,16 @@ function Login() {
           </Col>
           <Col md="6">
             <Card.Body className="d-flex flex-column">
-              <img
-                src="../../../img/logo.svg"
-                alt="logo-login"
-                className="mb-4 mx-5"
-                style={{ alignSelf: "center" }}
-                width={200}
-                height={200}
-                as={Link}
-                to={"/"}
-              />
+              <a href="/" className="d-flex flex-column">
+                <img
+                  src="../../../img/logo.svg"
+                  alt="logo-login"
+                  className="mb-4 mx-5"
+                  style={{ alignSelf: "center" }}
+                  width={200}
+                  height={200}
+                />
+              </a>
               <h2 className="mb-3 ps-5 pb-3" style={{ fontWeight: "bold" }}>
                 Masuk
               </h2>
