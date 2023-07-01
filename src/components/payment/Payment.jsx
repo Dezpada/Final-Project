@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useHistory } from "react";
 import { Container, Row, Col, Button, Modal } from "react-bootstrap";
 import { FiChevronDown, FiChevronUp } from "react-icons/fi";
 // import masterCard from '../assets/mastercard_logo.png';
 import "./Payment.css";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import axios from "axios";
+import moment from "moment";
+import "moment/locale/id";
+moment.locale("id");
 
 function Payment() {
   const [setShowForm] = useState(false);
@@ -39,23 +42,59 @@ function Payment() {
     }
   };
 
-  const [flightData, setFlightData] = useState(null);
-  const flightId = "2"; // Ubah ID sesuai kebutuhan Anda
+  const [flight, setFlight] = useState("");
+  const [departureAirport, setDepartureAirport] = useState("");
+  const [arrivalAirport, setArrivalAirport] = useState("");
+  const [airplane, setAirplane] = useState("");
+  const [airline, setAirline] = useState("");
+  const [passenger, setPassenger] = useState(0);
+  const [price, setPrice] = useState(0);
+  const [totalPrice, setTotalPrice] = useState();
+
+  const params = useParams();
 
   useEffect(() => {
-    async function fetchData() {
+    async function fetchPost() {
       try {
         const response = await axios.get(
-          `https://final-project-develop-f89c.up.railway.app/flight/${flightId}`
+          `https://final-project-production-b6fe.up.railway.app/flight/${params.id}`
         );
-        setFlightData(response.data.data);
+        setFlight(response.data.data);
+        setDepartureAirport(response.data.data.departureAirport);
+        setArrivalAirport(response.data.data.arrivalAirport);
+        setAirplane(response.data.data.airplane);
+        setAirline(response.data.data.airplane.airline);
+        //console.log(flight.price);
+        calculatePricePassengers();
+        calculatePriceTotal();
       } catch (error) {
-        console.error("Error fetching data:", error);
+        alert(error);
       }
     }
 
-    fetchData();
-  }, [flightId]);
+    function calculatePricePassengers() {
+      try {
+        const passengers = window.localStorage.getItem("passengers");
+        setPassenger(passengers);
+
+        setPrice(parseInt(passenger) * parseInt(flight.price));
+      } catch (error) {
+        alert(error);
+      }
+    }
+
+    function calculatePriceTotal() {
+      try {
+        setTotalPrice(parseInt(price) + 300000);
+      } catch (error) {
+        alert(error);
+      }
+    }
+
+    if (params?.id) {
+      fetchPost();
+    }
+  }, [params]);
 
   const handleChange = (e) => {
     setFormData({
@@ -70,11 +109,29 @@ function Payment() {
     setFormData({
       cardNumber: "",
       cardHolderName: "",
-      ccv: "",
-      expiryDate: "",
     });
     setShowForm(false);
   };
+
+  const handlePayment = () => {
+    // Data yang akan dikirim ke API
+    const data = {
+      // ...isi data yang ingin dikirim
+    };
+    axios
+      .post(
+        "https://final-project-production-b6fe.up.railway.app/flight/booking/checkout",
+        data
+      )
+      .then((response) => {
+        console.log(response.data); 
+        history.push("/payment-success");
+      })
+      .catch((error) => {
+        console.error(error); 
+      });
+  };
+  const history = useHistory();
 
   const [showModal, setShowModal] = useState(false);
   const handleModalShow = () => {
@@ -170,11 +227,11 @@ function Payment() {
                     <Button
                       type="submit"
                       size="md"
-                      // className="custom-button-lgn text-light custom-button-small"
                       style={{
                         width: "96%",
                         backgroundColor: "#7126B5",
                       }}
+                      onClick={handlePayment}
                       as={Link}
                       to="/payment-success"
                     >
@@ -234,11 +291,11 @@ function Payment() {
                     <Button
                       type="submit"
                       size="md"
-                      // className="custom-button-lgn text-light custom-button-small"
                       style={{
                         width: "96%",
                         backgroundColor: "#7126B5",
                       }}
+                      onClick={handlePayment}
                       as={Link}
                       to="/payment-success"
                     >
@@ -316,6 +373,7 @@ function Payment() {
                         width: "96%",
                         backgroundColor: "#7126B5",
                       }}
+                      onClick={handlePayment}
                       as={Link}
                       to="/payment-success"
                     >
@@ -329,131 +387,120 @@ function Payment() {
         </Col>
 
         <Col md={6}>
-          {flightData ? (
-            <>
+          <Row>
+            <Col>
+              <div style={{ margin: "40px 0" }}></div>
+              <div className="d-flex justify-content-between"></div>
+              <p className="fw-bold">
+                Booking Code:{" "}
+                <b className="total-clr">{flight.flight_number}</b>
+              </p>
               <Row>
                 <Col>
-                  <div style={{ margin: "40px 0" }}></div>
-                  <div className="d-flex justify-content-between"></div>
-                  <p className="fw-bold">
-                    Booking Code:{" "}
-                    <b className="total-clr">{flightData.flight_number}</b>
+                  <p className="fw-bold">{flight.departure_time}</p>
+                </Col>
+                <Col style={{ textAlign: "right" }}>
+                  <p className="ms-auto my-auto fs-12 txt-clr fw-bold">
+                    Keberangkatan
                   </p>
-                  <Row>
-                    <Col>
-                      <p className="fw-bold">{flightData.departure_time}</p>
-                    </Col>
-                    <Col style={{ textAlign: "right" }}>
-                      <p className="ms-auto my-auto fs-12 txt-clr fw-bold">
-                        Keberangkatan
-                      </p>
-                    </Col>
-                  </Row>
-                  <p>
-                    {flightData.flight_date}
-                    <br />
-                    <span className="fw-bold">
-                      {flightData.departureAirport.name} -{" "}
-                      {flightData.departure_terminal_name}
-                    </span>
-                  </p>
-                  <hr />
                 </Col>
               </Row>
-              <Row>
-                <Col xs={1} className="d-flex align-items-center"></Col>
-                <Col>
-                  <div className="d-flex">
-                    <div className="me-1 my-auto">
-                      <img
-                        src={flightData.airplane.airline.icon_url}
-                        alt=""
-                        style={{
-                          width: "50px",
-                          height: "50px",
-                          marginRight: "12px",
-                        }}
-                      />
-                    </div>
-                    <div className="d-flex flex-column ml-1">
-                      <div>
-                        <div className="d-flex">
-                          <p className="fw-bold fs-14">
-                            {flightData.airplane.airline.name} -{" "}
-                            {flightData.class} <br />
-                            {flightData.airplane.airline_code} -{" "}
-                            {flightData.flight_number}
-                          </p>
-                        </div>
-                      </div>
-                      <p>
-                        <span className="fw-bold">Informasi: </span>
-                        <br />{" "}
-                        <span className="fw-medium">
-                          Baggage {flightData.free_baggage} kg
-                        </span>
-                        <br /> Cabin baggage {flightData.cabin_baggage} kg
-                        <br /> In Flight Entertainment
+              <p>
+                {flight.flight_date}
+                <br />
+                <span className="fw-bold">
+                  {flight.departureAirport.name} -{" "}
+                  {flight.departure_terminal_name}
+                </span>
+              </p>
+              <hr />
+            </Col>
+          </Row>
+          <Row>
+            <Col xs={1} className="d-flex align-items-center"></Col>
+            <Col>
+              <div className="d-flex">
+                <div className="me-1 my-auto">
+                  <img
+                    src={flight.airplane.airline.icon_url}
+                    alt=""
+                    style={{
+                      width: "50px",
+                      height: "50px",
+                      marginRight: "12px",
+                    }}
+                  />
+                </div>
+                <div className="d-flex flex-column ml-1">
+                  <div>
+                    <div className="d-flex">
+                      <p className="fw-bold fs-14">
+                        {flight.airplane.airline.name} - {flight.class} <br />
+                        {flight.airplane.airline_code} - {flight.flight_number}
                       </p>
                     </div>
                   </div>
-                </Col>
-                <hr />
-              </Row>
-              <Row>
-                <Row>
-                  <Col>
-                    <p className="fw-bold">{flightData.arrival_time}</p>
-                  </Col>
-                  <Col style={{ textAlign: "right" }}>
-                    <p className="ms-auto my-auto fs-12 txt-clr fw-bold">
-                      Kedatangan
-                    </p>
-                  </Col>
-                </Row>
-                <p>
-                  {flightData.flight_date}
-                  <br />
-                  <span className="fw-bold">
-                    {flightData.arrivalAirport.name} -{" "}
-                    {flightData.arrival_terminal_name}
-                  </span>
+                  <p>
+                    <span className="fw-bold">Informasi: </span>
+                    <br />{" "}
+                    <span className="fw-medium">
+                      Baggage {flight.free_baggage} kg
+                    </span>
+                    <br /> Cabin baggage {flight.cabin_baggage} kg
+                    <br /> In Flight Entertainment
+                  </p>
+                </div>
+              </div>
+            </Col>
+            <hr />
+          </Row>
+          <Row>
+            <Row>
+              <Col>
+                <p className="fw-bold">{flight.arrival_time}</p>
+              </Col>
+              <Col style={{ textAlign: "right" }}>
+                <p className="ms-auto my-auto fs-12 txt-clr fw-bold">
+                  Kedatangan
                 </p>
-                <hr />
-              </Row>
-              <Row>
-                <p className="fw-bold">Rincian Harga</p>
-                <Col>
-                  <p>
-                    2 Adults
-                    <br />1 Baby
-                    <br />
-                    Tax
-                  </p>
-                </Col>
-                <Col style={{ textAlign: "right" }}>
-                  <p>
-                    IDR 9.550.000
-                    <br />
-                    IDR 0
-                    <br />
-                    IDR 300.000
-                  </p>
-                </Col>
-                <hr />
-              </Row>
-              <Row className=" fw-bold">
-                <Col>
-                  <p>Total</p>
-                </Col>
-                <Col style={{ textAlign: "right" }}>
-                  <p className="total-clr">IDR 9.850.000</p>
-                </Col>
-              </Row>
-            </>
-          ) : (
-            <p>Loading...</p>
-          )}
+              </Col>
+            </Row>
+            <p>
+              {flight.flight_date}
+              <br />
+              <span className="fw-bold">
+                {flight.arrivalAirport.name} - {flight.arrival_terminal_name}
+              </span>
+            </p>
+            <hr />
+          </Row>
+          <Row>
+            <p className="fw-bold">Rincian Harga</p>
+            <Col>
+              <p>
+                {passenger} Passenger
+                <br />
+                Tax
+              </p>
+            </Col>
+            <Col style={{ textAlign: "right" }}>
+              <p>
+                IDR {price}
+                <br />
+                IDR 300000
+              </p>
+            </Col>
+            <hr />
+          </Row>
+          <Row className=" fw-bold">
+            <Col>
+              <p>Total</p>
+            </Col>
+            <Col style={{ textAlign: "right" }}>
+              <p className="total-clr">IDR {totalPrice}</p>
+            </Col>
+          </Row>
+          <p>Loading...</p>
         </Col>
       </Row>
     </Container>
