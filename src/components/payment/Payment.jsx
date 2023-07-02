@@ -3,7 +3,7 @@ import { Container, Row, Col, Button, Modal } from "react-bootstrap";
 import { FiChevronDown, FiChevronUp } from "react-icons/fi";
 // import masterCard from '../assets/mastercard_logo.png';
 import "./Payment.css";
-import { Link, useParams, useHistory } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import moment from "moment";
 import "moment/locale/id";
@@ -125,13 +125,13 @@ function Payment() {
       )
       .then((response) => {
         console.log(response.data); 
-        history.push("/payment-success");
+        navigate("/payment-success");
       })
       .catch((error) => {
         console.error(error); 
       });
   };
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const [showModal, setShowModal] = useState(false);
   const handleModalShow = () => {
