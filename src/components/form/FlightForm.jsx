@@ -15,7 +15,6 @@ const FlightForm = () => {
   // set req body awal
   const [formData, setFormData] = useState({
     class: "ECONOMY",
-    class: "ECONOMY",
     destination_airport: 1,
     flight_date: "",
     origin_airport: 1,
