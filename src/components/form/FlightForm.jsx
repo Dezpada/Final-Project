@@ -236,15 +236,13 @@ const FlightForm = () => {
                 </Row>
 
                 <Col className="p-2 text-center">
-                  <form onSubmit={handleSubmit}>
-                    <Button
-                      className="custom-button mt-4 text-light"
-                      type="submit"
-                      size="md"
-                    >
-                      Cari Penerbangan
-                    </Button>
-                  </form>
+                  <Button
+                    className="custom-button mt-4 text-light"
+                    type="submit"
+                    size="md"
+                  >
+                    Cari Penerbangan
+                  </Button>
                 </Col>
               </Form>
             </Card.Body>
