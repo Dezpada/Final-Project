@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useHistory } from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Button, Modal } from "react-bootstrap";
 import { FiChevronDown, FiChevronUp } from "react-icons/fi";
 // import masterCard from '../assets/mastercard_logo.png';
 import "./Payment.css";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useHistory } from "react-router-dom";
 import axios from "axios";
 import moment from "moment";
 import "moment/locale/id";
