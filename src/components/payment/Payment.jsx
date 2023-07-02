@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Button, Modal } from "react-bootstrap";
 import { FiChevronDown, FiChevronUp } from "react-icons/fi";
 // import masterCard from '../assets/mastercard_logo.png';
 import "./Payment.css";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 function Payment() {
   const [setShowForm] = useState(false);
@@ -38,12 +39,23 @@ function Payment() {
     }
   };
 
-  // const handleClick = (formType) => {
-  //   // Mengatur form yang ditampilkan berdasarkan tombol yang diklik
-  //   setIsGopayFormVisible(formType === "gopay");
-  //   setIsVirtualAccountFormVisible(formType === "virtualAccount");
-  //   setIsCreditCardFormVisible(formType === "creditCard");
-  // };
+  const [flightData, setFlightData] = useState(null);
+  const flightId = "2"; // Ubah ID sesuai kebutuhan Anda
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await axios.get(
+          `https://final-project-develop-f89c.up.railway.app/flight/${flightId}`
+        );
+        setFlightData(response.data.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+
+    fetchData();
+  }, [flightId]);
 
   const handleChange = (e) => {
     setFormData({
@@ -317,107 +329,131 @@ function Payment() {
         </Col>
 
         <Col md={6}>
-          <Row>
-            <Col>
-              <div style={{ margin: "40px 0" }}></div>
-              <div className="d-flex justify-content-between"></div>
-              <p className="fw-bold">
-                Booking Code: <b className="total-clr">6723y2GHK</b>
-              </p>
+          {flightData ? (
+            <>
               <Row>
                 <Col>
-                  <p className="fw-bold">07:00</p>
-                </Col>
-                <Col style={{ textAlign: "right" }}>
-                  <p className="ms-auto my-auto fs-12 txt-clr fw-bold">
-                    Keberangkatan
+                  <div style={{ margin: "40px 0" }}></div>
+                  <div className="d-flex justify-content-between"></div>
+                  <p className="fw-bold">
+                    Booking Code:{" "}
+                    <b className="total-clr">{flightData.flight_number}</b>
                   </p>
+                  <Row>
+                    <Col>
+                      <p className="fw-bold">{flightData.departure_time}</p>
+                    </Col>
+                    <Col style={{ textAlign: "right" }}>
+                      <p className="ms-auto my-auto fs-12 txt-clr fw-bold">
+                        Keberangkatan
+                      </p>
+                    </Col>
+                  </Row>
+                  <p>
+                    {flightData.flight_date}
+                    <br />
+                    <span className="fw-bold">
+                      {flightData.departureAirport.name} -{" "}
+                      {flightData.departure_terminal_name}
+                    </span>
+                  </p>
+                  <hr />
                 </Col>
               </Row>
-              <p>
-                3 Maret 2023
-                <br />
-                <span className="fw-bold">
-                  Soekarno Hatta - Terminal 1A Domestik
-                </span>
-              </p>
-              <hr />
-            </Col>
-          </Row>
-          <Row>
-            <Col xs={1} className="d-flex align-items-center"></Col>
-            <Col>
-              <div className="d-flex">
-                <div className="me-1 my-auto">
-                  <img src="/img/logo_leaf.svg" alt="" />
-                </div>
-                <div className="d-flex flex-column ml-1">
-                  <div>
-                    <div className="d-flex">
-                      <p className="fw-bold fs-14">
-                        Jet Air - Economy <br />
-                        JT - 203
+              <Row>
+                <Col xs={1} className="d-flex align-items-center"></Col>
+                <Col>
+                  <div className="d-flex">
+                    <div className="me-1 my-auto">
+                      <img
+                        src={flightData.airplane.airline.icon_url}
+                        alt=""
+                        style={{
+                          width: "50px",
+                          height: "50px",
+                          marginRight: "12px",
+                        }}
+                      />
+                    </div>
+                    <div className="d-flex flex-column ml-1">
+                      <div>
+                        <div className="d-flex">
+                          <p className="fw-bold fs-14">
+                            {flightData.airplane.airline.name} -{" "}
+                            {flightData.class} <br />
+                            {flightData.airplane.airline_code} -{" "}
+                            {flightData.flight_number}
+                          </p>
+                        </div>
+                      </div>
+                      <p>
+                        <span className="fw-bold">Informasi: </span>
+                        <br />{" "}
+                        <span className="fw-medium">
+                          Baggage {flightData.free_baggage} kg
+                        </span>
+                        <br /> Cabin baggage {flightData.cabin_baggage} kg
+                        <br /> In Flight Entertainment
                       </p>
                     </div>
                   </div>
-                  <p>
-                    <span className="fw-bold">Informasi: </span>
-                    <br /> <span className="fw-medium">Baggage 20 kg</span>
-                    <br /> Cabin baggage 7 kg
-                    <br /> In Flight Entertainment
-                  </p>
-                </div>
-              </div>
-            </Col>
-            <hr />
-          </Row>
-          <Row>
-            <Row>
-              <Col>
-                <p className="fw-bold">11:00</p>
-              </Col>
-              <Col style={{ textAlign: "right" }}>
-                <p className="ms-auto my-auto fs-12 txt-clr fw-bold">
-                  Kedatangan
+                </Col>
+                <hr />
+              </Row>
+              <Row>
+                <Row>
+                  <Col>
+                    <p className="fw-bold">{flightData.arrival_time}</p>
+                  </Col>
+                  <Col style={{ textAlign: "right" }}>
+                    <p className="ms-auto my-auto fs-12 txt-clr fw-bold">
+                      Kedatangan
+                    </p>
+                  </Col>
+                </Row>
+                <p>
+                  {flightData.flight_date}
+                  <br />
+                  <span className="fw-bold">
+                    {flightData.arrivalAirport.name} -{" "}
+                    {flightData.arrival_terminal_name}
+                  </span>
                 </p>
-              </Col>
-            </Row>
-            <p>
-              3 Maret 2023
-              <br />
-              <span className="fw-bold">Melbourne International Airport</span>
-            </p>
-            <hr />
-          </Row>
-          <Row>
-            <p className="fw-bold">Rincian Harga</p>
-            <Col>
-              <p>
-                2 Adults
-                <br />1 Baby
-                <br />
-                Tax
-              </p>
-            </Col>
-            <Col style={{ textAlign: "right" }}>
-              <p>
-                IDR 9.550.000
-                <br />
-                IDR 0
-                <br />
-                IDR 300.000
-              </p>
-            </Col>
-            <hr />
-          </Row>
-          <Row className=" fw-bold">
-            <Col>
-              <p>Total</p>
-            </Col>
-            <Col style={{ textAlign: "right" }}>
-              <p className="total-clr">IDR 9.850.000</p>
-            </Col>
-          </Row>
+                <hr />
+              </Row>
+              <Row>
+                <p className="fw-bold">Rincian Harga</p>
+                <Col>
+                  <p>
+                    2 Adults
+                    <br />1 Baby
+                    <br />
+                    Tax
+                  </p>
+                </Col>
+                <Col style={{ textAlign: "right" }}>
+                  <p>
+                    IDR 9.550.000
+                    <br />
+                    IDR 0
+                    <br />
+                    IDR 300.000
+                  </p>
+                </Col>
+                <hr />
+              </Row>
+              <Row className=" fw-bold">
+                <Col>
+                  <p>Total</p>
+                </Col>
+                <Col style={{ textAlign: "right" }}>
+                  <p className="total-clr">IDR 9.850.000</p>
+                </Col>
+              </Row>
+            </>
+          ) : (
+            <p>Loading...</p>
+          )}
         </Col>
       </Row>
     </Container>

@@ -15,6 +15,7 @@ const FlightForm = () => {
   // set req body awal
   const [formData, setFormData] = useState({
     class: "ECONOMY",
+    class: "ECONOMY",
     destination_airport: 1,
     flight_date: "",
     origin_airport: 1,
@@ -71,6 +72,8 @@ const FlightForm = () => {
   }, []);
 
   const [airports, setAirports] = useState([]);
+  const navigate = useNavigate();
+
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setFormData((prevState) => ({
@@ -78,7 +81,6 @@ const FlightForm = () => {
       [name]: value,
     }));
   };
-  const navigate = useNavigate();
 
   const handleTripTypeChange = (event) => {
     const tripType = event.target.checked ? "twoway" : "oneway";
@@ -88,8 +90,11 @@ const FlightForm = () => {
     }));
   };
 
+  const [total_passenger, setTotalPassenger] = useState(0);
+
   const handleSubmit = (event) => {
     event.preventDefault();
+    localStorage.setItem("passengers", total_passenger);
 
     const apiEndpoint = getApiEndpoint(formData.tripType);
     const requestBody = getRequestBody(formData.tripType, formData);
@@ -232,13 +237,15 @@ const FlightForm = () => {
                 </Row>
 
                 <Col className="p-2 text-center">
-                  <Button
-                    className="custom-button mt-4 text-light"
-                    type="submit"
-                    size="md"
-                  >
-                    Cari Penerbangan
-                  </Button>
+                  <form onSubmit={handleSubmit}>
+                    <Button
+                      className="custom-button mt-4 text-light"
+                      type="submit"
+                      size="md"
+                    >
+                      Cari Penerbangan
+                    </Button>
+                  </form>
                 </Col>
               </Form>
             </Card.Body>
