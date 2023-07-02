@@ -17,7 +17,7 @@ const Navbar1 = () => {
       <Container>
         <Navbar.Brand as={Link} to={"/"}>
           <img
-            src="../../../img/logo.svg"
+            src="/img/logo.svg"
             className="d-inline-block align-top"
             alt="Logo"
           />

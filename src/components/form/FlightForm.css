@@ -1,10 +1,13 @@
-
 .custom-button {
-  min-width: 700px;
+  min-width: 200px;
   background-color: #7126b5 !important;
   font-weight: bold;
 }
 .label {
   /* text-align: left; */
-  font-weight:500;
+  font-weight: 500;
+}
+
+.icon {
+  margin-right: 5px;
 }

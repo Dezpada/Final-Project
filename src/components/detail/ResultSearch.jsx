@@ -1,176 +1,387 @@
-import React from "react";
-import {
-  Card,
-  Col,
-  Container,
-  Row,
-  Accordion,
-  ListGroup,
-} from "react-bootstrap";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { Accordion, Modal, Form } from "react-bootstrap";
+import { Link, useLocation } from "react-router-dom";
+import NotFoundSearch from "../../pages/NotFoundSearch";
 
-const ResultSearch = () => {
+import "./detailPagestyle.css";
+
+const ResultSearch = ({ selectedDate }) => {
+  // convert time to number
+  const convertTime = (time) => {
+    const timeParts = time.split(":");
+    const hour = parseInt(timeParts[0], 10);
+    const minute = parseInt(timeParts[1], 10);
+    const timeInNumber = hour + minute / 60;
+    return timeInNumber;
+  };
+  // formatter rupiah
+  const formatter = new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+    minimumFractionDigits: 0,
+  });
+  // prop data dari dashboard
+  const location = useLocation();
+  const [error, setError] = useState(null);
+  const { apiEndpoint, requestBody } = location.state;
+  const updateBody =
+    requestBody.tripType === "oneway"
+      ? { ...requestBody, flight_date: selectedDate }
+      : { ...requestBody, departure_date: selectedDate };
+  // set data api
+  const [data, setData] = useState([]);
+  const [returnFlight, setReturnFlight] = useState([]);
+  // fetch api
+  const fetchData = async () => {
+    try {
+      const response = await axios.post(apiEndpoint, updateBody);
+      if (updateBody.tripType === "oneway") {
+        setData(response.data.data);
+      } else {
+        setData(response.data.data.departureFlights);
+        setReturnFlight(response.data.data.returnFlights);
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        setError(<NotFoundSearch />);
+      } else {
+        setError(<NotFoundSearch />);
+      }
+    }
+  };
+  useEffect(() => {
+    fetchData();
+  }, [selectedDate]);
+
+  const [show, setShow] = useState(false);
+  const [selectedFilter, setSelectedFilter] = useState("");
+  const [filteredFlights, setFilteredFlights] = useState([]);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  useEffect(() => {
+    handleFilter();
+  }, [data, returnFlight]);
+  // filter data
+  const handleFilter = () => {
+    let sortedFlights = [...data, ...returnFlight];
+    switch (selectedFilter) {
+      case "lowPrice":
+        sortedFlights.sort((a, b) => a.price - b.price);
+        break;
+      case "lowDuration":
+        sortedFlights.sort((a, b) => a.flight_duration - b.flight_duration);
+        break;
+      case "earlyDepart":
+        sortedFlights.sort(
+          (a, b) =>
+            convertTime(a.departure_time) - convertTime(b.departure_time)
+        );
+        break;
+      case "lateDepart":
+        sortedFlights.sort(
+          (a, b) =>
+            convertTime(b.departure_time) - convertTime(a.departure_time)
+        );
+        break;
+      case "earlyArrival":
+        sortedFlights.sort(
+          (a, b) => convertTime(a.arrival_time) - convertTime(b.arrival_time)
+        );
+        break;
+      case "lateArrival":
+        sortedFlights.sort(
+          (a, b) => convertTime(b.arrival_time) - convertTime(a.arrival_time)
+        );
+        break;
+      default:
+        break;
+    }
+    setFilteredFlights(sortedFlights);
+    setShow(false);
+  };
+
   return (
-    <Container>
-      <div>
-        <Row className="mx-auto mt-3">
-          <Col md={1}></Col>
-          <Col md={3}>
-            <Card style={{ width: "14rem" }}>
-              <ListGroup variant="flush" className="mt-3">
-                <h6 className="ms-4">Filter</h6>
-                <ListGroup.Item>
-                  <button className="w-100">
-                    <div className="d-flex justify-content-between">
-                      <div className="d-flex align-self-center">
-                        <img src="/img/fi_box.svg" alt="" />
-                        <h6 className="my-auto ms-2">Transit</h6>
-                      </div>
-                      <img src="/img/arrow-right.svg" alt="" />
-                    </div>
-                  </button>
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  <button className="w-100">
-                    <div className="d-flex justify-content-between">
-                      <div className="d-flex align-self-center">
-                        <img src="/img/fi_heart.svg" alt="" />
-                        <h6 className="my-auto ms-2">Fasilitas</h6>
-                      </div>
-                      <img src="/img/arrow-right.svg" alt="" />
-                    </div>
-                  </button>
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  <button className="w-100">
-                    <div className="d-flex justify-content-between">
-                      <div className="d-flex align-self-center">
-                        <img src="/img/fi_dollar-sign.svg" alt="" />
-                        <h6 className="my-auto ms-2">Harga</h6>
-                      </div>
-                      <img src="/img/arrow-right.svg" alt="" />
-                    </div>
-                  </button>
-                </ListGroup.Item>
-              </ListGroup>
-            </Card>
-          </Col>
-          <Col md={6}>
-            <Accordion className="position-relative z-0 mb-3">
-              <Accordion.Item eventKey="0">
-                <Accordion.Header className="bg-light">
-                  <div className="flex-column">
-                    <div className="d-flex">
-                      <h6 className="fw-semibold">Jet Air</h6>
-                      <h6 className="fw-semibold mx-2"> - </h6>
-                      <h6 className="fw-semibold">Economy</h6>
-                    </div>
-                    <div className="d-flex">
-                      <div className="my-auto">
-                        <h6 className="fw-bold">07:00</h6>
-                        <h6 className="fw-semibold">JKT</h6>
-                      </div>
-                      <div className="d-flex flex-column ">
-                        <h6 className="mx-auto text-secondary fw-normal">
-                          4h 0m
-                        </h6>
-                        <img src="/img/arrow-line.svg" alt="" />
-                        <h6 className="mx-auto pt-1 text-secondary fw-normal">
-                          Direct
-                        </h6>
-                      </div>
-                      <div className="my-auto">
-                        <h6 className="fw-bold">11:00</h6>
-                        <h6 className="fw-semibold">MLB</h6>
-                      </div>
-                      <div className="ms-3">
-                        <h5 className="ms-1">IDR 4.950.000</h5>
-                        <div className="position-absolute z-1">
-                          <button className="bg-purple  rounded-4 text-center my-auto px-5">
-                            <h5 className="text-light">Pilih</h5>
-                          </button>
-                        </div>
-                      </div>
-                    </div>
+    // modal
+    <div>
+      <div className="d-flex justify-content-end">
+        <button
+          onClick={handleShow}
+          className=" border rounded-4  py-2 px-3 d-flex align-items-center"
+        >
+          <img src="/img/arrow-filter.svg" alt="" />
+          <h6 className="my-auto text-purple">Filter</h6>
+        </button>
+      </div>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title></Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div>
+            <Form>
+              <Form.Group>
+                <div className="custom-radio">
+                  <input
+                    type="radio"
+                    id="lowPrice"
+                    name="filterOption"
+                    value="lowPrice"
+                    checked={selectedFilter === "lowPrice"}
+                    onChange={(e) => setSelectedFilter(e.target.value)}
+                  />
+                  <label
+                    className="py-2 text-center rounded-3 my-1"
+                    htmlFor="lowPrice"
+                    onClick={() => setSelectedFilter("lowPrice")}
+                  >
+                    Harga - Termurah
+                  </label>
+                </div>
+                <div className="custom-radio">
+                  <input
+                    type="radio"
+                    id="lowDuration"
+                    name="filterOption"
+                    value="lowDuration"
+                    checked={selectedFilter === "lowDuration"}
+                    onChange={(e) => setSelectedFilter(e.target.value)}
+                  />
+                  <label
+                    className="py-2 text-center rounded-3 my-1"
+                    htmlFor="lowDuration"
+                    onClick={() => setSelectedFilter("lowDuration")}
+                  >
+                    Durasi - Terpendek
+                  </label>
+                </div>
+                <div className="custom-radio">
+                  <input
+                    type="radio"
+                    id="earlyDepart"
+                    name="filterOption"
+                    value="earlyDepart"
+                    checked={selectedFilter === "earlyDepart"}
+                    onChange={(e) => setSelectedFilter(e.target.value)}
+                  />
+                  <label
+                    className="py-2 text-center rounded-3 my-1"
+                    htmlFor="earlyDepart"
+                    onClick={() => setSelectedFilter("earlyDepart")}
+                  >
+                    Keberangkatan -Paling Awal
+                  </label>
+                </div>
+                <div className="custom-radio">
+                  <input
+                    type="radio"
+                    id="lateDepart"
+                    name="filterOption"
+                    value="lateDepart"
+                    checked={selectedFilter === "lateDepart"}
+                    onChange={(e) => setSelectedFilter(e.target.value)}
+                  />
+                  <label
+                    className="py-2 text-center rounded-3 my-1"
+                    htmlFor="lateDepart"
+                    onClick={() => setSelectedFilter("lateDepart")}
+                  >
+                    Keberangkatan -Paling Akhir
+                  </label>
+                </div>
+                <div className="custom-radio">
+                  <input
+                    type="radio"
+                    id="earlyArrival"
+                    name="filterOption"
+                    value="earlyArrival"
+                    checked={selectedFilter === "earlyArrival"}
+                    onChange={(e) => setSelectedFilter(e.target.value)}
+                  />
+                  <label
+                    className="py-2 text-center rounded-3 my-1"
+                    htmlFor=""
+                    onClick={() => setSelectedFilter("earlyArrival")}
+                  >
+                    Kedatangan - Paling Awal
+                  </label>
+                </div>
+                <div className="custom-radio">
+                  <input
+                    type="radio"
+                    id="lateArrival"
+                    name="filterOption"
+                    value="lateArrival"
+                    checked={selectedFilter === "lateArrival"}
+                    onChange={(e) => setSelectedFilter(e.target.value)}
+                  />
+                  <label
+                    className="py-2 text-center rounded-3 my-1"
+                    htmlFor="lateArrival"
+                    onClick={() => setSelectedFilter("lateArrival")}
+                  >
+                    Kedatangan - Paling Akhir
+                  </label>
+                </div>
+              </Form.Group>
+            </Form>
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <button
+            onClick={handleFilter}
+            className="border rounded-4  py-2 px-5 bg-purple"
+          >
+            <h6 className="my-auto text-white">Pilih</h6>
+          </button>
+        </Modal.Footer>
+      </Modal>
+      {/* Accordion detail flight */}
+      {error && <p>{error}</p>}
+      {filteredFlights.length > 0 ? (
+        filteredFlights.map((flight) => (
+          <Accordion className="my-3" key={flight.id}>
+            <Accordion.Item eventKey="0">
+              <Accordion.Header>
+                <div>
+                  <div className="d-flex flex-row">
+                    <img
+                      src={flight.airplane.airline.icon_url}
+                      alt=""
+                      style={{ width: "20px" }}
+                    />
+                    <h6 className="fw-semibold fs-12 my-auto ms-2">
+                      {flight.flight_number}
+                    </h6>
+                    <h6 className="fw-semibold fs-12 my-auto mx-2">-</h6>
+                    <h6 className="fw-semibold fs-12 my-auto ">
+                      {flight.class}
+                    </h6>
                   </div>
-                </Accordion.Header>
-                <Accordion.Body>
-                  <div>
+                  <div className="d-flex">
+                    <div className="my-auto">
+                      <h6 className="fw-semibold fs-14 ">
+                        {flight.departure_time}
+                      </h6>
+                      <h6 className="fw-semibold fs-12 ">
+                        {flight.departureAirport.iata_code}
+                      </h6>
+                    </div>
+                    <div className="d-flex flex-column">
+                      <h6 className="fs-12 mx-auto">
+                        {flight.flight_duration} m
+                      </h6>
+                      <img src="/img/Arrow.svg" alt="" />
+                      <h6 className="fs-12 mt-2 mx-auto">Direct</h6>
+                    </div>
+                    <div className="my-auto">
+                      <h6 className="fw-semibold fs-14 ">
+                        {flight.arrival_time}
+                      </h6>
+                      <h6 className="fw-semibold fs-12 ">
+                        {flight.arrivalAirport.iata_code}
+                      </h6>
+                    </div>
                     <div className="d-flex">
-                      <div>
-                        <h6 className="text-purple fw-bold">
-                          Detail Penerbangan
-                        </h6>
-                        <div className="d-flex flex-column">
-                          <h6 className="fw-bold">07:00</h6>
-                          <h6 className="fw-normal">3 Maret 2023</h6>
-                          <div className="d-flex">
-                            <h6 className="fw-semibold">Soekarno Hatta</h6>
-                            <h6 className="fw-semibold mx-2">-</h6>
-                            <h6 className="fw-semibold">
-                              Terminal 1A Dosmetik
-                            </h6>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="ms-auto my-auto">
-                        <h6 className="text-purple fw-semibold">
-                          Keberangkatan
-                        </h6>
-                      </div>
-                    </div>
-                    <div className="w-75 mx-auto">
-                      <img src="/img/line.svg" alt="" className="w-100" />
-                    </div>
-                    <div className="d-flex my-2">
-                      <div className="my-auto me-3">
-                        <img src="/img/logo-leaf.svg" alt="" />
+                      <div className=" my-auto mx-5">
+                        <img src="/img/baggage.svg" alt="" />
                       </div>
                       <div className="d-flex flex-column">
-                        <div className="d-flex">
-                          <h6 className="fw-bold">Jet Air</h6>
-                          <h6 className="fw-bold mx-2">-</h6>
-                          <h6 className="fw-bold">Economy</h6>
+                        <h5 className="text-purple fw-semibold">
+                          {formatter.format(flight.price)}
+                        </h5>
+                        <div className="bg-purple rounded-4 py-2 text-white fw-semibold text-center">
+                          Pilih
                         </div>
-                        <div className="d-flex">
-                          <h6 className="fw-bold">JT</h6>
-                          <h6 className="fw-bold mx-2">-</h6>
-                          <h6 className="fw-bold">203</h6>
-                        </div>
-                        <div>
-                          <h6 className="fw-bold mt-3">Informasi:</h6>
-                          <h6 className="fw-normal">Baggage 20 Kg</h6>
-                          <h6 className="fw-normal">Cabin Baggage 7 Kg</h6>
-                          <h6 className="fw-normal">In Flight Entertainment</h6>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="w-75 mx-auto">
-                      <img src="/img/line.svg" alt="" className="w-100" />
-                    </div>
-                    <div className="d-flex">
-                      <div>
-                        <div className="d-flex flex-column">
-                          <h6 className="fw-bold">11:00</h6>
-                          <h6 className="fw-normal">3 Maret 2023</h6>
-                          <h6 className="fw-semibold">
-                            Melbourne International Airport
-                          </h6>
-                        </div>
-                      </div>
-                      <div className="ms-auto my-auto">
-                        <h6 className="text-purple fw-semibold">Kedatangan</h6>
                       </div>
                     </div>
                   </div>
-                </Accordion.Body>
-              </Accordion.Item>
-            </Accordion>
-          </Col>
-          <Col md={2}></Col>
-        </Row>
-      </div>
-    </Container>
+                </div>
+              </Accordion.Header>
+              <Accordion.Body>
+                <div className="d-flex">
+                  <div className="d-flex flex-column">
+                    <h6 className="text-purple fw-semibold fs-14">
+                      Detail Penerbangan
+                    </h6>
+                    <h6 className="fw-bold fs-16">{flight.departure_time}</h6>
+                    <h6 className="fw-normal fs-14">{flight.flight_date}</h6>
+                    <div className="d-flex">
+                      <h6 className="fw-semibold fs-14">
+                        {flight.departureAirport.name}
+                      </h6>
+                    </div>
+                  </div>
+                  <h6 className="ms-auto my-auto fw-bold fs-12 text-purple">
+                    Keberangkatan
+                  </h6>
+                </div>
+                <div className="border-bottom w-50 mx-auto my-2"></div>
+                <div className="d-flex">
+                  <div className="me-2 my-auto">
+                    <img
+                      src={flight.airplane.airline.icon_url}
+                      alt=""
+                      style={{ width: "20px" }}
+                    />
+                  </div>
+                  <div className="d-flex flex-column">
+                    <div>
+                      <div className="d-flex">
+                        <h6 className="fw-bold fs-14">
+                          {flight.airplane.airline.name}
+                        </h6>
+                        <h6 className="fw-bold fs-14 mx-2">-</h6>
+                        <h6 className="fw-bold fs-14">{flight.class}</h6>
+                      </div>
+                      <div className="d-flex">
+                        <h6 className="fw-bold fs-14">
+                          {flight.flight_number}
+                        </h6>
+                      </div>
+                    </div>
+                    <h6 className="fw-bold fs-14 mt-2">Informasi:</h6>
+                    <h6 className="fw-normal fs-14">
+                      free baggage: {flight.free_baggage}
+                    </h6>
+                    <h6 className="fw-normal fs-14">
+                      cabin baggage: {flight.cabin_baggage}
+                    </h6>
+                    <h6 className="fw-normal fs-14">in Flight Entertainment</h6>
+                  </div>
+                </div>
+                <div className="border-bottom w-50 mx-auto my-2"></div>
+                <div className="d-flex">
+                  <div className="d-flex flex-column">
+                    <h6 className="fw-bold fs-14">{flight.arrival_time}</h6>
+                    <h6 className="fw-normal fs-14">{flight.flight_date}</h6>
+                    <h6 className="fw-semibold fs-14">
+                      {flight.arrivalAirport.name}
+                    </h6>
+                  </div>
+                  <h6 className="ms-auto my-auto fw-bold fs-12 text-purple">
+                    Kedatangan
+                  </h6>
+                </div>
+                <div className=" mx-auto ">
+                  <Link to={"/checkout"}>
+                    <button className="w-100 bg-purple rounded-4 px-5 py-1 text-white fw-semibold">
+                      Pilih
+                    </button>
+                  </Link>
+                </div>
+              </Accordion.Body>
+            </Accordion.Item>
+          </Accordion>
+        ))
+      ) : (
+        <div></div>
+      )}
+    </div>
   );
 };
 
 export default ResultSearch;
+

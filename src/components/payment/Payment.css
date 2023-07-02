@@ -1,0 +1,81 @@
+.txt-clr {
+  color: #7126b5;
+}
+
+.custom-button-lgn {
+  background-color: #7126b5 !important;
+  font-weight: bold;
+}
+
+.custom-button-cost {
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  justify-content: center;
+  display: block;
+  font-size: 16px;
+  margin: 1%;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.icon-right {
+  float: right;
+  margin-left: 5px;
+}
+
+.fw-bold {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.info-clr {
+  color: #4b1979;
+}
+
+.total-clr {
+  color: #7126b5;
+}
+
+.row-w {
+  max-width: 350px;
+}
+
+.status {
+  color: white;
+  background-color: #73ca5c;
+  border: 2px solid #73ca5c;
+  border-radius: 50px;
+  display: inline-block;
+  padding: 5px 10px;
+}
+
+.borderless-input {
+  border: none;
+  outline: none;
+  background-color: transparent;
+  padding: 5px;
+}
+
+.borderless-input::placeholder {
+  border-bottom: 1px solid #ccc;
+}
+
+.information {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.information img {
+  margin-right: 10px;
+}
+
+/* .leaf {
+  height: 24px;
+  align-items: left;
+} */
+
+

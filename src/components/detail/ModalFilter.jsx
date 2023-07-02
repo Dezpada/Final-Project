@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Modal, Col, Row, Container, Form } from "react-bootstrap";
-import "./style.css";
+import "./detailPagestyle.css";
 
 const ModalFilter = () => {
   const [show, setShow] = useState(false);
