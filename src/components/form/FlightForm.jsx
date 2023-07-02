@@ -12,33 +12,65 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const FlightForm = () => {
+  // set req body awal
   const [formData, setFormData] = useState({
     class: "ECONOMY",
     destination_airport: 1,
     flight_date: "",
     origin_airport: 1,
-    returnDate: "",
+    departure_date: "",
+    return_date: "",
     total_passenger: 1,
     tripType: "oneway",
   });
-
+  // get api oneway / twoway
+  const getApiEndpoint = (tripType) => {
+    if (tripType === "oneway") {
+      return "https://final-project-production-b6fe.up.railway.app/flight/search/oneway";
+    } else {
+      return "https://final-project-production-b6fe.up.railway.app/flight/search/twoway";
+    }
+  };
+  // get req body oneway / twoway
+  const getRequestBody = (tripType, formData) => {
+    if (tripType === "oneway") {
+      return {
+        origin_airport: Number(formData.origin_airport),
+        destination_airport: Number(formData.destination_airport),
+        flight_date: formData.flight_date,
+        total_passenger: formData.total_passenger,
+        class: formData.class,
+        tripType: formData.tripType,
+      };
+    } else {
+      return {
+        origin_airport: Number(formData.origin_airport),
+        destination_airport: Number(formData.destination_airport),
+        departure_date: formData.flight_date,
+        return_date: formData.return_date,
+        total_passenger: formData.total_passenger,
+        class: formData.class,
+        tripType: formData.tripType,
+        flight_date: formData.flight_date,
+      };
+    }
+  };
+  // fetch data airport
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(
+        "https://final-project-production-b6fe.up.railway.app/airports?page=1&per_page=50"
+      );
+      setAirports(response.data.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          "https://final-project-production-b6fe.up.railway.app/airports?page=1&per_page=50"
-        );
-        setAirports(response.data.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
     fetchData();
   }, []);
 
   const [airports, setAirports] = useState([]);
-
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setFormData((prevState) => ({
@@ -58,8 +90,13 @@ const FlightForm = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    navigate("/detail-penerbangan", { state: { formData } });
-    // Perform actions based on the filled data
+
+    const apiEndpoint = getApiEndpoint(formData.tripType);
+    const requestBody = getRequestBody(formData.tripType, formData);
+
+    navigate("/detail-penerbangan", {
+      state: { apiEndpoint, requestBody },
+    });
   };
 
   return (
@@ -129,24 +166,27 @@ const FlightForm = () => {
                         </Form.Group>
                       </Col>
                       <Col xs={6} md={6} className="mt-2">
-                        <Form.Check
-                          type="switch"
-                          id="tripTypeSwitch"
-                          label=""
-                          checked={formData.tripType === "twoway"}
-                          onChange={handleTripTypeChange}
-                        />
+                        <div className="d-flex flex-column">
+                          <Form.Check
+                            type="switch"
+                            id="tripTypeSwitch"
+                            label=""
+                            checked={formData.tripType === "twoway"}
+                            onChange={handleTripTypeChange}
+                          />
+                          <h6>Pulang/Pergi </h6>
+                        </div>
                       </Col>
                       {formData.tripType === "twoway" && (
                         <Col xs={12} md={6} className="mt-2">
-                          <Form.Group controlId="returnDate">
+                          <Form.Group controlId="return_date">
                             <Form.Label className="label">
                               <FaCalendarAlt className="icon" /> Tanggal Kembali
                             </Form.Label>
                             <Form.Control
                               type="date"
-                              name="returnDate"
-                              value={formData.returnDate}
+                              name="return_date"
+                              value={formData.return_date}
                               onChange={handleInputChange}
                             />
                           </Form.Group>
