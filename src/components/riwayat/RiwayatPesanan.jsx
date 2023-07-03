@@ -1,36 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, Col, Container, Row } from 'react-bootstrap';
 import DetailPesanan from './DetailPesanan';
+import axios from 'axios';
+import './Riwayat.css';
 
 const RiwayatPesanan = () => {
-  const riwayatPesanan = [
-    {
-      asal: 'Jakarta',
-      tujuan: 'Surabaya',
-      bookingCode: 'ABC123',
-      class: 'Ekonomi',
-      harga: 'Rp 500.000',
-      detail: 'Detail pesanan 1',
-    },
-    {
-      asal: 'Bandung',
-      tujuan: 'Yogyakarta',
-      bookingCode: 'DEF456',
-      class: 'Bisnis',
-      harga: 'Rp 1.200.000',
-      detail: 'Detail pesanan 2',
-    },
-    {
-      asal: 'Surabaya',
-      tujuan: 'Medan',
-      bookingCode: 'GHI789',
-      class: 'Ekonomi',
-      harga: 'Rp 800.000',
-      detail: 'Detail pesanan 3',
-    },
-  ];
-
+  const [riwayatPesanan, setRiwayatPesanan] = useState([]);
   const [pesananTerpilih, setPesananTerpilih] = useState({});
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        if (token) {
+          const response = await axios.get('https://final-project-production-b6fe.up.railway.app/show/ticket', {
+            headers: {
+              Authorization: `${token}`,
+            },
+          });
+          const data = response.data.data;
+          setRiwayatPesanan(data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handleCardClick = (pesanan) => {
     setPesananTerpilih(pesanan);
@@ -48,17 +45,41 @@ const RiwayatPesanan = () => {
               className="custom-card"
             >
               <Card.Body>
-                <Card.Title>Riwayat Pesanan</Card.Title>
-                <Card.Text>
-                  <strong>Asal:</strong> {riwayat.asal}
-                  <br />
-                  <strong>Tujuan:</strong> {riwayat.tujuan}
-                  <br />
-                  <strong>Booking Code:</strong> {riwayat.bookingCode}
-                  <br />
-                  <strong>Class:</strong> {riwayat.class}
-                  <br />
-                  <strong>Harga:</strong> {riwayat.harga}
+              <Card.Text>
+                  <div className={`status-payment ${riwayat.payment_status === 'Dibayar' ? 'paid' : 'unpaid'}`}>
+                    {riwayat.payment_status === 'Dibayar' ? 'Sudah Dibayar' : 'Belum Dibayar'}
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <div>
+                      Asal: {riwayat.flights.departureAirport.city}
+                      <br />
+                      Tanggal Penerbangan: {riwayat.flights.flight_date}
+                      <br />
+                      Waktu Keberangkatan: {riwayat.flights.departure_time}
+                    </div>
+                    <div>
+                      Durasi: {riwayat.flights.flight_duration}
+                    </div>
+                    <div>
+                      Tujuan: {riwayat.flights.arrivalAirport.city}
+                      <br />
+                      Tanggal Kedatangan: {riwayat.flights.flight_date}
+                      <br />
+                      Waktu Kedatangan: {riwayat.flights.arrival_time}
+                    </div>
+                  </div>
+                  <hr style={{ color: '#000000', backgroundColor: '#000000', height: 2.5 }} />
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <div>
+                      Booking Code: {riwayat.ticket_code}
+                    </div>
+                    <div>
+                      Class: {riwayat.flights.class}
+                    </div>
+                    <div>
+                      Harga: {riwayat.flights.price + (riwayat.returnFlights ? riwayat.returnFlights.price : 0)}
+                    </div>
+                  </div>
                 </Card.Text>
               </Card.Body>
             </Card>

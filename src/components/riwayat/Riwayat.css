@@ -1,165 +1,179 @@
-  .riwayat-container {
-    justify-content: center;
-    padding-bottom: 20px;
-    border-bottom: 4px solid rgba(0, 0, 0, 0.1);
-  }
+.riwayat-container {
+  justify-content: center;
+  padding-bottom: 10px;
+}
 
-  .riwayat-heading {
-    margin-top: 3%;
-    font-weight: 550;
-    font-size: 18px; 
-  }
+.riwayat-heading {
+  margin-top: 3%;
+  font-weight: 550;
+  font-size: 18px; 
+}
 
-  .beranda-button {
-    display: flex;
-    text-align: left !important;
-    color: white !important;
-    background-color: #A06ECE !important;
-    width: 89%;
-    border-radius: 13px !important;
-  }
+.beranda-button {
+  display: flex;
+  text-align: left !important;
+  color: white !important;
+  background-color: #A06ECE !important;
+  width: 89%;
+  border-radius: 13px !important;
+}
 
-  .beranda-button .icon {
-    margin-right: 50px;
-  }
+.beranda-button .icon {
+  margin-right: 50px;
+}
 
-  .filter-button {
-    justify-content: center;
-    color: black !important;
-    background-color: white !important;
-    border-color: #A06ECE !important;
-    border-radius: 25px !important;
-    font-size: 16px;
-    margin-left: 5px;
-  }
+.filter-button {
+  justify-content: center;
+  color: black !important;
+  background-color: white !important;
+  border-color: #A06ECE !important;
+  border-radius: 25px !important;
+  font-size: 16px;
+  margin-left: 5px;
+}
+
+.search-icon {
+  position: relative;
+  cursor: pointer;
+  color: #7126B5;
+  font-size: 25px;
+  margin-left: 5px;
+}
+
+.search-input {
+  width: 100%; 
+  padding: 8px; 
+  border: 1px solid #ccc; 
+  border-radius: 4px; 
+}
+
+.bold-text {
+  font-size: 15px;
+  color: black;
+  font-weight: bold;
+}
+
+.search-modal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  z-index: 9999;
+}
+
+.search-modal .modal-dialog {
+  /*atus posisi dialog*/
+}
+
+.search-modal .modal-footer button {
+  /* Warna tombol "Cari" */
+  background-color: #4b1979;
+  border-color: #6f429a;
+}
+.search-modal .modal-footer button:hover {
+  /* Warna tombol "Cari" saat dihover */
+  background-color: #6f429a;
+  border-color: #4b1979;
+}
+.date-modal .modal-footer button {
+  /* Warna tombol "Simpan" */
+  background-color: #4b1979;
+  border-color: #6f429a;
+}
+.date-modal .modal-footer button:hover {
+  /* Warna tombol "Simpan" saat dihover */
+  background-color: #6f429a;
+  border-color: #4b1979;
+}
+
+.date-modal .modal-title {
+  font-size: 17px;
+  justify-content: center;
+  margin-left: 30%;
+}
+
+.date-modal .modal-body {
+  margin-left: 13%;
+  padding-bottom: 0%;
+}
+
+/* Gaya untuk DateModal */
+.date-modal {
+  position: relative;
+  display: flex;
+}
+
+.no-search-history {
+  font-size: 13px;
+  color: #6a6a6a;
+  font-weight: 500;
+}
+
+.delete-icon {
+  color: red;
+  float: right;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.no-history {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin-top: 60px;
+  margin-bottom: 50px;
+}
+
+.no-history img {
+  width: 200px;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+.no-history h6 {
+  margin-top: 2%;
+  font-size: 16px;
+  font-weight: bold;
+  color: #7126B5;
+}
+
+.no-history p {
+  font-size: 15px;
+  color: #000000;
+}
+
+.no-history p {
+  font-size: 15px;
+  color: #000000;
+}
+
+.btn-caripnrbngn {
+  background-color: #7126B5 !important;
+  border-color: #6f429a !important;
+  width: 300px;
+  height: 40px;
+  border-radius: 10px !important;
+  margin-top: 5% !important;
+}
+
+.card-riwayat {
   
-  .search-icon {
-    position: relative;
-    cursor: pointer;
-    color: #7126B5;
-    font-size: 25px;
-    margin-left: 5px;
-  }
-  
-  .search-input {
-    width: 100%; 
-    padding: 8px; 
-    border: 1px solid #ccc; 
-    border-radius: 4px; 
-  }
+}
 
-  .bold-text {
-    font-size: 15px;
-    color: black;
-    font-weight: bold;
-  }
-  
-  .search-modal {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    margin: auto;
-    z-index: 9999;
-  }
+.status-payment {
+  color: white;
+  padding: 5px;
+  width: fit-content;
+  border-radius: 12px;
+}
 
-  .search-modal .modal-dialog {
-    /*atus posisi dialog*/
-  }
+.paid {
+  background-color: #2ed300;
+}
 
-  .search-modal .modal-footer button {
-    /* Warna tombol "Cari" */
-    background-color: #4b1979;
-    border-color: #6f429a;
-  }
-  .search-modal .modal-footer button:hover {
-    /* Warna tombol "Cari" saat dihover */
-    background-color: #6f429a;
-    border-color: #4b1979;
-  }
-  .date-modal .modal-footer button {
-    /* Warna tombol "Simpan" */
-    background-color: #4b1979;
-    border-color: #6f429a;
-  }
-  .date-modal .modal-footer button:hover {
-    /* Warna tombol "Simpan" saat dihover */
-    background-color: #6f429a;
-    border-color: #4b1979;
-  }
-
-  .date-modal .modal-title {
-    font-size: 17px;
-    justify-content: center;
-    margin-left: 30%;
-  }
-  
-  .date-modal .modal-body {
-    margin-left: 13%;
-    padding-bottom: 0%;
-  }
-
-  /* Gaya untuk DateModal */
-  .date-modal {
-    position: relative;
-    display: flex;
-  }
-
-  .no-search-history {
-    font-size: 13px;
-    color: #6a6a6a;
-    font-weight: 500;
-  }
-  
-  .delete-icon {
-    color: red;
-    float: right;
-    cursor: pointer;
-    font-size: 14px;
-  }
-  
-  .no-history {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    margin-top: 60px;
-    margin-bottom: 50px;
-  }
-  
-  .no-history img {
-    width: 200px;
-    height: auto;
-    margin-bottom: 20px;
-  }
-  
-  .no-history h6 {
-    margin-top: 2%;
-    font-size: 16px;
-    font-weight: bold;
-    color: #7126B5;
-  }
-  
-  .no-history p {
-    font-size: 15px;
-    color: #000000;
-  }
-
-  .no-history p {
-    font-size: 15px;
-    color: #000000;
-  }
-
-  .btn-caripnrbngn {
-    background-color: #7126B5 !important;
-    border-color: #6f429a !important;
-    width: 300px;
-    height: 40px;
-    border-radius: 10px !important;
-    margin-top: 5% !important;
-  }
-
-  .card-riwayat {
-    
-  }
+.unpaid {
+  background-color: red;
+}

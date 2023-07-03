@@ -57,7 +57,7 @@ const FilterRiwayat = () => {
           </span>
         </Col>
       </Row>
-
+      <hr style={{ color: '#000000', backgroundColor: '#000000', height: 4 }}/>
       <SearchModal
         showModal={showSearchModal}
         handleCloseModal={handleCloseSearchModal}
