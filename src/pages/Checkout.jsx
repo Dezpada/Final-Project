@@ -4,8 +4,12 @@ import Navbar1 from "../components/header/Navbar1";
 import NavbarCO from "../components/checkout/NavbarCO";
 import "../components/checkout/style.css";
 import CheckoutCol2 from "../components/checkout/CheckoutCol2";
+import { useLocation } from "react-router";
 
 function Checkout() {
+  const location = useLocation;
+  const dataCO = location.state;
+  console.log(dataCO);
   const [show, setShow] = useState(false);
   const [adultPassenger, setAdultPassenger] = useState(0);
   const [kidPassenger, setKidPassenger] = useState(0);
