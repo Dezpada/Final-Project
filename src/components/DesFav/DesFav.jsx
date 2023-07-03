@@ -1,29 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container } from 'react-bootstrap';
 import { FiSearch } from 'react-icons/fi';
 import './DesFav.css';
 
-const destinations = [
-  { id: 1, name: 'Jakarta', to: 'Sydney', region: 'Asia', maskapai: 'AirAsia', foto: 'https://s.id/1LTHz', price: '3.650.000' },
-  { id: 2, name: 'New York', to: 'Paris', region: 'Amerika', maskapai: 'AirAsia', foto: 'https://s.id/1LTIx', price: '2.650.000' },
-  { id: 3, name: 'Sydney', to: 'Jakarta', region: 'Australia', maskapai: 'AirAsia', foto: 'https://s.id/1LTJZ', price: '3.650.000' },
-  { id: 4, name: 'Paris', to: 'New York', region: 'Eropa', maskapai: 'AirAsia', foto: 'https://s.id/1LTJd', price: '2.650.000' },
-  { id: 5, name: 'Cape Town', to: 'Sydney', region: 'Afrika', maskapai: 'AirAsia', foto: 'https://s.id/1LTHz', price: '3.450.000' },
-  // Tambahkan destinasi lainnya di sini
-];
+const API_URL = 'https://final-project-develop-f89c.up.railway.app/flight';
 
 const DestinationCard = ({ destination }) => {
   return (
     <div className='card-dest'>
-      <img src={destination.foto} alt={destination.name} className="destination-image" />
-      <p className="name">{destination.name} - {destination.to}</p>
-      <p className="maskapai">{destination.maskapai}</p>
-      <p className="price-description">Mulai dari <span className="price" style={{ color: 'red' }}>IDR {destination.price}</span></p>
+      <img src={destination.airplane.airline.icon_url} alt={destination.arrivalAirport.name} className="destination-image" />
+      <p className="name">{destination.departureAirport.city} =&gt; {destination.arrivalAirport.city}</p>
+      <p className="maskapai">{destination.airplane.airline.name}</p>
+      <p className="price-description">Mulai dari IDR <span className="price" style={{ color: 'red' }}>{destination.price}</span></p>
     </div>
   );
 };
 
 const App = () => {
+  const [destinations, setDestinations] = useState([]);
   const [selectedRegion, setSelectedRegion] = useState('Semua');
   const [buttonColors, setButtonColors] = useState({ Semua: '#7126B5' });
 
@@ -32,7 +26,21 @@ const App = () => {
     setButtonColors({ [region]: '#7126B5' });
   };
 
-  const filteredDestinations = selectedRegion === 'Semua' ? destinations : destinations.filter(dest => dest.region === selectedRegion);
+  useEffect(() => {
+    fetchDestinations();
+  }, []);
+
+  const fetchDestinations = async () => {
+    try {
+      const response = await fetch(API_URL);
+      const data = await response.json();
+      setDestinations(data.data);
+    } catch (error) {
+      console.log('Error fetching destinations:', error);
+    }
+  };
+
+  const filteredDestinations = selectedRegion === 'Semua' ? destinations : destinations.filter(dest => dest.arrivalAirport.region === selectedRegion);
 
   return (
     <Container className="mt-2">
@@ -48,7 +56,7 @@ const App = () => {
         </div>
         <div className="destination-cards">
           {filteredDestinations.slice(0, 5).map(destination => (
-            <DestinationCard key={destination.id} destination={destination} />
+            <DestinationCard key={destination.flight_number} destination={destination} />
           ))}
         </div>
       </div>
