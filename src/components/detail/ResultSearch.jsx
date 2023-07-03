@@ -71,7 +71,6 @@ const ResultSearch = ({
   useEffect(() => {
     handleFilter();
   }, [data, returnFlight]);
-  console.log(data);
 
   // filter data
   const handleFilter = () => {
@@ -116,7 +115,7 @@ const ResultSearch = ({
 
   // set id ke page checkout
   const [id, setId] = useState();
-  const token = localStorage.getItem("Authorization");
+  const token = localStorage.getItem("token");
 
   const handleClickId = (id) => {
     if (!token) {
@@ -126,6 +125,9 @@ const ResultSearch = ({
       navigate(`/checkout/${id}`, {
         state: {
           total_passenger: requestBody.total_passenger,
+          adults: requestBody.adults,
+          child: requestBody.child,
+          baby: requestBody.child,
           flight_id: id,
           is_roundtrip: false,
         },
