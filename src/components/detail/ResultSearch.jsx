@@ -1,12 +1,18 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Accordion, Modal, Form } from "react-bootstrap";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import NotFoundSearch from "../../pages/NotFoundSearch";
 
 import "./detailPagestyle.css";
 
-const ResultSearch = ({ selectedDate }) => {
+const ResultSearch = ({
+  selectedDate,
+  total_passenger,
+  flight_id,
+  return_flight_id,
+  is_roundtrip,
+}) => {
   // convert time to number
   const convertTime = (time) => {
     const timeParts = time.split(":");
@@ -40,6 +46,7 @@ const ResultSearch = ({ selectedDate }) => {
         setData(response.data.data);
       } else {
         setData(response.data.data.departureFlights);
+        console.log(response.data.data);
         setReturnFlight(response.data.data.returnFlights);
       }
     } catch (error) {
@@ -64,6 +71,8 @@ const ResultSearch = ({ selectedDate }) => {
   useEffect(() => {
     handleFilter();
   }, [data, returnFlight]);
+  console.log(data);
+
   // filter data
   const handleFilter = () => {
     let sortedFlights = [...data, ...returnFlight];
@@ -102,6 +111,29 @@ const ResultSearch = ({ selectedDate }) => {
     setFilteredFlights(sortedFlights);
     setShow(false);
   };
+
+  const navigate = useNavigate();
+
+  // set id ke page checkout
+  const [id, setId] = useState();
+  const token = localStorage.getItem("token");
+
+  const handleClickId = (id) => {
+    if (!token) {
+      navigate("/login");
+    } else {
+      setId(id);
+      navigate(`/checkout/${id}`, {
+        state: {
+          total_passenger: requestBody.total_passenger,
+          flight_id: id,
+          is_roundtrip: false,
+        },
+      });
+    }
+  };
+
+  //prop data ke CO
 
   return (
     // modal
@@ -366,11 +398,12 @@ const ResultSearch = ({ selectedDate }) => {
                   </h6>
                 </div>
                 <div className=" mx-auto ">
-                  <Link to={"/checkout"}>
-                    <button className="w-100 bg-purple rounded-4 px-5 py-1 text-white fw-semibold">
-                      Pilih
-                    </button>
-                  </Link>
+                  <button
+                    onClick={() => handleClickId(flight.id)}
+                    className="w-100 bg-purple rounded-4 px-5 py-1 text-white fw-semibold"
+                  >
+                    Pilih
+                  </button>
                 </div>
               </Accordion.Body>
             </Accordion.Item>

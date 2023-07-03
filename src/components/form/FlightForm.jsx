@@ -89,12 +89,8 @@ const FlightForm = () => {
     }));
   };
 
-  const [total_passenger, setTotalPassenger] = useState(0);
-
   const handleSubmit = (event) => {
     event.preventDefault();
-    localStorage.setItem("passengers", total_passenger);
-
     const apiEndpoint = getApiEndpoint(formData.tripType);
     const requestBody = getRequestBody(formData.tripType, formData);
 
