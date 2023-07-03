@@ -1,97 +1,65 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Accordion, Card, Col, Container, Form, Row } from "react-bootstrap";
 import Navbar1 from "../components/header/Navbar1";
 import NavbarCO from "../components/checkout/NavbarCO";
 import "../components/checkout/style.css";
 import CheckoutCol2 from "../components/checkout/CheckoutCol2";
+import ItemCard from "../components/checkout/ItemCard";
+import { toast } from "react-toastify";
+import axios from "axios";
+import { useLocation } from "react-router-dom";
 
 function Checkout() {
   const [show, setShow] = useState(false);
-  const [adultPassenger, setAdultPassenger] = useState(0);
-  const [kidPassenger, setKidPassenger] = useState(0);
-  const [totalPassenger, setTotalPassenger] = useState(0);
-  let components = [];
   const toggleFamilyName = () => setShow(!show);
 
-  useEffect(() => {
-    formData();
-    function calculatePassenger() {
-      const adult = window.localStorage.getItem("adult_passengers");
-      setAdultPassenger(adult);
-      const kid = window.localStorage.getItem("kid_passengers");
-      setKidPassenger(kid);
-    }
-    function totalAllPassenger() {
-      setTotalPassenger(parseInt(adultPassenger) + parseInt(kidPassenger));
-      console.log(totalPassenger);
-    }
-    async function formData() {
-      await calculatePassenger();
-      await totalAllPassenger();
-      for (let i = 0; i < totalPassenger.value; i++) {
-        components.push(
-          <Card className="mb-3">
-            <Card.Header style={{ background: "#3C3C3C", color: "white" }}>
-              Data Diri Penumpang
-            </Card.Header>
-            <Card.Body>
-              <Form className="mb-4 mx-3 ">
-                <Form.Group className="my-3" controlId="formBasicName">
-                  <Form.Label style={{ fontWeight: "bold", color: "#4B1979" }}>
-                    Nama Lengkap
-                  </Form.Label>
-                  <Form.Control
-                    type="name"
-                    placeholder="Masukkan Nama Lengkap"
-                  />
-                </Form.Group>
+  const handleOnClick = async (e) => {
+    // try {
+    //   let data = JSON.stringify({
+    //     name,
+    //     email,
+    //     telp,
+    //     password,
+    //   });
+    //   let config = {
+    //     method: "post",
+    //     url: `${process.env.REACT_APP_API_KEY}/flight/booking`,
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     data: data,
+    //   };
+    //   const response = await axios.request(config);
+    //   toast.success(response.data.message);
+    // } catch (error) {
+    //   if (axios.isAxiosError(error)) {
+    //     toast.error(error.response.data.message);
+    //     return;
+    //   }
+    //   toast.error(error.message);
+    // }
+    // window.location.href = "/";
+  };
 
-                <Form.Group className="my-3" controlId="formBasicFamilyName">
-                  <Form.Label style={{ fontWeight: "bold", color: "#4B1979" }}>
-                    Nomor Telepon
-                  </Form.Label>
-                  <Form.Control type="tel" placeholder="+62 ." />
-                </Form.Group>
-                <Form.Group className="my-3" controlId="formBasicBirthDate">
-                  <Form.Label style={{ fontWeight: "bold", color: "#4B1979" }}>
-                    Tanggal Lahir
-                  </Form.Label>
-                  <Form.Control type="date" />
-                </Form.Group>
-                <Form.Group className="my-3" controlId="formBasicCountry">
-                  <Form.Label style={{ fontWeight: "bold", color: "#4B1979" }}>
-                    Kewarganegaraan
-                  </Form.Label>
-                  <Form.Control type="text" />
-                </Form.Group>
-                <Form.Group className="my-3" controlId="formBasicID">
-                  <Form.Label style={{ fontWeight: "bold", color: "#4B1979" }}>
-                    KTP/Paspor
-                  </Form.Label>
-                  <Form.Control type="text" />
-                </Form.Group>
-                <Form.Group
-                  className="my-3"
-                  controlId="formBasicPublishCountry"
-                >
-                  <Form.Label style={{ fontWeight: "bold", color: "#4B1979" }}>
-                    Negara Penerbit
-                  </Form.Label>
-                  <Form.Control type="text" />
-                </Form.Group>
-                <Form.Group className="my-3" controlId="formBasicExpireDate">
-                  <Form.Label style={{ fontWeight: "bold", color: "#4B1979" }}>
-                    Berlaku Sampai
-                  </Form.Label>
-                  <Form.Control type="date" />
-                </Form.Group>
-              </Form>
-            </Card.Body>
-          </Card>
-        );
-      }
+  const location = useLocation();
+  const { requestBody } = location.state;
+
+  const renderCard = () => {
+    const passenger = window.localStorage.getItem("passengers");
+    let data = [];
+    console.log(passenger, "total passenger value");
+    for (let i = 0; i < passenger; i++) {
+      data.push(i);
     }
-  }, []);
+    return data?.map((value, index) => {
+      console.log(data, value, index);
+      return (
+        <div>
+          <ItemCard />
+        </div>
+      );
+    });
+  };
 
   return (
     <>
@@ -201,7 +169,7 @@ function Checkout() {
                   <Accordion.Header as={"h5"}>
                     Isi Data Penumpang
                   </Accordion.Header>
-                  <Accordion.Body>{components}</Accordion.Body>
+                  <Accordion.Body>{renderCard()}</Accordion.Body>
                 </Accordion.Item>
               </Accordion>
               <div className=" mx-auto my-3 ">
@@ -216,6 +184,14 @@ function Checkout() {
           </Col>
           <Col md>
             <CheckoutCol2 />
+            <div className=" mx-auto ">
+              <button
+                className="w-100 btn btn-danger rounded-3 px-5 py-2 text-white fw-normal fs-30"
+                onClick={handleOnClick}
+              >
+                Lanjut Bayar
+              </button>
+            </div>
           </Col>
         </Row>
       </Container>

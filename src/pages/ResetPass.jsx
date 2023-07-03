@@ -10,6 +10,7 @@ import {
   InputGroup,
 } from "react-bootstrap";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { Link, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
 function ForgetPass() {
@@ -17,6 +18,7 @@ function ForgetPass() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordType, setPasswordType] = useState("password");
   const [confirmPasswordType, setConfirmPasswordType] = useState("password");
+  const params = useParams();
 
   const toggleConfirmPassword = () => {
     if (confirmPasswordType === "password") {
@@ -121,17 +123,18 @@ function ForgetPass() {
 
       let config = {
         method: "post",
-        url: `${process.env.REACT_APP_API_KEY}/auth/reset-password`,
+        url: `${process.env.REACT_APP_API_KEY}/auth/reset-password?token=${params.token}`,
         headers: {
           "Content-Type": "application/json",
         },
         data: data,
       };
 
+      console.log(params.token);
       const response = await axios.request(config);
       toast.success(response.data.message);
       setTimeout(3000);
-      window.location.href = "/login";
+      //window.location.href = "/login";
     } catch (error) {
       if (axios.isAxiosError(error)) {
         toast.error(error.response.data.message);
@@ -161,6 +164,8 @@ function ForgetPass() {
                 style={{ alignSelf: "center" }}
                 width={200}
                 height={200}
+                as={Link}
+                to={"/"}
               />
               <h2 className="mb-3 ps-5 pb-3" style={{ fontWeight: "bold" }}>
                 Reset Password

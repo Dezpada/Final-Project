@@ -12,6 +12,7 @@ import {
 } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { FaEyeSlash, FaEye } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 function Register() {
   const [email, setEmail] = useState("");
@@ -193,6 +194,8 @@ function Register() {
                 style={{ alignSelf: "center" }}
                 width={200}
                 height={200}
+                as={Link}
+                to={"/"}
               />
               <h2 className="mb-3 ps-5 pb-3" style={{ fontWeight: "bold" }}>
                 Daftar

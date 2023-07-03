@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import moment from "moment";
 import "moment/locale/id";
@@ -18,51 +18,65 @@ function CheckoutCol2() {
 
   const params = useParams();
 
+  function calculatePricePassengers() {
+    try {
+      const passengers = window.localStorage.getItem("passengers");
+      setPassenger(passengers);
+      if (!isNaN(flight.price)) {
+        setPrice(+passenger * +flight.price);
+      } else {
+        setPrice(30);
+      }
+    } catch (error) {
+      alert(error);
+    }
+  }
+
+  function calculatePriceTotal() {
+    try {
+      //console.log(typeof +price + 300000, "ini hasil price");
+      if (!isNaN(price)) {
+        setTotalPrice(+price + 300000);
+      } else {
+        setTotalPrice(20);
+      }
+    } catch (error) {
+      alert(error);
+    }
+  }
+
+  async function fetchPost() {
+    try {
+      const response = await axios.get(
+        `https://final-project-production-b6fe.up.railway.app/flight/${params.id}`
+      );
+      setFlight(response.data.data);
+      setDepartureAirport(response.data.data.departureAirport);
+      setArrivalAirport(response.data.data.arrivalAirport);
+      setAirplane(response.data.data.airplane);
+      setAirline(response.data.data.airplane.airline);
+      //console.log(flight.price);
+      calculatePricePassengers();
+      calculatePriceTotal();
+    } catch (error) {
+      alert(error);
+    }
+  }
+
   useEffect(() => {
-    async function fetchPost() {
-      try {
-        const response = await axios.get(
-          `https://final-project-production-b6fe.up.railway.app/flight/${params.id}`
-        );
-        setFlight(response.data.data);
-        setDepartureAirport(response.data.data.departureAirport);
-        setArrivalAirport(response.data.data.arrivalAirport);
-        setAirplane(response.data.data.airplane);
-        setAirline(response.data.data.airplane.airline);
-        //console.log(flight.price);
-        calculatePricePassengers();
-        calculatePriceTotal();
-      } catch (error) {
-        alert(error);
+    if (price === undefined) {
+      if (params?.id) {
+        fetchPost();
+      }
+    } else {
+      if (params?.id) {
+        fetchPost();
       }
     }
-
-    function calculatePricePassengers() {
-      try {
-        const passengers = window.localStorage.getItem("passengers");
-        setPassenger(passengers);
-
-        setPrice(parseInt(passenger) * parseInt(flight.price));
-      } catch (error) {
-        alert(error);
-      }
-    }
-
-    function calculatePriceTotal() {
-      try {
-        setTotalPrice(parseInt(price) + 300000);
-      } catch (error) {
-        alert(error);
-      }
-    }
-
-    if (params?.id) {
-      fetchPost();
-    }
-  }, [params]);
+  }, [params, price]);
 
   return (
-    <Container className="my-3">
+    <Container className="my-3 mx-auto">
       <div className="d-flex">
         <div className="d-flex flex-column">
           <h6 className="text-purple fw-semibold fs-14">Detail Penerbangan</h6>
@@ -164,13 +178,6 @@ function CheckoutCol2() {
         <h6 className="ms-auto my-auto fw-bold fs-20 text-purple">
           IDR {totalPrice}
         </h6>
-      </div>
-      <div className=" mx-auto ">
-        <Link to={"/page-payment"}>
-          <button className="w-100 btn btn-danger rounded-3 px-5 py-2 text-white fw-normal fs-30">
-            Lanjut Bayar
-          </button>
-        </Link>
       </div>
     </Container>
   );

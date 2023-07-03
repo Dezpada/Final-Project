@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 const Navbar1 = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("Authorization");
 
     if (token) {
       setIsLoggedIn(true);
@@ -20,6 +20,7 @@ const Navbar1 = () => {
             src="/img/logo.svg"
             className="d-inline-block align-top"
             alt="Logo"
+            height={100}
           />
         </Navbar.Brand>
         <Nav className="w-50">
