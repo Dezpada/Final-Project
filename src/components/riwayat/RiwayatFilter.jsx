@@ -6,6 +6,7 @@ import { FiSearch } from 'react-icons/fi';
 import './Riwayat.css';
 import FilterDateModal from './DateModal';
 import SearchModal from './SearchModal';
+import RiwayatPesanan from './RiwayatPesanan';
 
 const FilterRiwayat = () => {
   const [showSearchModal, setShowSearchModal] = useState(false);
@@ -13,6 +14,7 @@ const FilterRiwayat = () => {
   const [recentSearches, setRecentSearches] = useState([]);
 
   const handleSearchClick = () => {
+    setSearchCode('');
     setShowSearchModal(true);
   };
 
@@ -29,6 +31,7 @@ const FilterRiwayat = () => {
     console.log('Kode yang dicari:', searchCode);
     setRecentSearches((prevSearches) => [searchCode, ...prevSearches]);
     handleCloseSearchModal();
+    setSearchCode(searchCode);
   };
 
   const handleRecentSearchDelete = (index) => {
@@ -68,6 +71,7 @@ const FilterRiwayat = () => {
         handleRecentSearchDelete={handleRecentSearchDelete}
       />
 
+      <RiwayatPesanan searchCode={searchCode} />
     </Container>
   );
 };

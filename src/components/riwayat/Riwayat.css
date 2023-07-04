@@ -62,8 +62,10 @@
   z-index: 9999;
 }
 
-.search-modal .modal-dialog {
-  /*atus posisi dialog*/
+.card-dest {
+  width: 100% ;
+  align-items: center ; 
+  margin-bottom: -1%;
 }
 
 .search-modal .modal-footer button {
@@ -159,10 +161,6 @@
   margin-top: 5% !important;
 }
 
-.card-riwayat {
-  
-}
-
 .status-payment {
   color: white;
   padding: 5px;
@@ -176,4 +174,97 @@
 
 .unpaid {
   background-color: red;
+}
+
+.status-payment {
+  margin-bottom: 10px;
+}
+
+.departure-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-left: 5%;
+}
+
+.duration-info {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.arrival-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-right: 5%;
+}
+
+.detick-info {
+  display: flex;
+  justify-content: center;
+  margin-right: 2%;
+  margin-left: 2%;
+}
+
+.departure-info span {
+  flex-grow: 1;
+  margin-bottom: -20px;
+}
+.departure-info span:nth-child(2) {
+  margin-bottom: -20px; 
+}
+.departure-info span:last-child {
+  margin-bottom: -15px;
+}
+
+.arrival-info span {
+  flex-grow: 1;
+  margin-bottom: -20px;
+}
+.arrival-info span:nth-child(2) {
+  margin-bottom: -20px; 
+}
+.arrival-info span:last-child {
+  margin-bottom: -15px;
+  
+}
+
+.price-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-right: 2%;
+}
+.price-info strong {
+  margin-bottom: -25px;
+  margin-top: -10px;
+}
+
+.code-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-right: 2%;
+}
+.code-info span {
+  font-size: 16px;
+}
+.code-info strong {
+  margin-bottom: -25px;
+  margin-top: -10px;
+}
+
+.class-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 6%;
+}
+.class-info span {
+  font-size: 14.5px;
+}
+.class-info strong {
+  margin-bottom: -25px;
+  margin-top: -10px;
 }

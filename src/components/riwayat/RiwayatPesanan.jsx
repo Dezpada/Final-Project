@@ -4,7 +4,7 @@ import DetailPesanan from './DetailPesanan';
 import axios from 'axios';
 import './Riwayat.css';
 
-const RiwayatPesanan = () => {
+const RiwayatPesanan = ({ searchCode }) => {
   const [riwayatPesanan, setRiwayatPesanan] = useState([]);
   const [pesananTerpilih, setPesananTerpilih] = useState({});
 
@@ -37,53 +37,69 @@ const RiwayatPesanan = () => {
     <Container>
       <Row className="my-3">
         <Col xs={7}>
-          {riwayatPesanan.map((riwayat, index) => (
-            <Card
-              key={index}
-              onClick={() => handleCardClick(riwayat)}
-              style={{ cursor: 'pointer', marginBottom: '10px' }}
-              className="custom-card"
-            >
-              <Card.Body>
-              <Card.Text>
-                  <div className={`status-payment ${riwayat.payment_status === 'Dibayar' ? 'paid' : 'unpaid'}`}>
-                    {riwayat.payment_status === 'Dibayar' ? 'Sudah Dibayar' : 'Belum Dibayar'}
-                  </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <div>
-                      Asal: {riwayat.flights.departureAirport.city}
-                      <br />
-                      Tanggal Penerbangan: {riwayat.flights.flight_date}
-                      <br />
-                      Waktu Keberangkatan: {riwayat.flights.departure_time}
+          {riwayatPesanan
+            .filter((riwayat) => riwayat.ticket_code.includes(searchCode))
+            .map((riwayat, index) => (
+              <Card
+                key={index}
+                onClick={() => handleCardClick(riwayat)}
+                style={{ cursor: 'pointer', marginBottom: '10px' }}
+                className="custom-card"
+              >
+                <Card.Body>
+                  <Card.Text className="custom-card-text"> 
+                    <div className={`status-payment ${riwayat.payment_status === 'Dibayar' ? 'paid' : 'unpaid'}`}>
+                      {riwayat.payment_status === 'Dibayar' ? 'Sudah Dibayar' : 'Belum Dibayar'}
                     </div>
-                    <div>
-                      Durasi: {riwayat.flights.flight_duration}
+                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                      <div className="departure-info">
+                      <span>
+                        Asal: {riwayat.flights.departureAirport.city}
+                      </span>
+                      <br/>
+                      <span>
+                        {riwayat.flights.flight_date}
+                      </span>
+                      <br/>
+                      <span>
+                        {riwayat.flights.departure_time}
+                      </span>
+                      </div>
+                      <div className="duration-info">
+                      {Math.floor(riwayat.flights.flight_duration / 60)} jam {riwayat.flights.flight_duration % 60} menit
+                      </div>
+                      <div className="arrival-info">
+                      <span>
+                        Tujuan: {riwayat.flights.arrivalAirport.city}
+                      </span>
+                        <br />
+                      <span>
+                        {riwayat.flights.flight_date}
+                      </span>
+                        <br />
+                      <span>
+                        {riwayat.flights.arrival_time}
+                      </span>
+                      </div>
                     </div>
-                    <div>
-                      Tujuan: {riwayat.flights.arrivalAirport.city}
-                      <br />
-                      Tanggal Kedatangan: {riwayat.flights.flight_date}
-                      <br />
-                      Waktu Kedatangan: {riwayat.flights.arrival_time}
+                    <hr className="mt-4" style={{ color: '#000000', backgroundColor: '#000000', height: 1 }} />
+                    <div className='detick-info' style={{ display: 'flex', justifyContent: 'space-between' }}>
+                      <div className='code-info'>
+                      <strong>Booking Code</strong><br/><span> {riwayat.ticket_code}</span>
+                      </div>
+                      <div className='class-info'>
+                      <strong>Class</strong><br/><span> {riwayat.flights.class}</span>
+                      </div>
+                      <div className='price-info'>
+                        <strong>Harga</strong><br/><span style={{ color: '#4B1979', fontWeight: '600' }}> {(
+                        riwayat.flights.price + (riwayat.returnFlights ? riwayat.returnFlights.price : 0)
+                        ).toLocaleString('id-ID', { style: 'currency', currency: 'IDR' })}</span>
+                      </div>
                     </div>
-                  </div>
-                  <hr style={{ color: '#000000', backgroundColor: '#000000', height: 2.5 }} />
-                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <div>
-                      Booking Code: {riwayat.ticket_code}
-                    </div>
-                    <div>
-                      Class: {riwayat.flights.class}
-                    </div>
-                    <div>
-                      Harga: {riwayat.flights.price + (riwayat.returnFlights ? riwayat.returnFlights.price : 0)}
-                    </div>
-                  </div>
-                </Card.Text>
-              </Card.Body>
-            </Card>
-          ))}
+                  </Card.Text>
+                </Card.Body>
+              </Card>
+            ))}
         </Col>
         {Object.keys(pesananTerpilih).length > 0 && (
           <Col xs={5}>
