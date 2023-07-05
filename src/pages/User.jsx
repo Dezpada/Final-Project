@@ -112,6 +112,7 @@ const User = () => {
                     <button
                       onClick={() => {
                         localStorage.removeItem("Authorization");
+                        localStorage.removeItem("token");
                         return navigate("/");
                       }}
                     >

@@ -7,7 +7,7 @@ import NavbarMobile from "../components/header/NavbarMobile";
 
 const Notifikasi = () => {
   const [data, setData] = useState([]);
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("Authorization");
   const config = {
     headers: {
       Authorization: token,
