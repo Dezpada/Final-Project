@@ -6,7 +6,7 @@ import { Button, Modal } from 'react-bootstrap';
 import { BiFilterAlt } from 'react-icons/bi';
 import './Riwayat.css';
 
-const DateModal = () => {
+const DateModal = ({ handleDateFilter }) => {
     const [showModal, setShowModal] = useState(false);
     const [selectedDates, setSelectedDates] = useState([
       {
@@ -22,6 +22,7 @@ const DateModal = () => {
   
     const handleCloseModal = () => {
       setShowModal(false);
+      handleDateFilter(selectedDates[0]);
     };
   
     const handleDateChange = (ranges) => {
