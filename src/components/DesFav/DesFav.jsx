@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container } from 'react-bootstrap';
+import { Container, Card } from 'react-bootstrap';
 import { FiSearch } from 'react-icons/fi';
 import './DesFav.css';
 
@@ -7,12 +7,12 @@ const API_URL = 'https://final-project-develop-f89c.up.railway.app/flight';
 
 const DestinationCard = ({ destination }) => {
   return (
-    <div className='card-dest'>
+    <Card.Text className='card-dest' >
       <img src={destination.airplane.airline.icon_url} alt={destination.arrivalAirport.name} className="destination-image" />
-      <p className="name">{destination.departureAirport.city} =&gt; {destination.arrivalAirport.city}</p>
+      <p className="desfav-name">{destination.departureAirport.city} =&gt; {destination.arrivalAirport.city}</p>
       <p className="maskapai">{destination.airplane.airline.name}</p>
       <p className="price-description">Mulai dari IDR <span className="price" style={{ color: 'red' }}>{destination.price}</span></p>
-    </div>
+    </Card.Text>
   );
 };
 
