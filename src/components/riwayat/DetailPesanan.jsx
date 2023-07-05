@@ -43,7 +43,7 @@ const DetailPesanan = ({ pesanan }) => {
     </Button>);
     } else if (pesanan.payment_status === 'Belum Bayar') {
       return (
-        <Link to={`/page-payment/${pesanan.ticket_code}`}>
+        <Link /*to={`/page-payment/${pesanan.ticket_code}`}*/>
           <Button variant="danger">Lanjut Bayar</Button>
         </Link>
       );
