@@ -14,8 +14,7 @@ const Notifikasi = () => {
     },
   };
 
-  const url =
-    "https://final-project-production-b6fe.up.railway.app/notifications";
+  const url = `${process.env.REACT_APP_API_KEY}/notifications`;
 
   const fetchData = async () => {
     try {
