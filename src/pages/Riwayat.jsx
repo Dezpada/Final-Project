@@ -4,9 +4,9 @@ import { Col, Container, Row } from "react-bootstrap";
 import RiwayatFilter from "../components/riwayat/RiwayatFilter";
 import RiwayatPesanan from "../components/riwayat/RiwayatPesanan";
 import DetailPesanan from "../components/riwayat/DetailPesanan";
+import NavbarMobile from "../components/header/NavbarMobile";
 
 const Riwayat = () => {
-
   return (
     <>
       <Navbar1 />
@@ -20,9 +20,11 @@ const Riwayat = () => {
           <Col>
             <RiwayatPesanan />
           </Col>
-          
         </Row>
       </Container>
+      <div className="mb-5"></div>
+      <div className="mb-5"></div>
+      <NavbarMobile />
     </>
   );
 };

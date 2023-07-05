@@ -14,7 +14,7 @@ function Checkout() {
   const [passengerData, setPassengerData] = useState([]);
   const [total_passenger, setTotalPassenger] = useState("");
   const [adultPassenger, setAdultPassenger] = useState();
-  const [kidPasenger, setKidPasenger] = useState();
+  const [childPassenger, setChildPassenger] = useState();
   const [babyPassenger, setBabyPassenger] = useState();
   const [departure_flight_id, setDepartFlightID] = useState("");
   const [return_flight_id, setReturnFlightID] = useState("");
@@ -58,9 +58,12 @@ function Checkout() {
       const response = await axios.request(config);
       const { ticketCode } = response.data.data.ticket_code;
       toast.success(response.data.message);
-      navigate(`/page-payment/${ticketCode}`, {
-        state: { ticket_code: ticketCode },
-      });
+      setTimeout(
+        navigate(`/page-payment/${ticketCode}`, {
+          state: { ticket_code: ticketCode },
+        }),
+        [3000]
+      );
     } catch (error) {
       if (axios.isAxiosError(error)) {
         toast.error(error.response.data.message);
@@ -99,7 +102,7 @@ function Checkout() {
   //};
 
   const renderCard = () => {
-    const passenger = total_passenger;
+    let passenger = total_passenger;
     let newData = [];
     for (let i = 0; i < passenger; i++) {
       newData.push(i);
@@ -116,10 +119,14 @@ function Checkout() {
   };
 
   useEffect(() => {
-    const { total_passenger, flight_id, is_roundtrip } = location.state;
+    const { total_passenger, flight_id, is_roundtrip, adults, child, baby } =
+      location.state;
     setTotalPassenger(total_passenger);
     setRoundTrip(is_roundtrip);
     setDepartFlightID(flight_id);
+    setAdultPassenger(adults);
+    setChildPassenger(child);
+    setBabyPassenger(baby);
     // if (roundTrip === false) {
     //   setDepartFlightID(flight_id);
     // } else {

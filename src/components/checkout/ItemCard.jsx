@@ -1,17 +1,25 @@
 import React, { useEffect, useState } from "react";
 import { Card, Col, Form, Row } from "react-bootstrap";
+import { useLocation } from "react-router-dom";
 
-function ItemCard({ handleDataChange }) {
+function ItemCard({ handleDataChange, handleDataSelectChange }) {
+  // const location = useLocation();
+  // const [countAllPassenger, setCountAllPassenger] = useState();
+  // const [countAdultPassenger, setCountAdultPassenger] = useState(0);
+  // const [countChildPassenger, setCountChildPassenger] = useState(0);
+  // const [countBabyPassenger, setCountBabyPassenger] = useState(0);
+  // const [selectedOption, setSelectedOption] = useState();
   const [formData, setFormData] = useState({
+    passenger_type: "",
     title: "",
     name: "",
-    familyName: "",
+    family_name: "",
     birth: "",
     nationality: "",
     telp: "",
     passpor: "",
-    originCountry: "",
-    validUntil: "",
+    origin_country: "",
+    valid_until: "",
   });
 
   const [show, setShow] = useState(true);
@@ -24,10 +32,40 @@ function ItemCard({ handleDataChange }) {
     }));
   };
 
+  // const handleSelectChange = (event) => {
+  //   setSelectedOption(event.target.value);
+  //   let allPassenger = countAllPassenger;
+  //   let adultPassenger = countAdultPassenger;
+  //   let childPassenger = countChildPassenger;
+  //   let babyPassenger = countBabyPassenger;
+  //   const { name, value } = event.target;
+  //   setFormData((prevState) => ({
+  //     ...prevState,
+  //     [name]: value,
+  //   }));
+  //   if (allPassenger) {
+  //     if (selectedOption === "Adult") {
+  //       adultPassenger -= 1;
+  //       setCountAdultPassenger(adultPassenger);
+  //     } else if (selectedOption === "Child") {
+  //       childPassenger -= 1;
+  //       setCountChildPassenger(childPassenger);
+  //     } else if (selectedOption === "Baby") {
+  //       babyPassenger -= 1;
+  //       setCountBabyPassenger(babyPassenger);
+  //     }
+  //   }
+  // };
+
   const toggleFamilyName = () => setShow(!show);
 
   useEffect(() => {
     handleDataChange(formData);
+    // const { adults, child, baby } = location.state;
+    // setCountAdultPassenger(adults);
+    // setCountChildPassenger(child);
+    // setCountBabyPassenger(baby);
+    // setCountAllPassenger(adults + child + baby);
   }, [formData, handleDataChange]);
   return (
     <Card className="mb-3">
@@ -36,29 +74,38 @@ function ItemCard({ handleDataChange }) {
       </Card.Header>
       <Card.Body>
         <Form className="mb-4 mx-3 ">
+          <Form.Group className="my-3" controlId="formBasicPassengerType">
+            <Form.Label style={{ fontWeight: "bold", color: "#4B1979" }}>
+              Tipe Penumpang
+            </Form.Label>
+            <Form.Select
+              name="passenger_type"
+              value={formData.passenger_type}
+              onChange={handleInputChange}
+            >
+              <option style={{ display: "none" }}>Title</option>
+              <option value="Adult">Dewasa</option>
+              <option value="Child">Anak</option>
+              <option value="Baby">Bayi</option>
+            </Form.Select>
+          </Form.Group>
           <Form.Group className="my-3" controlId="formBasicName">
             <Form.Label style={{ fontWeight: "bold", color: "#4B1979" }}>
               Nama Lengkap
             </Form.Label>
             <Row>
-              <Col md={3}>
-                <Form.Select>
-                  <option disabled hidden>
-                    Title
-                  </option>
-                  <option name="title" value="Mr." onChange={handleInputChange}>
-                    Mr.
-                  </option>
-                  <option
-                    name="title"
-                    value="Mrs."
-                    onChange={handleInputChange}
-                  >
-                    Mrs.
-                  </option>
+              <Col md={4}>
+                <Form.Select
+                  name="title"
+                  value={formData.title}
+                  onChange={handleInputChange}
+                >
+                  <option style={{ display: "none" }}>Title</option>
+                  <option value="Mr">Mr.</option>
+                  <option value="Mrs">Mrs.</option>
                 </Form.Select>
               </Col>
-              <Col md={9}>
+              <Col md={8}>
                 <Form.Control
                   type="name"
                   placeholder="Masukkan Nama Lengkap"
@@ -96,8 +143,8 @@ function ItemCard({ handleDataChange }) {
               <Form.Control
                 type="name"
                 placeholder="Masukkan Nama Keluarga"
-                name="familyName"
-                value={formData.familyName}
+                name="family_name"
+                value={formData.family_name}
                 onChange={handleInputChange}
               />
             </Form.Group>
@@ -153,8 +200,8 @@ function ItemCard({ handleDataChange }) {
             </Form.Label>
             <Form.Control
               type="text"
-              name="originCountry"
-              value={formData.originCountry}
+              name="origin_country"
+              value={formData.origin_country}
               onChange={handleInputChange}
             />
           </Form.Group>
@@ -164,8 +211,8 @@ function ItemCard({ handleDataChange }) {
             </Form.Label>
             <Form.Control
               type="date"
-              name="validUntil"
-              value={formData.validUntil}
+              name="valid_until"
+              value={formData.valid_until}
               onChange={handleInputChange}
             />
           </Form.Group>

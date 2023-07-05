@@ -28,7 +28,8 @@ function CheckoutCol2() {
 
   function calculatePricePassengers() {
     try {
-      const { total_passenger } = location.state;
+      const { total_passenger, adults, child, baby } = location.state;
+
       setPassenger(total_passenger);
       if (!isNaN(flight.price)) {
         setPrice(+passenger * +flight.price);
@@ -174,8 +175,10 @@ function CheckoutCol2() {
         </div>
         <div className="d-flex flex-column">
           <h6 className="fw-bold fs-14 text-end"> </h6>
-          <h6 className="fw-normal fs-14 text-end">IDR {price}</h6>
-          <h6 className="fw-normal fs-14 text-end">IDR 300000</h6>
+          <h6 className="fw-normal fs-14 text-end">
+            {formatter.format(price)}
+          </h6>
+          <h6 className="fw-normal fs-14 text-end">Rp 300.000</h6>
         </div>
       </div>
       <div className="border-bottom w-50 mx-auto my-2"></div>
@@ -184,7 +187,7 @@ function CheckoutCol2() {
           <h6 className="fw-bold fs-20">Total</h6>
         </div>
         <h6 className="ms-auto my-auto fw-bold fs-20 text-purple">
-          IDR {totalPrice}
+          {formatter.format(totalPrice)}
         </h6>
       </div>
     </Container>
