@@ -21,8 +21,7 @@ const Navbar1 = () => {
       Authorization: token,
     },
   };
-  const url =
-    "https://final-project-production-b6fe.up.railway.app/auth/whoami";
+  const url = `${process.env.REACT_APP_API_KEY}/auth/whoami`;
   const [user, setUser] = useState([]);
 
   const fetchData = async () => {
