@@ -140,7 +140,9 @@ const FlightForm = () => {
     return selectedPassengersString.trim();
   };
   const total_passenger =
-    selectedPassengers.adults + selectedPassengers.children;
+    selectedPassengers.adults +
+    selectedPassengers.children +
+    selectedPassengers.baby;
 
   const handleClick = () => {
     handleClose();
