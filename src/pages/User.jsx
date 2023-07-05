@@ -36,7 +36,12 @@ const User = () => {
 
   const fetchData = async () => {
     try {
+
       const response = await axios.get(url, config);
+
+
+
+
       setUser(response.data.data);
     } catch (error) {
       console.log(error);
