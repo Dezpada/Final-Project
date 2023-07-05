@@ -37,7 +37,7 @@ const User = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get(
-        "https://final-project-production-b6fe.up.railway.app/auth/whoami",
+        `${process.env.REACT_APP_API_KEY}/auth/whoami`,
         config
       );
       setUser(response.data.data);
