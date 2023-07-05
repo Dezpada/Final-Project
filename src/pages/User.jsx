@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Row, Col, Container, ListGroup, Form } from "react-bootstrap";
 import Navbar1 from "../components/header/Navbar1";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import NavbarMobile from "../components/header/NavbarMobile";
 
 const User = () => {
   const [user, setUser] = useState([]);
@@ -77,12 +78,18 @@ const User = () => {
             <Col md={2}></Col>
             <Col md={8}>
               <h5 className="fw-semibold my-4">Akun</h5>
-              <div className="d-flex">
-                <div className="py-2 my-auto bg-purple rounded-3 w-100 me-2">
-                  <button>
-                    <img src="/img/fi_arrow-left.svg" alt="" className="mx-2" />
-                  </button>
-                  <span className="text-white">Beranda</span>
+              <div className="py-2 my-auto bg-purple rounded-3 w-100 me-2">
+                <div className="d-flex">
+                  <div>
+                    <Link to={"/"}>
+                      <img
+                        src="/img/fi_arrow-left.svg"
+                        alt=""
+                        className="mx-2"
+                      />
+                    </Link>
+                  </div>
+                  <h6 className="text-white my-auto">Beranda</h6>
                 </div>
               </div>
             </Col>
@@ -90,7 +97,7 @@ const User = () => {
           </Row>
         </Container>
       </div>
-      <div>
+      <div className="overflow-y-scroll mb-5">
         <Container>
           <Row className="mt-5">
             <Col md={2}></Col>
@@ -119,7 +126,7 @@ const User = () => {
                   </ListGroup>
                 </Col>
                 <Col md={8}>
-                  <div className="border p-2">
+                  <div className="border p-2 mb-5">
                     <h5 className="fw-semibold my-4">Ubah data Profil</h5>
                     <div className="rounded-top-3 bg-purple text-white">
                       <h6 className="ms-3 p-2">Data Diri</h6>
@@ -171,6 +178,9 @@ const User = () => {
           </Row>
         </Container>
       </div>
+      <div className="mb-5"></div>
+      <div className="mb-5"></div>
+      <NavbarMobile />
     </>
   );
 };

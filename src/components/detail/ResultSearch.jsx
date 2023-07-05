@@ -279,12 +279,12 @@ const ResultSearch = ({
           <Accordion className="my-3" key={flight.id}>
             <Accordion.Item eventKey="0">
               <Accordion.Header>
-                <div>
-                  <div className="d-flex flex-row">
+                <div className="w-100">
+                  <div className="d-flex">
                     <img
                       src={flight.airplane.airline.icon_url}
                       alt=""
-                      style={{ width: "20px" }}
+                      style={{ width: "20px", height: "auto" }}
                     />
                     <h6 className="fw-semibold fs-12 my-auto ms-2">
                       {flight.flight_number}
@@ -293,36 +293,43 @@ const ResultSearch = ({
                     <h6 className="fw-semibold fs-12 my-auto ">
                       {flight.class}
                     </h6>
+                    <div className="ms-auto d-sm-none d-block">
+                      <h6 className="ms-auto text-purple fs-14 fw-semibold">
+                        {formatter.format(flight.price)}
+                      </h6>
+                    </div>
                   </div>
                   <div className="d-flex">
-                    <div className="my-auto">
-                      <h6 className="fw-semibold fs-14 ">
-                        {flight.departure_time}
-                      </h6>
-                      <h6 className="fw-semibold fs-12 ">
-                        {flight.departureAirport.iata_code}
-                      </h6>
-                    </div>
-                    <div className="d-flex flex-column">
-                      <h6 className="fs-12 mx-auto">
-                        {flight.flight_duration} m
-                      </h6>
-                      <img src="/img/Arrow.svg" alt="" />
-                      <h6 className="fs-12 mt-2 mx-auto">Direct</h6>
-                    </div>
-                    <div className="my-auto">
-                      <h6 className="fw-semibold fs-14 ">
-                        {flight.arrival_time}
-                      </h6>
-                      <h6 className="fw-semibold fs-12 ">
-                        {flight.arrivalAirport.iata_code}
-                      </h6>
-                    </div>
                     <div className="d-flex">
-                      <div className=" my-auto mx-5">
-                        <img src="/img/baggage.svg" alt="" />
+                      <div className="my-auto">
+                        <h6 className="fw-semibold fs-14 ">
+                          {flight.departure_time}
+                        </h6>
+                        <h6 className="fw-semibold fs-12 ">
+                          {flight.departureAirport.iata_code}
+                        </h6>
                       </div>
                       <div className="d-flex flex-column">
+                        <h6 className="fs-12 mx-auto">
+                          {flight.flight_duration} m
+                        </h6>
+                        <img src="/img/Arrow.svg" alt="" />
+                        <h6 className="fs-12 mt-2 mx-auto">Direct</h6>
+                      </div>
+                      <div className="my-auto">
+                        <h6 className="fw-semibold fs-14 ">
+                          {flight.arrival_time}
+                        </h6>
+                        <h6 className="fw-semibold fs-12 ">
+                          {flight.arrivalAirport.iata_code}
+                        </h6>
+                      </div>
+                    </div>
+                    <div className="d-flex justify-content-evenly w-100">
+                      <div className=" my-auto d-none d-sm-block">
+                        <img src="/img/baggage.svg" alt="" />
+                      </div>
+                      <div className="d-flex flex-column d-none d-sm-block">
                         <h5 className="text-purple fw-semibold">
                           {formatter.format(flight.price)}
                         </h5>
@@ -397,6 +404,12 @@ const ResultSearch = ({
                   </div>
                   <h6 className="ms-auto my-auto fw-bold fs-12 text-purple">
                     Kedatangan
+                  </h6>
+                </div>
+                <div className="d-flex mt-3 d-sm-none d-block">
+                  <h6 className="text-purple fs-14 fw-bold">Price :</h6>
+                  <h6 className="ms-auto text-purple fs-14 fw-bold">
+                    {formatter.format(flight.price)}
                   </h6>
                 </div>
                 <div className=" mx-auto ">
