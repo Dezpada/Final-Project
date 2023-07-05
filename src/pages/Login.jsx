@@ -115,7 +115,6 @@ function Login() {
                   height={200}
                 />
               </a>
-
               <h2 className="mb-3 ps-5 pb-3" style={{ fontWeight: "bold" }}>
                 Masuk
               </h2>

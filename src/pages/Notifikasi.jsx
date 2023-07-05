@@ -1,66 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Row, Col, Container } from "react-bootstrap";
 import Navbar1 from "../components/header/Navbar1";
-
-const data = [
-  {
-    id: 1,
-    title: "promosi",
-    content:
-      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptate, voluptatem nam. Error dolorem laborum dolorum molestiae corrupti enim recusandae? Sapiente!",
-    date: "23 Maret 2014",
-    clock: "20:00",
-  },
-  {
-    id: 2,
-    title: "notifikasi",
-    content:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae ipsa placeat, aspernatur repudiandae quo similique vel tempora hic repellendus quidem, voluptatibus, nulla necessitatibus labore enim.",
-    date: "23 Maret 2020",
-    clock: "20.25",
-  },
-  {
-    id: 3,
-    title: "kejutan",
-    content:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi eius labore porro officiis reiciendis cumque.",
-    date: "10 January 2001",
-    clock: "11:05",
-  },
-  {
-    id: 4,
-    title: "notifikasi",
-    content:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae ipsa placeat, aspernatur repudiandae quo similique vel tempora hic repellendus quidem, voluptatibus, nulla necessitatibus labore enim.",
-    date: "23 Maret 2020",
-    clock: "20.25",
-  },
-  {
-    id: 5,
-    title: "diskon",
-    content:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae ipsa placeat, aspernatur repudiandae quo similique vel tempora hic repellendus quidem, voluptatibus, nulla necessitatibus labore enim.",
-    date: "23 Maret 2020",
-    clock: "20.25",
-  },
-];
-
-const NotifList = ({ notif }) => {
-  return (
-    <div className="border-bottom my-2">
-      <div className="d-flex">
-        <img src="/img/bell-notif.svg" alt="" className="me-1" />
-        <h6 className="text-secondary fs-14 ms-4">{notif.title}</h6>
-        <div className="ms-auto text-secondary fs-14">
-          {notif.date}, {notif.clock}
-        </div>
-      </div>
-      <h6 className="fs-16 ms-5">{notif.content}</h6>
-    </div>
-  );
-};
+import axios from "axios";
 
 const Notifikasi = () => {
+  const [data, setData] = useState([]);
+
+  const url =
+    "https://final-project-production-b6fe.up.railway.app/notifications";
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(url);
+      setData(response.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
   return (
     <>
       <Navbar1 />
@@ -84,13 +43,23 @@ const Notifikasi = () => {
         </Container>
       </div>
       <Container>
-        {/* ISI NOTIFIKASI */}
         <Row className="mt-5">
           <Col md={2}></Col>
           <Col md={8}>
-            {data.map((notif) => (
-              <NotifList key={notif.id} notif={notif} />
+            {/* ISI NOTIFIKASI */}
+            {data?.map((item) => (
+              <div className="border-bottom my-2" key={item.id}>
+                <div className="d-flex">
+                  <img src="/img/bell-notif.svg" alt="" className="me-1" />
+                  <h6 className="text-secondary fs-14 ms-4">{item.title}</h6>
+                  <div className="ms-auto text-secondary fs-14">
+                    23 jan 2333, 09:00
+                  </div>
+                </div>
+                <h6 className="fs-16 ms-5">{item.description}</h6>
+              </div>
             ))}
+            {/* END NOTIFIKASI */}
           </Col>
           <Col md={2}></Col>
         </Row>

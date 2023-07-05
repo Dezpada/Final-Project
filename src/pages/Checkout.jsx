@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Accordion, Card, Col, Container, Form, Row } from "react-bootstrap";
 import Navbar1 from "../components/header/Navbar1";
 import NavbarCO from "../components/checkout/NavbarCO";

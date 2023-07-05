@@ -18,6 +18,12 @@ function CheckoutCol2() {
 
   const params = useParams();
 
+  const formatter = new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+    minimumFractionDigits: 0,
+  });
+
   function calculatePricePassengers() {
     try {
       const passengers = window.localStorage.getItem("passengers");

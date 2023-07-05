@@ -13,6 +13,11 @@
   transition: background-color 0.5s ease;
 }
 
+.active-btn {
+  background-color: #a06ece;
+  color: #fff;
+}
+
 .bg-detail {
   background-color: #fff;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
@@ -40,4 +45,22 @@
 
 .text-purple {
   color: #7126b5;
+}
+
+.custom-radio input[type="radio"] {
+  display: none;
+}
+
+.custom-radio label {
+  display: inline-block;
+  width: 100%;
+
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+
+/* Gaya ketika label radio button aktif atau terpilih */
+.custom-radio input[type="radio"]:checked + label {
+  background-color: #a06ece;
+  color: #fff; /* Ubah warna sesuai kebutuhan */
 }

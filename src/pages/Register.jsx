@@ -266,6 +266,17 @@ function Register() {
                   </div>
                 ) : null}
 
+                {resendOtp ? (
+                  <div className="text-center">
+                    Tidak menerima email otp?{" "}
+                    {
+                      <a href="?" onClick={resendClick}>
+                        Klik disini
+                      </a>
+                    }
+                  </div>
+                ) : null}
+
                 <div className="d-grid gap-2">
                   <Button type="submit" className="mt-4 btn-ungu">
                     Daftar

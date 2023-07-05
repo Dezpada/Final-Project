@@ -146,6 +146,7 @@ function ForgetPass() {
 
   return (
     <Container className="my-4">
+    <Container className="my-4">
       <Card>
         <Row className="g-0">
           <Col md="6">
@@ -171,8 +172,30 @@ function ForgetPass() {
                 Reset Password
               </h2>
               <Form className="mb-4 mx-5" onSubmit={onSubmit}>
+              <Form className="mb-4 mx-5" onSubmit={onSubmit}>
                 <Form.Group className="my-4" controlId="formBasicPassword">
                   <Form.Label>Masukkan Password Baru</Form.Label>
+                  <InputGroup className="mb-3">
+                    <Form.Control
+                      type={passwordType}
+                      placeholder="Masukkan password baru"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <Button
+                      onClick={togglePassword}
+                      style={{
+                        backgroundColor: "transparent",
+                        borderColor: "#7126b5",
+                      }}
+                    >
+                      {passwordType === "password" ? (
+                        <FaEyeSlash color="#7126b5" />
+                      ) : (
+                        <FaEye color="#7126b5" />
+                      )}
+                    </Button>
+                  </InputGroup>
                   <InputGroup className="mb-3">
                     <Form.Control
                       type={passwordType}
@@ -197,7 +220,29 @@ function ForgetPass() {
                 </Form.Group>
 
                 <Form.Group className="my-4" controlId="formConfirmPassword">
+                <Form.Group className="my-4" controlId="formConfirmPassword">
                   <Form.Label>Ulangi Password Baru</Form.Label>
+                  <InputGroup className="mb-3">
+                    <Form.Control
+                      type={confirmPasswordType}
+                      placeholder="Ulangi password baru"
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                    />
+                    <Button
+                      onClick={toggleConfirmPassword}
+                      style={{
+                        backgroundColor: "transparent",
+                        borderColor: "#7126b5",
+                      }}
+                    >
+                      {confirmPasswordType === "password" ? (
+                        <FaEyeSlash color="#7126b5" />
+                      ) : (
+                        <FaEye color="#7126b5" />
+                      )}
+                    </Button>
+                  </InputGroup>
                   <InputGroup className="mb-3">
                     <Form.Control
                       type={confirmPasswordType}
