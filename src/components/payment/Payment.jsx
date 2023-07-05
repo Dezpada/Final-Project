@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Button, Modal } from "react-bootstrap";
 import { FiChevronDown, FiChevronUp } from "react-icons/fi";
 // import masterCard from '../assets/mastercard_logo.png';
 import "./Payment.css";
-import { Link } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
+import axios from "axios";
+import moment from "moment";
+import "moment/locale/id";
+moment.locale("id");
 
 function Payment() {
   const [setShowForm] = useState(false);
@@ -38,12 +42,59 @@ function Payment() {
     }
   };
 
-  // const handleClick = (formType) => {
-  //   // Mengatur form yang ditampilkan berdasarkan tombol yang diklik
-  //   setIsGopayFormVisible(formType === "gopay");
-  //   setIsVirtualAccountFormVisible(formType === "virtualAccount");
-  //   setIsCreditCardFormVisible(formType === "creditCard");
-  // };
+  const [flight, setFlight] = useState("");
+  const [departureAirport, setDepartureAirport] = useState("");
+  const [arrivalAirport, setArrivalAirport] = useState("");
+  const [airplane, setAirplane] = useState("");
+  const [airline, setAirline] = useState("");
+  const [passenger, setPassenger] = useState(0);
+  const [price, setPrice] = useState(0);
+  const [totalPrice, setTotalPrice] = useState();
+
+  const params = useParams();
+
+  useEffect(() => {
+    async function fetchPost() {
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_KEY}/flight/${params.id}`
+        );
+        setFlight(response.data.data);
+        setDepartureAirport(response.data.data.departureAirport);
+        setArrivalAirport(response.data.data.arrivalAirport);
+        setAirplane(response.data.data.airplane);
+        setAirline(response.data.data.airplane.airline);
+        //console.log(flight.price);
+        calculatePricePassengers();
+        calculatePriceTotal();
+      } catch (error) {
+        alert(error);
+      }
+    }
+
+    function calculatePricePassengers() {
+      try {
+        const passengers = window.localStorage.getItem("passengers");
+        setPassenger(passengers);
+
+        setPrice(parseInt(passenger) * parseInt(flight.price));
+      } catch (error) {
+        alert(error);
+      }
+    }
+
+    function calculatePriceTotal() {
+      try {
+        setTotalPrice(parseInt(price) + 300000);
+      } catch (error) {
+        alert(error);
+      }
+    }
+
+    if (params?.id) {
+      fetchPost();
+    }
+  }, [params]);
 
   const handleChange = (e) => {
     setFormData({
@@ -58,11 +109,26 @@ function Payment() {
     setFormData({
       cardNumber: "",
       cardHolderName: "",
-      ccv: "",
-      expiryDate: "",
     });
     setShowForm(false);
   };
+
+  const handlePayment = () => {
+    // Data yang akan dikirim ke API
+    const data = {
+      // ...isi data yang ingin dikirim
+    };
+    axios
+      .post(`${process.env.REACT_APP_API_KEY}/flight/booking/checkout`, data)
+      .then((response) => {
+        console.log(response.data);
+        navigate("/payment-success");
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+  const navigate = useNavigate();
 
   const [showModal, setShowModal] = useState(false);
   const handleModalShow = () => {
@@ -158,11 +224,11 @@ function Payment() {
                     <Button
                       type="submit"
                       size="md"
-                      // className="custom-button-lgn text-light custom-button-small"
                       style={{
                         width: "96%",
                         backgroundColor: "#7126B5",
                       }}
+                      onClick={handlePayment}
                       as={Link}
                       to="/payment-success"
                     >
@@ -222,11 +288,11 @@ function Payment() {
                     <Button
                       type="submit"
                       size="md"
-                      // className="custom-button-lgn text-light custom-button-small"
                       style={{
                         width: "96%",
                         backgroundColor: "#7126B5",
                       }}
+                      onClick={handlePayment}
                       as={Link}
                       to="/payment-success"
                     >
@@ -304,6 +370,7 @@ function Payment() {
                         width: "96%",
                         backgroundColor: "#7126B5",
                       }}
+                      onClick={handlePayment}
                       as={Link}
                       to="/payment-success"
                     >
@@ -322,11 +389,12 @@ function Payment() {
               <div style={{ margin: "40px 0" }}></div>
               <div className="d-flex justify-content-between"></div>
               <p className="fw-bold">
-                Booking Code: <b className="total-clr">6723y2GHK</b>
+                Booking Code:{" "}
+                <b className="total-clr">{flight.flight_number}</b>
               </p>
               <Row>
                 <Col>
-                  <p className="fw-bold">07:00</p>
+                  <p className="fw-bold">{flight.departure_time}</p>
                 </Col>
                 <Col style={{ textAlign: "right" }}>
                   <p className="ms-auto my-auto fs-12 txt-clr fw-bold">
@@ -335,10 +403,11 @@ function Payment() {
                 </Col>
               </Row>
               <p>
-                3 Maret 2023
+                {flight.flight_date}
                 <br />
                 <span className="fw-bold">
-                  Soekarno Hatta - Terminal 1A Domestik
+                  {flight.departureAirport.name} -{" "}
+                  {flight.departure_terminal_name}
                 </span>
               </p>
               <hr />
@@ -349,21 +418,32 @@ function Payment() {
             <Col>
               <div className="d-flex">
                 <div className="me-1 my-auto">
-                  <img src="/img/logo_leaf.svg" alt="" />
+                  <img
+                    src={flight.airplane.airline.icon_url}
+                    alt=""
+                    style={{
+                      width: "50px",
+                      height: "50px",
+                      marginRight: "12px",
+                    }}
+                  />
                 </div>
                 <div className="d-flex flex-column ml-1">
                   <div>
                     <div className="d-flex">
                       <p className="fw-bold fs-14">
-                        Jet Air - Economy <br />
-                        JT - 203
+                        {flight.airplane.airline.name} - {flight.class} <br />
+                        {flight.airplane.airline_code} - {flight.flight_number}
                       </p>
                     </div>
                   </div>
                   <p>
                     <span className="fw-bold">Informasi: </span>
-                    <br /> <span className="fw-medium">Baggage 20 kg</span>
-                    <br /> Cabin baggage 7 kg
+                    <br />{" "}
+                    <span className="fw-medium">
+                      Baggage {flight.free_baggage} kg
+                    </span>
+                    <br /> Cabin baggage {flight.cabin_baggage} kg
                     <br /> In Flight Entertainment
                   </p>
                 </div>
@@ -374,7 +454,7 @@ function Payment() {
           <Row>
             <Row>
               <Col>
-                <p className="fw-bold">11:00</p>
+                <p className="fw-bold">{flight.arrival_time}</p>
               </Col>
               <Col style={{ textAlign: "right" }}>
                 <p className="ms-auto my-auto fs-12 txt-clr fw-bold">
@@ -383,9 +463,11 @@ function Payment() {
               </Col>
             </Row>
             <p>
-              3 Maret 2023
+              {flight.flight_date}
               <br />
-              <span className="fw-bold">Melbourne International Airport</span>
+              <span className="fw-bold">
+                {flight.arrivalAirport.name} - {flight.arrival_terminal_name}
+              </span>
             </p>
             <hr />
           </Row>
@@ -393,19 +475,16 @@ function Payment() {
             <p className="fw-bold">Rincian Harga</p>
             <Col>
               <p>
-                2 Adults
-                <br />1 Baby
+                {passenger} Passenger
                 <br />
                 Tax
               </p>
             </Col>
             <Col style={{ textAlign: "right" }}>
               <p>
-                IDR 9.550.000
+                IDR {price}
                 <br />
-                IDR 0
-                <br />
-                IDR 300.000
+                IDR 300000
               </p>
             </Col>
             <hr />
@@ -415,9 +494,10 @@ function Payment() {
               <p>Total</p>
             </Col>
             <Col style={{ textAlign: "right" }}>
-              <p className="total-clr">IDR 9.850.000</p>
+              <p className="total-clr">IDR {totalPrice}</p>
             </Col>
           </Row>
+          <p>Loading...</p>
         </Col>
       </Row>
     </Container>

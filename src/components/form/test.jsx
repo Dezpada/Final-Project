@@ -21,13 +21,22 @@ import axios from "axios";
 
 const FlightForm = () => {
   // set req body awal
-
+  const [formData, setFormData] = useState({
+    class: "ECONOMY",
+    destination_airport: 1,
+    flight_date: "",
+    origin_airport: 1,
+    departure_date: "",
+    return_date: "",
+    // total_passenger: 1,
+    tripType: "oneway",
+  });
   // get api oneway / twoway
   const getApiEndpoint = (tripType) => {
     if (tripType === "oneway") {
-      return `${process.env.REACT_APP_API_KEY}/flight/search/oneway`;
+      return "https://final-project-production-b6fe.up.railway.app/flight/search/oneway";
     } else {
-      return `${process.env.REACT_APP_API_KEY}/flight/search/twoway`;
+      return "https://final-project-production-b6fe.up.railway.app/flight/search/twoway";
     }
   };
   // get req body oneway / twoway
@@ -37,10 +46,7 @@ const FlightForm = () => {
         origin_airport: Number(formData.origin_airport),
         destination_airport: Number(formData.destination_airport),
         flight_date: formData.flight_date,
-        total_passenger: total_passenger,
-        adults: selectedPassengers.adults,
-        child: selectedPassengers.children,
-        baby: selectedPassengers.baby,
+        total_passenger: formData.total_passenger,
         class: formData.class,
         tripType: formData.tripType,
       };
@@ -50,10 +56,7 @@ const FlightForm = () => {
         destination_airport: Number(formData.destination_airport),
         departure_date: formData.flight_date,
         return_date: formData.return_date,
-        total_passenger: total_passenger,
-        adults: selectedPassengers.adults,
-        child: selectedPassengers.children,
-        baby: selectedPassengers.baby,
+        total_passenger: formData.total_passenger,
         class: formData.class,
         tripType: formData.tripType,
         flight_date: formData.flight_date,
@@ -64,7 +67,7 @@ const FlightForm = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_API_KEY}/airports?page=1&per_page=50`
+        "https://final-project-production-b6fe.up.railway.app/airports?page=1&per_page=50"
       );
       setAirports(response.data.data);
     } catch (error) {
@@ -139,24 +142,10 @@ const FlightForm = () => {
 
     return selectedPassengersString.trim();
   };
-  const total_passenger =
-    selectedPassengers.adults +
-    selectedPassengers.children +
-    selectedPassengers.baby;
 
   const handleClick = () => {
     handleClose();
   };
-  const [formData, setFormData] = useState({
-    class: "ECONOMY",
-    destination_airport: 1,
-    flight_date: "",
-    origin_airport: 1,
-    departure_date: "",
-    return_date: "",
-    total_passenger: total_passenger,
-    tripType: "oneway",
-  });
 
   return (
     <Container className="mt-1">
@@ -168,9 +157,13 @@ const FlightForm = () => {
                 <Row>
                   <Col xs={12} md={6}>
                     <Form.Group controlId="origin_airport">
-                      <Form.Label className="label">
+                      <Form.Label
+                        className="label"
+                        style={{ color: "#7126b5", fontWeight: "bold" }}
+                      >
                         <FaPlaneDeparture className="icon" /> Dari
                       </Form.Label>
+
                       <Form.Control
                         as="select"
                         name="origin_airport"
@@ -187,7 +180,10 @@ const FlightForm = () => {
                   </Col>
                   <Col xs={12} md={6}>
                     <Form.Group controlId="destination_airport">
-                      <Form.Label className="label">
+                      <Form.Label
+                        className="label"
+                        style={{ color: "#7126b5", fontWeight: "bold" }}
+                      >
                         <FaPlaneArrival className="icon" /> Tujuan
                       </Form.Label>
                       <Form.Control
@@ -211,7 +207,10 @@ const FlightForm = () => {
                     <Row>
                       <Col xs={12} md={6} className="mt-2">
                         <Form.Group controlId="flight_date">
-                          <Form.Label className="label">
+                          <Form.Label
+                            className="label"
+                            style={{ color: "#7126b5", fontWeight: "bold" }}
+                          >
                             <FaCalendarAlt className="icon" /> Tanggal
                             Keberangkatan
                           </Form.Label>
@@ -233,13 +232,16 @@ const FlightForm = () => {
                             checked={formData.tripType === "twoway"}
                             onChange={handleTripTypeChange}
                           />
-                          <h6>Pulang/Pergi </h6>
+                          <h6 style={{ color: "#7126b5" }}>Pulang/Pergi</h6>
                         </div>
                       </Col>
                       {formData.tripType === "twoway" && (
                         <Col xs={12} md={6} className="mt-2">
                           <Form.Group controlId="return_date">
-                            <Form.Label className="label">
+                            <Form.Label
+                              className="label"
+                              style={{ color: "#7126b5", fontWeight: "bold" }}
+                            >
                               <FaCalendarAlt className="icon" /> Tanggal Kembali
                             </Form.Label>
                             <Form.Control
@@ -346,7 +348,10 @@ const FlightForm = () => {
                       </Col>
                       <Col xs={6} md={6} className="mt-2">
                         <Form.Group controlId="class">
-                          <Form.Label className="label">
+                          <Form.Label
+                            className="label"
+                            style={{ color: "#7126b5", fontWeight: "bold" }}
+                          >
                             <FaCogs className="icon" /> Kelas
                           </Form.Label>
                           <Form.Control

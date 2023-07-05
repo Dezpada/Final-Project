@@ -5,7 +5,6 @@ import RiwayatFilter from "../components/riwayat/RiwayatFilter";
 import RiwayatPesanan from "../components/riwayat/RiwayatPesanan";
 
 const Riwayat = () => {
-
   return (
     <>
       <Navbar1 />
@@ -21,6 +20,9 @@ const Riwayat = () => {
           </Col>
         </Row>
       </Container>
+      <div className="mb-5"></div>
+      <div className="mb-5"></div>
+      <NavbarMobile />
     </>
   );
 };
