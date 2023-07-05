@@ -5,6 +5,7 @@ import './DesFav.css';
 
 const API_URL = `${process.env.REACT_APP_API_KEY}/flight`;
 
+
 const DestinationCard = ({ destination }) => {
   return (
     <Card.Text className='card-dest' >
