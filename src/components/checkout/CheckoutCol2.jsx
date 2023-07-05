@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import axios from "axios";
 import moment from "moment";
 import "moment/locale/id";
@@ -24,10 +24,12 @@ function CheckoutCol2() {
     minimumFractionDigits: 0,
   });
 
+  const location = useLocation();
+
   function calculatePricePassengers() {
     try {
-      const passengers = window.localStorage.getItem("passengers");
-      setPassenger(passengers);
+      const { total_passenger } = location.state;
+      setPassenger(total_passenger);
       if (!isNaN(flight.price)) {
         setPrice(+passenger * +flight.price);
       } else {

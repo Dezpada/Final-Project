@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Navbar1 = () => {
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("Authorization");
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   useEffect(() => {

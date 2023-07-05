@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 const User = () => {
   const [user, setUser] = useState([]);
 
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("Authorization");
 
   const url = "https://final-project-production-b6fe.up.railway.app/auth/user";
 
@@ -107,7 +107,7 @@ const User = () => {
 
                     <button
                       onClick={() => {
-                        localStorage.removeItem("token");
+                        localStorage.removeItem("Authorization");
                         return navigate("/");
                       }}
                     >

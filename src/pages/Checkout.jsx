@@ -7,59 +7,126 @@ import CheckoutCol2 from "../components/checkout/CheckoutCol2";
 import ItemCard from "../components/checkout/ItemCard";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function Checkout() {
   const [show, setShow] = useState(false);
-  const toggleFamilyName = () => setShow(!show);
+  const [passengerData, setPassengerData] = useState([]);
+  const [total_passenger, setTotalPassenger] = useState("");
+  const [adultPassenger, setAdultPassenger] = useState();
+  const [kidPasenger, setKidPasenger] = useState();
+  const [babyPassenger, setBabyPassenger] = useState();
+  const [departure_flight_id, setDepartFlightID] = useState("");
+  const [return_flight_id, setReturnFlightID] = useState("");
+  const [is_roundtrip, setRoundTrip] = useState(false);
+  const navigate = useNavigate();
 
-  const handleOnClick = async (e) => {
-    // try {
-    //   let data = JSON.stringify({
-    //     name,
-    //     email,
-    //     telp,
-    //     password,
-    //   });
-    //   let config = {
-    //     method: "post",
-    //     url: `${process.env.REACT_APP_API_KEY}/flight/booking`,
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     data: data,
-    //   };
-    //   const response = await axios.request(config);
-    //   toast.success(response.data.message);
-    // } catch (error) {
-    //   if (axios.isAxiosError(error)) {
-    //     toast.error(error.response.data.message);
-    //     return;
-    //   }
-    //   toast.error(error.message);
-    // }
-    // window.location.href = "/";
+  const toggleFamilyName = () => setShow(!show);
+  const location = useLocation();
+
+  const handleDataChange = (index, newData) => {
+    setPassengerData((prevData) => {
+      const updatedData = [...prevData];
+      updatedData[index] = newData;
+      return updatedData;
+    });
   };
 
-  const location = useLocation();
-  const { requestBody } = location.state;
+  const handleOnClick = async (e) => {
+    try {
+      let payload = JSON.stringify({
+        total_passenger,
+        departure_flight_id, // provide the departure flight ID
+        return_flight_id, // provide the return flight ID
+        is_roundtrip, // or false depending on your logic
+        dataPassenger: passengerData,
+      });
+      let token = localStorage.getItem("Authorization");
+      console.log(token);
+      console.log(payload);
+      let config = {
+        method: "post",
+        maxBodyLength: Infinity,
+        url: "https://final-project-production-b6fe.up.railway.app/flight/booking",
+        headers: {
+          Authorization: token,
+          "Content-Type": "application/json",
+        },
+        data: payload,
+      };
+
+      const response = await axios.request(config);
+      const { ticketCode } = response.data.data.ticket_code;
+      toast.success(response.data.message);
+      navigate(`/page-payment/${ticketCode}`, {
+        state: { ticket_code: ticketCode },
+      });
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error(error.message);
+      }
+    }
+    // window.location.href = "/";
+  };
+  // const handleOnClick = async (e) => {
+  // try {
+  //   let data = JSON.stringify({
+  //     name,
+  //     email,
+  //     telp,
+  //     password,
+  //   });
+  //   let config = {
+  //     method: "post",
+  //     url: `${process.env.REACT_APP_API_KEY}/flight/booking`,
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     data: data,
+  //   };
+  //   const response = await axios.request(config);
+  //   toast.success(response.data.message);
+  // } catch (error) {
+  //   if (axios.isAxiosError(error)) {
+  //     toast.error(error.response.data.message);
+  //     return;
+  //   }
+  //   toast.error(error.message);
+  // }
+  // window.location.href = "/";
+  //};
 
   const renderCard = () => {
-    const passenger = window.localStorage.getItem("passengers");
-    let data = [];
-    console.log(passenger, "total passenger value");
+    const passenger = total_passenger;
+    let newData = [];
     for (let i = 0; i < passenger; i++) {
-      data.push(i);
+      newData.push(i);
     }
-    return data?.map((value, index) => {
-      console.log(data, value, index);
+    return newData?.map((value, index) => {
       return (
-        <div>
-          <ItemCard />
+        <div key={index}>
+          <ItemCard
+            handleDataChange={(data) => handleDataChange(index, data)}
+          />
         </div>
       );
     });
   };
+
+  useEffect(() => {
+    const { total_passenger, flight_id, is_roundtrip } = location.state;
+    setTotalPassenger(total_passenger);
+    setRoundTrip(is_roundtrip);
+    setDepartFlightID(flight_id);
+    // if (roundTrip === false) {
+    //   setDepartFlightID(flight_id);
+    // } else {
+    //   setDepartFlightID(flight_id);
+    //   setReturnFlightID(return_flight_id);
+    // }
+  }, [location.state]);
 
   return (
     <>
@@ -172,14 +239,6 @@ function Checkout() {
                   <Accordion.Body>{renderCard()}</Accordion.Body>
                 </Accordion.Item>
               </Accordion>
-              <div className=" mx-auto my-3 ">
-                <button
-                  className="w-100 bg-purple rounded-3 px-5 py-2 text-white fw-normal fs-30"
-                  disabled
-                >
-                  Simpan
-                </button>
-              </div>
             </Row>
           </Col>
           <Col md>

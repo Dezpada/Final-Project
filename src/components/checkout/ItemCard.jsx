@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Card, Col, Form, Row } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
 
-function ItemCard() {
-  const navigate = useNavigate();
+function ItemCard({ handleDataChange }) {
   const [formData, setFormData] = useState({
     title: "",
     name: "",
@@ -16,19 +14,7 @@ function ItemCard() {
     validUntil: "",
   });
 
-  const getRequestBody = (formData) => {
-    return {
-      title: formData.title,
-      name: formData.name,
-      familyName: formData.familyName,
-      birth: formData.birth,
-      nationality: formData.nationality,
-      telp: formData.telp,
-      passpor: formData.passpor,
-      originCountry: formData.originCountry,
-      validUntil: formData.validUntil,
-    };
-  };
+  const [show, setShow] = useState(true);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -38,12 +24,11 @@ function ItemCard() {
     }));
   };
 
-  useEffect(() => {
-    navigate("", { state: {} });
-  });
-
-  const [show, setShow] = useState(false);
   const toggleFamilyName = () => setShow(!show);
+
+  useEffect(() => {
+    handleDataChange(formData);
+  }, [formData, handleDataChange]);
   return (
     <Card className="mb-3">
       <Card.Header style={{ background: "#3C3C3C", color: "white" }}>
@@ -58,13 +43,17 @@ function ItemCard() {
             <Row>
               <Col md={3}>
                 <Form.Select>
-                  <option hidden selected>
+                  <option disabled hidden>
                     Title
                   </option>
-                  <option value={formData.title} onChange={handleInputChange}>
+                  <option name="title" value="Mr." onChange={handleInputChange}>
                     Mr.
                   </option>
-                  <option value={formData.title} onChange={handleInputChange}>
+                  <option
+                    name="title"
+                    value="Mrs."
+                    onChange={handleInputChange}
+                  >
                     Mrs.
                   </option>
                 </Form.Select>
@@ -73,6 +62,7 @@ function ItemCard() {
                 <Form.Control
                   type="name"
                   placeholder="Masukkan Nama Lengkap"
+                  name="name"
                   value={formData.name}
                   onChange={handleInputChange}
                 />
@@ -88,6 +78,7 @@ function ItemCard() {
                 <Form.Check // prettier-ignore
                   type="switch"
                   id="custom-switch"
+                  checked={show}
                   onChange={toggleFamilyName}
                   trackColor={{
                     true: "#4B1979",
@@ -105,6 +96,7 @@ function ItemCard() {
               <Form.Control
                 type="name"
                 placeholder="Masukkan Nama Keluarga"
+                name="familyName"
                 value={formData.familyName}
                 onChange={handleInputChange}
               />
@@ -117,6 +109,7 @@ function ItemCard() {
             <Form.Control
               type="tel"
               placeholder="+62 ."
+              name="telp"
               value={formData.telp}
               onChange={handleInputChange}
             />
@@ -127,6 +120,7 @@ function ItemCard() {
             </Form.Label>
             <Form.Control
               type="date"
+              name="birth"
               value={formData.birth}
               onChange={handleInputChange}
             />
@@ -137,6 +131,7 @@ function ItemCard() {
             </Form.Label>
             <Form.Control
               type="text"
+              name="nationality"
               value={formData.nationality}
               onChange={handleInputChange}
             />
@@ -147,6 +142,7 @@ function ItemCard() {
             </Form.Label>
             <Form.Control
               type="text"
+              name="passpor"
               value={formData.passpor}
               onChange={handleInputChange}
             />
@@ -157,6 +153,7 @@ function ItemCard() {
             </Form.Label>
             <Form.Control
               type="text"
+              name="originCountry"
               value={formData.originCountry}
               onChange={handleInputChange}
             />
@@ -167,6 +164,7 @@ function ItemCard() {
             </Form.Label>
             <Form.Control
               type="date"
+              name="validUntil"
               value={formData.validUntil}
               onChange={handleInputChange}
             />

@@ -12,10 +12,11 @@ import {
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import queryString from "query-string";
 
 function ForgetPass() {
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [confirm_new_password, setConfirmPassword] = useState("");
   const [passwordType, setPasswordType] = useState("password");
   const [confirmPasswordType, setConfirmPasswordType] = useState("password");
   const params = useParams();
@@ -110,27 +111,31 @@ function ForgetPass() {
       return;
     }
 
-    if (password !== confirmPassword) {
+    if (password !== confirm_new_password) {
       toast.error("Passwords do not match");
       return;
     }
 
     try {
+      const url = window.location.href;
+      console.log(url);
+      const parsed = queryString.parseUrl(url);
+      const token = parsed.query.token;
+      console.log(token);
       let data = JSON.stringify({
         password,
-        confirmPassword,
+        confirm_new_password,
       });
 
       let config = {
         method: "post",
-        url: `${process.env.REACT_APP_API_KEY}/auth/reset-password?token=${params.token}`,
+        url: `${process.env.REACT_APP_API_KEY}/auth/reset-password?token=${token}`,
         headers: {
           "Content-Type": "application/json",
         },
         data: data,
       };
 
-      console.log(params.token);
       const response = await axios.request(config);
       toast.success(response.data.message);
       setTimeout(3000);
@@ -145,7 +150,6 @@ function ForgetPass() {
   };
 
   return (
-    <Container className="my-4">
     <Container className="my-4">
       <Card>
         <Row className="g-0">
@@ -172,30 +176,8 @@ function ForgetPass() {
                 Reset Password
               </h2>
               <Form className="mb-4 mx-5" onSubmit={onSubmit}>
-              <Form className="mb-4 mx-5" onSubmit={onSubmit}>
                 <Form.Group className="my-4" controlId="formBasicPassword">
                   <Form.Label>Masukkan Password Baru</Form.Label>
-                  <InputGroup className="mb-3">
-                    <Form.Control
-                      type={passwordType}
-                      placeholder="Masukkan password baru"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                    />
-                    <Button
-                      onClick={togglePassword}
-                      style={{
-                        backgroundColor: "transparent",
-                        borderColor: "#7126b5",
-                      }}
-                    >
-                      {passwordType === "password" ? (
-                        <FaEyeSlash color="#7126b5" />
-                      ) : (
-                        <FaEye color="#7126b5" />
-                      )}
-                    </Button>
-                  </InputGroup>
                   <InputGroup className="mb-3">
                     <Form.Control
                       type={passwordType}
@@ -220,34 +202,12 @@ function ForgetPass() {
                 </Form.Group>
 
                 <Form.Group className="my-4" controlId="formConfirmPassword">
-                <Form.Group className="my-4" controlId="formConfirmPassword">
                   <Form.Label>Ulangi Password Baru</Form.Label>
                   <InputGroup className="mb-3">
                     <Form.Control
                       type={confirmPasswordType}
                       placeholder="Ulangi password baru"
-                      value={confirmPassword}
-                      onChange={(e) => setConfirmPassword(e.target.value)}
-                    />
-                    <Button
-                      onClick={toggleConfirmPassword}
-                      style={{
-                        backgroundColor: "transparent",
-                        borderColor: "#7126b5",
-                      }}
-                    >
-                      {confirmPasswordType === "password" ? (
-                        <FaEyeSlash color="#7126b5" />
-                      ) : (
-                        <FaEye color="#7126b5" />
-                      )}
-                    </Button>
-                  </InputGroup>
-                  <InputGroup className="mb-3">
-                    <Form.Control
-                      type={confirmPasswordType}
-                      placeholder="Ulangi password baru"
-                      value={confirmPassword}
+                      value={confirm_new_password}
                       onChange={(e) => setConfirmPassword(e.target.value)}
                     />
                     <Button

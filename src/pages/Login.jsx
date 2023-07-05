@@ -11,7 +11,6 @@ import {
 } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { FaEyeSlash, FaEye } from "react-icons/fa";
-import { Link } from "react-router-dom";
 
 function Login() {
   const [email, setEmail] = useState("");
