@@ -57,7 +57,7 @@ function Payment() {
     async function fetchPost() {
       try {
         const response = await axios.get(
-          `https://final-project-production-b6fe.up.railway.app/flight/${params.id}`
+          `${process.env.REACT_APP_API_KEY}/flight/${params.id}`
         );
         setFlight(response.data.data);
         setDepartureAirport(response.data.data.departureAirport);
@@ -119,16 +119,13 @@ function Payment() {
       // ...isi data yang ingin dikirim
     };
     axios
-      .post(
-        "https://final-project-production-b6fe.up.railway.app/flight/booking/checkout",
-        data
-      )
+      .post(`${process.env.REACT_APP_API_KEY}/flight/booking/checkout`, data)
       .then((response) => {
-        console.log(response.data); 
+        console.log(response.data);
         navigate("/payment-success");
       })
       .catch((error) => {
-        console.error(error); 
+        console.error(error);
       });
   };
   const navigate = useNavigate();

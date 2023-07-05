@@ -32,7 +32,7 @@ function App() {
         <Route path="/notifikasi" element={<Notifikasi />} />
         <Route path="/reset-pass" element={<ResetPass />} />
         <Route path="/otp" element={<Otp />} />
-        <Route path="/page-payment" element={<PagePayment />} />
+        <Route path="/page-payment/:ticket_code" element={<PagePayment />} />
         <Route path="/payment-success" element={<PaymentSuccess />} />
         <Route path="/checkout/:id" element={<Checkout />} />
       </Routes>
