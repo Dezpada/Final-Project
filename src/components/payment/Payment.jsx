@@ -126,7 +126,7 @@ function Payment() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData); 
+    console.log(formData);
     setFormData({
       cardNumber: "",
       cardHolderName: "",
@@ -137,8 +137,7 @@ function Payment() {
   const handlePayment = () => {
     // Data yang akan dikirim ke API
     const data = {
-      ticket_code: {
-      },
+      ticket_code: {},
     };
     axios
       .post(`${process.env.REACT_APP_API_KEY}/flight/booking/checkout`, data)
@@ -367,7 +366,7 @@ function Payment() {
                         value={formData.cardNumber}
                         onChange={handleChange}
                         className="borderless-input"
-                        style={{ width: "80%", marginLeft: "46px" }} 
+                        style={{ width: "80%", marginLeft: "46px" }}
                       />
                     </label>
                     <label className="fw-medium" style={{ textIndent: "50px" }}>
@@ -380,7 +379,7 @@ function Payment() {
                         value={formData.cardHolderName}
                         onChange={handleChange}
                         className="borderless-input"
-                        style={{ width: "80%", marginLeft: "46px" }} 
+                        style={{ width: "80%", marginLeft: "46px" }}
                       />
                     </label>
                   </Row>
