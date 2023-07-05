@@ -3,12 +3,12 @@ import { Container, Card } from 'react-bootstrap';
 import { FiSearch } from 'react-icons/fi';
 import './DesFav.css';
 
-const API_URL = 'https://final-project-develop-f89c.up.railway.app/flight';
+const API_URL = `${process.env.REACT_APP_API_KEY}/flight`;
 
 const DestinationCard = ({ destination }) => {
   return (
     <Card.Text className='card-dest' >
-      <img src={destination.airplane.airline.icon_url} alt={destination.arrivalAirport.name} className="destination-image" />
+      <img className="destination-image" src={destination.airplane.airline.icon_url} alt={destination.arrivalAirport.name} />
       <p className="desfav-name">{destination.departureAirport.city} =&gt; {destination.arrivalAirport.city}</p>
       <p className="maskapai">{destination.airplane.airline.name}</p>
       <p className="price-description">Mulai dari IDR <span className="price" style={{ color: 'red' }}>{destination.price}</span></p>

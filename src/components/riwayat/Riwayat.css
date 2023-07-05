@@ -189,8 +189,8 @@
 
 .duration-info {
   display: flex;
-  justify-content: center;
-  align-items: flex-start;
+  justify-content:center;
+  align-items:center;
 }
 
 .arrival-info {
@@ -198,13 +198,6 @@
   flex-direction: column;
   align-items: flex-end;
   margin-right: 5%;
-}
-
-.detick-info {
-  display: flex;
-  justify-content: center;
-  margin-right: 2%;
-  margin-left: 2%;
 }
 
 .departure-info span {
@@ -230,15 +223,18 @@
   
 }
 
+.dettik-info {
+  display: flex;
+  justify-content: center;
+  margin-right: 2%;
+  margin-left: 2%;
+}
+
 .price-info {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   margin-right: 2%;
-}
-.price-info strong {
-  margin-bottom: -25px;
-  margin-top: -10px;
 }
 
 .code-info {
@@ -247,13 +243,6 @@
   align-items: flex-start;
   margin-right: 2%;
 }
-.code-info span {
-  font-size: 16px;
-}
-.code-info strong {
-  margin-bottom: -25px;
-  margin-top: -10px;
-}
 
 .class-info {
   display: flex;
@@ -261,10 +250,203 @@
   align-items: center;
   margin-right: 6%;
 }
-.class-info span {
-  font-size: 14.5px;
+
+/* Responsif */
+@media screen and (max-width: 968px) {
+  .riwayat-heading,
+  .group-monthYear {
+    font-size: 16px;
+  }
+
+  .beranda-button {
+    width: 80%;
+  }
 }
-.class-info strong {
-  margin-bottom: -25px;
-  margin-top: -10px;
+
+@media screen and (max-width: 768px) {
+  /* filter */
+  .riwayat-heading,
+  .group-monthYear {
+    font-size: 16px;
+  }
+
+  .beranda-button {
+    width: 70%;
+  }
+  /* riwayat */
+  .departure-info-span1,
+  .duration-info-span1,
+  .arrival-info-span1,
+  .status-payment {
+    font-size: 14px;
+  }
+  .departure-info-span2,
+  .arrival-info-span2 {
+    font-size: 12px;
+  }
+  .departure-info-span3,
+  .duration-info-span3,
+  .arrival-info-span3 {
+    font-size: 13px;
+  }
+  .arrow-class {
+    font-size: 11px;
+  }
+  .dettik-info {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .code-info,
+  .class-info,
+  .price-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+  .code-info-span1,
+  .class-info-span1,
+  .price-info-span1 {
+    font-size: 13px;
+  }
+  .code-info-span2,
+  .class-info-span2,
+  .price-info-span2 {
+    text-align: right;
+    font-size: 13px;
+  }
+  /* detail */
 }
+@media screen and (max-width: 580px) {
+  /* riwayat */
+  .departure-info-span1,
+  .duration-info-span1,
+  .arrival-info-span1,
+  .status-payment {
+    font-size: 14px;
+  }
+  .departure-info-span2,
+  .arrival-info-span2 {
+    font-size: 12px;
+  }
+  .departure-info-span3,
+  .duration-info-span3,
+  .arrival-info-span3 {
+    font-size: 13px;
+  }
+  .arrow-class {
+    font-size: 11px;
+  }
+  .dettik-info {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .code-info,
+  .class-info,
+  .price-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+  .code-info-span1,
+  .class-info-span1,
+  .price-info-span1 {
+    font-size: 13px;
+  }
+  .code-info-span2,
+  .class-info-span2,
+  .price-info-span2 {
+    text-align: right;
+    font-size: 13px;
+  }
+  /* detail */
+}
+
+@media screen and (max-width: 414px) {
+  /* filter */
+  .riwayat-heading {
+    font-size: 15px;
+  }
+  .group-monthYear {
+    font-size: 14px;
+  }
+  .beranda-button {
+    width: 60%;
+  }
+  /* riwayat */
+  /* riwayat */
+  .departure-info-span1,
+  .duration-info-span1,
+  .arrival-info-span1,
+  .status-payment {
+    font-size: 14px;
+  }
+  .departure-info-span2,
+  .arrival-info-span2 {
+    font-size: 12px;
+  }
+  .departure-info-span3,
+  .duration-info-span3,
+  .arrival-info-span3 {
+    font-size: 13px;
+  }
+  .arrow-class {
+    font-size: 11px;
+  }
+  .dettik-info {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .code-info,
+  .class-info,
+  .price-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+  .code-info-span1,
+  .class-info-span1,
+  .price-info-span1 {
+    font-size: 13px;
+  }
+  .code-info-span2,
+  .class-info-span2,
+  .price-info-span2 {
+    text-align: right;
+    font-size: 13px;
+  }
+  /* detail */
+  .detail-pesanan {
+    font-size: 18px;
+  }
+}
+@media screen and (max-width: 360px) {
+  /* filter */
+  .riwayat-heading {
+    font-size: 15px;
+  }
+  .group-monthYear {
+    font-size: 13px;
+  }
+
+  .beranda-button {
+    width: 60%;
+  }
+  /* riwayat */
+  /* detail */
+  .detail-pesanan {
+    font-size: 18px;
+  }
+}
+
+.code-info-span2,
+.class-info-span2,
+.price-info-span2 {
+  flex-grow: 1;
+}
+
