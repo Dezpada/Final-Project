@@ -10,13 +10,16 @@ import {
   InputGroup,
 } from "react-bootstrap";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { Link, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import queryString from "query-string";
 
 function ForgetPass() {
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [confirm_new_password, setConfirmPassword] = useState("");
   const [passwordType, setPasswordType] = useState("password");
   const [confirmPasswordType, setConfirmPasswordType] = useState("password");
+  const params = useParams();
 
   const toggleConfirmPassword = () => {
     if (confirmPasswordType === "password") {
@@ -108,20 +111,25 @@ function ForgetPass() {
       return;
     }
 
-    if (password !== confirmPassword) {
+    if (password !== confirm_new_password) {
       toast.error("Passwords do not match");
       return;
     }
 
     try {
+      const url = window.location.href;
+      console.log(url);
+      const parsed = queryString.parseUrl(url);
+      const token = parsed.query.token;
+      console.log(token);
       let data = JSON.stringify({
         password,
-        confirmPassword,
+        confirm_new_password,
       });
 
       let config = {
-        method: "put",
-        url: `${process.env.REACT_APP_API_KEY}/auth/reset-password`,
+        method: "post",
+        url: `${process.env.REACT_APP_API_KEY}/auth/reset-password?token=${token}`,
         headers: {
           "Content-Type": "application/json",
         },
@@ -131,7 +139,7 @@ function ForgetPass() {
       const response = await axios.request(config);
       toast.success(response.data.message);
       setTimeout(3000);
-      window.location.href = "/login";
+      //window.location.href = "/login";
     } catch (error) {
       if (axios.isAxiosError(error)) {
         toast.error(error.response.data.message);
@@ -154,16 +162,16 @@ function ForgetPass() {
           </Col>
           <Col md="6">
             <Card.Body className="d-flex flex-column">
-              <a href="/" className="d-flex flex-column">
-                <img
-                  src="../../../img/logo.svg"
-                  alt="logo-login"
-                  className="mb-4 mx-5"
-                  style={{ alignSelf: "center" }}
-                  width={200}
-                  height={200}
-                />
-              </a>
+              <img
+                src="../../../img/logo.svg"
+                alt="logo-login"
+                className="mb-4 mx-5"
+                style={{ alignSelf: "center" }}
+                width={200}
+                height={200}
+                as={Link}
+                to={"/"}
+              />
               <h2 className="mb-3 ps-5 pb-3" style={{ fontWeight: "bold" }}>
                 Reset Password
               </h2>
@@ -199,7 +207,7 @@ function ForgetPass() {
                     <Form.Control
                       type={confirmPasswordType}
                       placeholder="Ulangi password baru"
-                      value={confirmPassword}
+                      value={confirm_new_password}
                       onChange={(e) => setConfirmPassword(e.target.value)}
                     />
                     <Button

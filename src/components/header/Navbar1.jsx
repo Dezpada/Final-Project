@@ -1,25 +1,59 @@
 import React, { useState, useEffect } from "react";
 import { Navbar, Container, Form, Nav } from "react-bootstrap";
 import "./style.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Navbar1 = () => {
+  const token = localStorage.getItem("Authorization");
+
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("Authorization");
 
     if (token) {
       setIsLoggedIn(true);
     }
+  }, [token]);
+
+  const config = {
+    headers: {
+      Authorization: token,
+    },
+  };
+  const url =
+    "https://final-project-production-b6fe.up.railway.app/auth/whoami";
+  const [user, setUser] = useState([]);
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(url, config);
+      setUser(response.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
   }, []);
+  const navigate = useNavigate();
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const dataUser = { user };
+    navigate("/user", { state: dataUser });
+  };
+
   return (
-    <Navbar className="navbar">
+    <Navbar className="navbar d-sm-block d-none">
       <Container>
         <Navbar.Brand as={Link} to={"/"}>
           <img
             src="/img/logo.svg"
             className="d-inline-block align-top"
             alt="Logo"
+            height={100}
           />
         </Navbar.Brand>
         <Nav className="w-50">
@@ -62,11 +96,10 @@ const Navbar1 = () => {
                 </Link>
               </div>
               <div className="mx-2">
-                <Link to={"/user"}>
-                  <button>
-                    <img src="/img/fi_user.svg" alt="" />
-                  </button>
-                </Link>
+                <button onClick={handleSubmit}>
+                  <img src="/img/fi_user.svg" alt="" />{" "}
+                  <span>Hi, {user?.name}</span>
+                </button>
               </div>
             </div>
           </>
