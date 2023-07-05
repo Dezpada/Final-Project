@@ -71,7 +71,7 @@ function Login() {
 
       const response = await axios.request(config);
       const { token } = response.data.data;
-      localStorage.setItem("token", token);
+      localStorage.setItem("Authorization", token);
       toast.success(response.data.message);
       setTimeout(3000);
       window.location.href = "/";

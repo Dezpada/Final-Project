@@ -6,13 +6,19 @@ import { FiSearch } from 'react-icons/fi';
 import './Riwayat.css';
 import FilterDateModal from './DateModal';
 import SearchModal from './SearchModal';
+import RiwayatPesanan from './RiwayatPesanan';
 
 const FilterRiwayat = () => {
   const [showSearchModal, setShowSearchModal] = useState(false);
   const [searchCode, setSearchCode] = useState('');
   const [recentSearches, setRecentSearches] = useState([]);
+  const [selectedDates, setSelectedDates] = useState({
+    startDate: null,
+    endDate: null
+  });
 
   const handleSearchClick = () => {
+    setSearchCode('');
     setShowSearchModal(true);
   };
 
@@ -29,14 +35,17 @@ const FilterRiwayat = () => {
     console.log('Kode yang dicari:', searchCode);
     setRecentSearches((prevSearches) => [searchCode, ...prevSearches]);
     handleCloseSearchModal();
+    setSearchCode(searchCode);
+  };
+
+  const handleDateFilter = (startDate, endDate) => {
+    setSelectedDates({ startDate, endDate });
   };
 
   const handleRecentSearchDelete = (index) => {
-    setRecentSearches((prevSearches) => {
-      const updatedSearches = [...prevSearches];
-      updatedSearches.splice(index, 1);
-      return updatedSearches;
-    });
+    const updatedSearches = [...recentSearches];
+    updatedSearches.splice(index, 1);
+    setRecentSearches(updatedSearches);
   };
 
   return (
@@ -50,7 +59,7 @@ const FilterRiwayat = () => {
             </Button>
           </Link>
 
-          <FilterDateModal />
+          <FilterDateModal handleDateFilter={handleDateFilter} />
 
           <span className="search-icon">
             <FiSearch className="mt-1" onClick={handleSearchClick} />
@@ -67,6 +76,8 @@ const FilterRiwayat = () => {
         recentSearches={recentSearches}
         handleRecentSearchDelete={handleRecentSearchDelete}
       />
+
+      <RiwayatPesanan searchCode={searchCode} selectedDates={selectedDates} />
 
     </Container>
   );

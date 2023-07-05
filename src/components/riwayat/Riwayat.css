@@ -1,180 +1,453 @@
-  .riwayat-container {
-    justify-content: center;
-    padding-bottom: 10px;
-  }
+.riwayat-container {
+  justify-content: center;
+  padding-bottom: 10px;
+}
 
-  .riwayat-heading {
-    margin-top: 3%;
-    font-weight: 550;
-    font-size: 18px; 
+.riwayat-heading {
+  margin-top: 3%;
+  font-weight: 550;
+  font-size: 18px; 
+}
+
+.beranda-button {
+  display: flex;
+  text-align: left !important;
+  color: white !important;
+  background-color: #A06ECE !important;
+  width: 89%;
+  border-radius: 13px !important;
+}
+
+.beranda-button .icon {
+  margin-right: 50px;
+}
+
+.filter-button {
+  justify-content: center;
+  color: black !important;
+  background-color: white !important;
+  border-color: #A06ECE !important;
+  border-radius: 25px !important;
+  font-size: 16px;
+  margin-left: 5px;
+}
+
+.search-icon {
+  position: relative;
+  cursor: pointer;
+  color: #7126B5;
+  font-size: 25px;
+  margin-left: 5px;
+}
+
+.search-input {
+  width: 100%; 
+  padding: 8px; 
+  border: 1px solid #ccc; 
+  border-radius: 4px; 
+}
+
+.bold-text {
+  font-size: 15px;
+  color: black;
+  font-weight: bold;
+}
+
+.search-modal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  z-index: 9999;
+}
+
+.card-dest {
+  width: 100% ;
+  align-items: center ; 
+  margin-bottom: -1%;
+}
+
+.search-modal .modal-footer button {
+  /* Warna tombol "Cari" */
+  background-color: #4b1979;
+  border-color: #6f429a;
+}
+.search-modal .modal-footer button:hover {
+  /* Warna tombol "Cari" saat dihover */
+  background-color: #6f429a;
+  border-color: #4b1979;
+}
+.date-modal .modal-footer button {
+  /* Warna tombol "Simpan" */
+  background-color: #4b1979;
+  border-color: #6f429a;
+}
+.date-modal .modal-footer button:hover {
+  /* Warna tombol "Simpan" saat dihover */
+  background-color: #6f429a;
+  border-color: #4b1979;
+}
+
+.date-modal .modal-title {
+  font-size: 17px;
+  justify-content: center;
+  margin-left: 30%;
+}
+
+.date-modal .modal-body {
+  margin-left: 13%;
+  padding-bottom: 0%;
+}
+
+/* Gaya untuk DateModal */
+.date-modal {
+  position: relative;
+  display: flex;
+}
+
+.no-search-history {
+  font-size: 13px;
+  color: #6a6a6a;
+  font-weight: 500;
+}
+
+.delete-icon {
+  color: red;
+  float: right;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.no-history {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin-top: 60px;
+  margin-bottom: 50px;
+}
+
+.no-history img {
+  width: 200px;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+.no-history h6 {
+  margin-top: 2%;
+  font-size: 16px;
+  font-weight: bold;
+  color: #7126B5;
+}
+
+.no-history p {
+  font-size: 15px;
+  color: #000000;
+}
+
+.no-history p {
+  font-size: 15px;
+  color: #000000;
+}
+
+.btn-caripnrbngn {
+  background-color: #7126B5 !important;
+  border-color: #6f429a !important;
+  width: 300px;
+  height: 40px;
+  border-radius: 10px !important;
+  margin-top: 5% !important;
+}
+
+.status-payment {
+  color: white;
+  padding: 5px;
+  width: fit-content;
+  border-radius: 12px;
+}
+
+.paid {
+  background-color: #2ed300;
+}
+
+.unpaid {
+  background-color: red;
+}
+
+.status-payment {
+  margin-bottom: 10px;
+}
+
+.departure-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-left: 5%;
+}
+
+.duration-info {
+  display: flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.arrival-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-right: 5%;
+}
+
+.departure-info span {
+  flex-grow: 1;
+  margin-bottom: -20px;
+}
+.departure-info span:nth-child(2) {
+  margin-bottom: -20px; 
+}
+.departure-info span:last-child {
+  margin-bottom: -15px;
+}
+
+.arrival-info span {
+  flex-grow: 1;
+  margin-bottom: -20px;
+}
+.arrival-info span:nth-child(2) {
+  margin-bottom: -20px; 
+}
+.arrival-info span:last-child {
+  margin-bottom: -15px;
+  
+}
+
+.dettik-info {
+  display: flex;
+  justify-content: center;
+  margin-right: 2%;
+  margin-left: 2%;
+}
+
+
+.price-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-right: 2%;
+}
+
+.code-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-right: 2%;
+}
+
+.class-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 6%;
+}
+
+/* Responsif */
+@media screen and (max-width: 968px) {
+  .riwayat-heading,
+  .group-monthYear {
+    font-size: 16px;
   }
 
   .beranda-button {
-    display: flex;
-    text-align: left !important;
-    color: white !important;
-    background-color: #A06ECE !important;
-    width: 89%;
-    border-radius: 13px !important;
+    width: 80%;
   }
+}
 
-  .beranda-button .icon {
-    margin-right: 50px;
-  }
-
-  .filter-button {
-    justify-content: center;
-    color: black !important;
-    background-color: white !important;
-    border-color: #A06ECE !important;
-    border-radius: 25px !important;
+@media screen and (max-width: 768px) {
+  /* filter */
+  .riwayat-heading,
+  .group-monthYear {
     font-size: 16px;
-    margin-left: 5px;
-  }
-  
-  .search-icon {
-    position: relative;
-    cursor: pointer;
-    color: #7126B5;
-    font-size: 25px;
-    margin-left: 5px;
-  }
-  
-  .search-input {
-    width: 100%; 
-    padding: 8px; 
-    border: 1px solid #ccc; 
-    border-radius: 4px; 
   }
 
-  .bold-text {
-    font-size: 15px;
-    color: black;
-    font-weight: bold;
+  .beranda-button {
+    width: 70%;
   }
-  
-  .search-modal {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    margin: auto;
-    z-index: 9999;
-  }
-
-  .search-modal .modal-dialog {
-    /*atus posisi dialog*/
-  }
-
-  .search-modal .modal-footer button {
-    /* Warna tombol "Cari" */
-    background-color: #4b1979;
-    border-color: #6f429a;
-  }
-  .search-modal .modal-footer button:hover {
-    /* Warna tombol "Cari" saat dihover */
-    background-color: #6f429a;
-    border-color: #4b1979;
-  }
-  .date-modal .modal-footer button {
-    /* Warna tombol "Simpan" */
-    background-color: #4b1979;
-    border-color: #6f429a;
-  }
-  .date-modal .modal-footer button:hover {
-    /* Warna tombol "Simpan" saat dihover */
-    background-color: #6f429a;
-    border-color: #4b1979;
-  }
-
-  .date-modal .modal-title {
-    font-size: 17px;
-    justify-content: center;
-    margin-left: 30%;
-  }
-  
-  .date-modal .modal-body {
-    margin-left: 13%;
-    padding-bottom: 0%;
-  }
-
-  /* Gaya untuk DateModal */
-  .date-modal {
-    position: relative;
-    display: flex;
-  }
-
-  .no-search-history {
-    font-size: 13px;
-    color: #6a6a6a;
-    font-weight: 500;
-  }
-  
-  .delete-icon {
-    color: red;
-    float: right;
-    cursor: pointer;
+  /* riwayat */
+  .departure-info-span1,
+  .duration-info-span1,
+  .arrival-info-span1,
+  .status-payment {
     font-size: 14px;
   }
-  
-  .no-history {
-    display: flex;
+  .departure-info-span2,
+  .arrival-info-span2 {
+    font-size: 12px;
+  }
+  .departure-info-span3,
+  .duration-info-span3,
+  .arrival-info-span3 {
+    font-size: 13px;
+  }
+  .arrow-class {
+    font-size: 11px;
+  }
+  .dettik-info {
     flex-direction: column;
+    align-items: flex-start;
+  }
+  .code-info,
+  .class-info,
+  .price-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     align-items: center;
-    justify-content: center;
-    text-align: center;
-    margin-top: 60px;
-    margin-bottom: 50px;
+    width: 100%;
   }
-  
-  .no-history img {
-    width: 200px;
-    height: auto;
-    margin-bottom: 20px;
+  .code-info-span1,
+  .class-info-span1,
+  .price-info-span1 {
+    font-size: 13px;
   }
-  
-  .no-history h6 {
-    margin-top: 2%;
-    font-size: 16px;
-    font-weight: bold;
-    color: #7126B5;
+  .code-info-span2,
+  .class-info-span2,
+  .price-info-span2 {
+    text-align: right;
+    font-size: 13px;
   }
-  
-  .no-history p {
-    font-size: 15px;
-    color: #000000;
-  }
-
-  .no-history p {
-    font-size: 15px;
-    color: #000000;
-  }
-
-  .btn-caripnrbngn {
-    background-color: #7126B5 !important;
-    border-color: #6f429a !important;
-    width: 300px;
-    height: 40px;
-    border-radius: 10px !important;
-    margin-top: 5% !important;
-  }
-
-  .card-riwayat {
-    
-  }
-
+  /* detail */
+}
+@media screen and (max-width: 580px) {
+  /* riwayat */
+  .departure-info-span1,
+  .duration-info-span1,
+  .arrival-info-span1,
   .status-payment {
-    color: white;
-    padding: 5px;
-    width: fit-content;
-    border-radius: 12px;
+    font-size: 14px;
   }
-  
-  .paid {
-    background-color: #2ed300;
+  .departure-info-span2,
+  .arrival-info-span2 {
+    font-size: 12px;
   }
-  
-  .unpaid {
-    background-color: red;
+  .departure-info-span3,
+  .duration-info-span3,
+  .arrival-info-span3 {
+    font-size: 13px;
   }
-  
+  .arrow-class {
+    font-size: 11px;
+  }
+  .dettik-info {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .code-info,
+  .class-info,
+  .price-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+  .code-info-span1,
+  .class-info-span1,
+  .price-info-span1 {
+    font-size: 13px;
+  }
+  .code-info-span2,
+  .class-info-span2,
+  .price-info-span2 {
+    text-align: right;
+    font-size: 13px;
+  }
+  /* detail */
+}
+
+@media screen and (max-width: 414px) {
+  /* filter */
+  .riwayat-heading {
+    font-size: 15px;
+  }
+  .group-monthYear {
+    font-size: 14px;
+  }
+  .beranda-button {
+    width: 60%;
+  }
+  /* riwayat */
+  /* riwayat */
+  .departure-info-span1,
+  .duration-info-span1,
+  .arrival-info-span1,
+  .status-payment {
+    font-size: 14px;
+  }
+  .departure-info-span2,
+  .arrival-info-span2 {
+    font-size: 12px;
+  }
+  .departure-info-span3,
+  .duration-info-span3,
+  .arrival-info-span3 {
+    font-size: 13px;
+  }
+  .arrow-class {
+    font-size: 11px;
+  }
+  .dettik-info {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .code-info,
+  .class-info,
+  .price-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+  .code-info-span1,
+  .class-info-span1,
+  .price-info-span1 {
+    font-size: 13px;
+  }
+  .code-info-span2,
+  .class-info-span2,
+  .price-info-span2 {
+    text-align: right;
+    font-size: 13px;
+  }
+  /* detail */
+  .detail-pesanan {
+    font-size: 18px;
+  }
+}
+@media screen and (max-width: 360px) {
+  /* filter */
+  .riwayat-heading {
+    font-size: 15px;
+  }
+  .group-monthYear {
+    font-size: 13px;
+  }
+
+  .beranda-button {
+    width: 60%;
+  }
+  /* riwayat */
+  /* detail */
+  .detail-pesanan {
+    font-size: 18px;
+  }
+}
+
+.code-info-span2,
+.class-info-span2,
+.price-info-span2 {
+  flex-grow: 1;
+}
+

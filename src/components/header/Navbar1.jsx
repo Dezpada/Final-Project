@@ -5,10 +5,12 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Navbar1 = () => {
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("Authorization");
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   useEffect(() => {
+    const token = localStorage.getItem("Authorization");
+
     if (token) {
       setIsLoggedIn(true);
     }
@@ -51,6 +53,7 @@ const Navbar1 = () => {
             src="/img/logo.svg"
             className="d-inline-block align-top"
             alt="Logo"
+            height={100}
           />
         </Navbar.Brand>
         <Nav className="w-50">

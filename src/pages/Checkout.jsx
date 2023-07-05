@@ -4,98 +4,136 @@ import Navbar1 from "../components/header/Navbar1";
 import NavbarCO from "../components/checkout/NavbarCO";
 import "../components/checkout/style.css";
 import CheckoutCol2 from "../components/checkout/CheckoutCol2";
-import { useLocation } from "react-router";
+import ItemCard from "../components/checkout/ItemCard";
+import { toast } from "react-toastify";
+import axios from "axios";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function Checkout() {
-  const location = useLocation;
-  const dataCO = location.state;
-  console.log(dataCO);
   const [show, setShow] = useState(false);
-  const [adultPassenger, setAdultPassenger] = useState(0);
-  const [kidPassenger, setKidPassenger] = useState(0);
-  const [totalPassenger, setTotalPassenger] = useState(0);
-  let components = [];
+  const [passengerData, setPassengerData] = useState([]);
+  const [total_passenger, setTotalPassenger] = useState("");
+  const [adultPassenger, setAdultPassenger] = useState();
+  const [childPassenger, setChildPassenger] = useState();
+  const [babyPassenger, setBabyPassenger] = useState();
+  const [departure_flight_id, setDepartFlightID] = useState("");
+  const [return_flight_id, setReturnFlightID] = useState("");
+  const [is_roundtrip, setRoundTrip] = useState(false);
+  const navigate = useNavigate();
+
   const toggleFamilyName = () => setShow(!show);
+  const location = useLocation();
 
-  useEffect(() => {
-    formData();
-    function calculatePassenger() {
-      const adult = window.localStorage.getItem("adult_passengers");
-      setAdultPassenger(adult);
-      const kid = window.localStorage.getItem("kid_passengers");
-      setKidPassenger(kid);
-    }
-    function totalAllPassenger() {
-      setTotalPassenger(parseInt(adultPassenger) + parseInt(kidPassenger));
-      console.log(totalPassenger);
-    }
-    async function formData() {
-      await calculatePassenger();
-      await totalAllPassenger();
-      for (let i = 0; i < totalPassenger.value; i++) {
-        components.push(
-          <Card className="mb-3">
-            <Card.Header style={{ background: "#3C3C3C", color: "white" }}>
-              Data Diri Penumpang
-            </Card.Header>
-            <Card.Body>
-              <Form className="mb-4 mx-3 ">
-                <Form.Group className="my-3" controlId="formBasicName">
-                  <Form.Label style={{ fontWeight: "bold", color: "#4B1979" }}>
-                    Nama Lengkap
-                  </Form.Label>
-                  <Form.Control
-                    type="name"
-                    placeholder="Masukkan Nama Lengkap"
-                  />
-                </Form.Group>
+  const handleDataChange = (index, newData) => {
+    setPassengerData((prevData) => {
+      const updatedData = [...prevData];
+      updatedData[index] = newData;
+      return updatedData;
+    });
+  };
 
-                <Form.Group className="my-3" controlId="formBasicFamilyName">
-                  <Form.Label style={{ fontWeight: "bold", color: "#4B1979" }}>
-                    Nomor Telepon
-                  </Form.Label>
-                  <Form.Control type="tel" placeholder="+62 ." />
-                </Form.Group>
-                <Form.Group className="my-3" controlId="formBasicBirthDate">
-                  <Form.Label style={{ fontWeight: "bold", color: "#4B1979" }}>
-                    Tanggal Lahir
-                  </Form.Label>
-                  <Form.Control type="date" />
-                </Form.Group>
-                <Form.Group className="my-3" controlId="formBasicCountry">
-                  <Form.Label style={{ fontWeight: "bold", color: "#4B1979" }}>
-                    Kewarganegaraan
-                  </Form.Label>
-                  <Form.Control type="text" />
-                </Form.Group>
-                <Form.Group className="my-3" controlId="formBasicID">
-                  <Form.Label style={{ fontWeight: "bold", color: "#4B1979" }}>
-                    KTP/Paspor
-                  </Form.Label>
-                  <Form.Control type="text" />
-                </Form.Group>
-                <Form.Group
-                  className="my-3"
-                  controlId="formBasicPublishCountry"
-                >
-                  <Form.Label style={{ fontWeight: "bold", color: "#4B1979" }}>
-                    Negara Penerbit
-                  </Form.Label>
-                  <Form.Control type="text" />
-                </Form.Group>
-                <Form.Group className="my-3" controlId="formBasicExpireDate">
-                  <Form.Label style={{ fontWeight: "bold", color: "#4B1979" }}>
-                    Berlaku Sampai
-                  </Form.Label>
-                  <Form.Control type="date" />
-                </Form.Group>
-              </Form>
-            </Card.Body>
-          </Card>
-        );
+  const handleOnClick = async (e) => {
+    try {
+      let payload = JSON.stringify({
+        total_passenger,
+        departure_flight_id, // provide the departure flight ID
+        return_flight_id, // provide the return flight ID
+        is_roundtrip, // or false depending on your logic
+        dataPassenger: passengerData,
+      });
+      let token = localStorage.getItem("Authorization");
+      console.log(token);
+      console.log(payload);
+      let config = {
+        method: "post",
+        maxBodyLength: Infinity,
+        url: "https://final-project-production-b6fe.up.railway.app/flight/booking",
+        headers: {
+          Authorization: token,
+          "Content-Type": "application/json",
+        },
+        data: payload,
+      };
+
+      const response = await axios.request(config);
+      const { ticketCode } = response.data.data.ticket_code;
+      toast.success(response.data.message);
+      setTimeout(
+        navigate(`/page-payment/${ticketCode}`, {
+          state: { ticket_code: ticketCode },
+        }),
+        [3000]
+      );
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error(error.message);
       }
     }
-  }, []);
+    // window.location.href = "/";
+  };
+  // const handleOnClick = async (e) => {
+  // try {
+  //   let data = JSON.stringify({
+  //     name,
+  //     email,
+  //     telp,
+  //     password,
+  //   });
+  //   let config = {
+  //     method: "post",
+  //     url: `${process.env.REACT_APP_API_KEY}/flight/booking`,
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     data: data,
+  //   };
+  //   const response = await axios.request(config);
+  //   toast.success(response.data.message);
+  // } catch (error) {
+  //   if (axios.isAxiosError(error)) {
+  //     toast.error(error.response.data.message);
+  //     return;
+  //   }
+  //   toast.error(error.message);
+  // }
+  // window.location.href = "/";
+  //};
+
+  const renderCard = () => {
+    let passenger = total_passenger;
+    let newData = [];
+    for (let i = 0; i < passenger; i++) {
+      newData.push(i);
+    }
+    return newData?.map((value, index) => {
+      return (
+        <div key={index}>
+          <ItemCard
+            handleDataChange={(data) => handleDataChange(index, data)}
+          />
+        </div>
+      );
+    });
+  };
+
+  useEffect(() => {
+    const { total_passenger, flight_id, is_roundtrip, adults, child, baby } =
+      location.state;
+    setTotalPassenger(total_passenger);
+    setRoundTrip(is_roundtrip);
+    setDepartFlightID(flight_id);
+    setAdultPassenger(adults);
+    setChildPassenger(child);
+    setBabyPassenger(baby);
+    // if (roundTrip === false) {
+    //   setDepartFlightID(flight_id);
+    // } else {
+    //   setDepartFlightID(flight_id);
+    //   setReturnFlightID(return_flight_id);
+    // }
+  }, [location.state]);
 
   return (
     <>
@@ -205,21 +243,21 @@ function Checkout() {
                   <Accordion.Header as={"h5"}>
                     Isi Data Penumpang
                   </Accordion.Header>
-                  <Accordion.Body>{components}</Accordion.Body>
+                  <Accordion.Body>{renderCard()}</Accordion.Body>
                 </Accordion.Item>
               </Accordion>
-              <div className=" mx-auto my-3 ">
-                <button
-                  className="w-100 bg-purple rounded-3 px-5 py-2 text-white fw-normal fs-30"
-                  disabled
-                >
-                  Simpan
-                </button>
-              </div>
             </Row>
           </Col>
           <Col md>
             <CheckoutCol2 />
+            <div className=" mx-auto ">
+              <button
+                className="w-100 btn btn-danger rounded-3 px-5 py-2 text-white fw-normal fs-30"
+                onClick={handleOnClick}
+              >
+                Lanjut Bayar
+              </button>
+            </div>
           </Col>
         </Row>
       </Container>
