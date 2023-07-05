@@ -44,7 +44,7 @@ const Navbar1 = () => {
   };
 
   return (
-    <Navbar className="navbar">
+    <Navbar className="navbar d-sm-block d-none">
       <Container>
         <Navbar.Brand as={Link} to={"/"}>
           <img

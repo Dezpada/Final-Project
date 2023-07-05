@@ -5,6 +5,7 @@ import DesFav from "../components/DesFav/DesFav";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import "./style.css";
 import { Link } from "react-router-dom";
+import NavbarMobile from "../components/header/NavbarMobile";
 
 const Dashboard = () => {
   return (
@@ -29,7 +30,8 @@ const Dashboard = () => {
           </Col>
         </Row>
       </Container>
-      <div className="bg-dark p-5 w-100"></div>
+      <div className="bg-dark p-5 w-100 mb-5"></div>
+      <NavbarMobile />
     </>
   );
 };
