@@ -115,7 +115,7 @@ const ResultSearch = ({
 
   // set id ke page checkout
   const [id, setId] = useState();
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("Authorization");
 
   const handleClickId = (id) => {
     if (!token) {
