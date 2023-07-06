@@ -24,8 +24,6 @@ function Payment() {
   const [formData, setFormData] = useState({
     cardNumber: "",
     cardHolderName: "",
-    // ccv: "",
-    // expiryDate: "",
   });
 
   const handleToggleForm = (formType) => {
