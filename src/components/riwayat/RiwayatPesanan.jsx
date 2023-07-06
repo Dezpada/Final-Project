@@ -14,7 +14,7 @@ const RiwayatPesanan = ({ searchCode, filteredDates }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('token') || localStorage.getItem('Authorization');
         if (token) {
           const response = await axios.get(`${process.env.REACT_APP_API_KEY}/show/ticket`, {
             headers: {
