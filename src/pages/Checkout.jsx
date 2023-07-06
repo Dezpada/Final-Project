@@ -13,7 +13,6 @@ function Checkout() {
   const [show, setShow] = useState(false);
   const [passengerData, setPassengerData] = useState([]);
   const [total_passenger, setTotalPassenger] = useState("");
-  const [flight_id, setFlightId] = useState();
   const [adultPassenger, setAdultPassenger] = useState();
   const [childPassenger, setChildPassenger] = useState();
   const [babyPassenger, setBabyPassenger] = useState();
@@ -59,7 +58,11 @@ function Checkout() {
       toast.success(response.data.message);
       setTimeout(
         navigate(`/page-payment/${ticketCode}`, {
-          state: { ticket_code: ticketCode, flight_id: flight_id },
+          state: {
+            ticket_code: ticketCode,
+            departure_flight_id: departure_flight_id,
+            return_flight_id: return_flight_id,
+          },
         }),
         [3000]
       );
@@ -90,20 +93,17 @@ function Checkout() {
   };
 
   useEffect(() => {
-    const { total_passenger, flight_id, is_roundtrip, adults, child, baby } =
+    const { total_passenger, flight_id, return_flight_id, is_roundtrip } =
       location.state;
     setTotalPassenger(total_passenger);
     setRoundTrip(is_roundtrip);
     setDepartFlightID(flight_id);
-    setAdultPassenger(adults);
-    setChildPassenger(child);
-    setBabyPassenger(baby);
-    // if (roundTrip === false) {
-    //   setDepartFlightID(flight_id);
-    // } else {
-    //   setDepartFlightID(flight_id);
-    //   setReturnFlightID(return_flight_id);
-    // }
+    if (is_roundtrip === false) {
+      setDepartFlightID(flight_id);
+    } else {
+      setDepartFlightID(flight_id);
+      setReturnFlightID(return_flight_id);
+    }
   }, [location.state]);
 
   return (

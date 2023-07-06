@@ -8,7 +8,7 @@ const NavbarMobile = () => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("Authorization");
     if (!token) {
       navigate("/login");
     } else {

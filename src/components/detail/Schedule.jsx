@@ -52,7 +52,7 @@ const Schedule = ({ onDateSelect, selectedDate }) => {
   const fetchData = async () => {
     try {
       const response = await axios.get(
-        "https://final-project-production-b6fe.up.railway.app/airports?page=1&per_page=50"
+        `${process.env.REACT_APP_API_KEY}/airports?page=1&per_page=50`
       );
       let newCityFrom = response.data.data.find(
         (cityfromid) => cityfromid.id === Number(idFrom)

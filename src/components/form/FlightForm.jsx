@@ -25,9 +25,9 @@ const FlightForm = () => {
   // get api oneway / twoway
   const getApiEndpoint = (tripType) => {
     if (tripType === "oneway") {
-      return "https://final-project-production-b6fe.up.railway.app/flight/search/oneway";
+      return `${process.env.REACT_APP_API_KEY}/flight/search/oneway`;
     } else {
-      return "https://final-project-production-b6fe.up.railway.app/flight/search/twoway";
+      return `${process.env.REACT_APP_API_KEY}/flight/search/twoway`;
     }
   };
   // get req body oneway / twoway
@@ -64,7 +64,7 @@ const FlightForm = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get(
-        "https://final-project-production-b6fe.up.railway.app/airports?page=1&per_page=50"
+        `${process.env.REACT_APP_API_KEY}/airports?page=1&per_page=50`
       );
       setAirports(response.data.data);
     } catch (error) {
