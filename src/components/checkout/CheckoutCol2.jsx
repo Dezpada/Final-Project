@@ -13,7 +13,13 @@ function CheckoutCol2() {
   const [airplane, setAirplane] = useState("");
   const [airline, setAirline] = useState("");
   const [passenger, setPassenger] = useState(0);
+  const [adultPassenger, setAdultPassenger] = useState();
+  const [childPassenger, setChildPassenger] = useState();
+  const [babyPassenger, setBabyPassenger] = useState();
   const [price, setPrice] = useState(0);
+  const [adultPrice, setAdultPrice] = useState();
+  const [childPrice, setChildPrice] = useState();
+  const [babyPrice, setBabyPrice] = useState();
   const [totalPrice, setTotalPrice] = useState();
 
   const params = useParams();
@@ -29,9 +35,14 @@ function CheckoutCol2() {
   function calculatePricePassengers() {
     try {
       const { total_passenger, adults, child, baby } = location.state;
-
-      setPassenger(total_passenger);
+      setAdultPassenger(adults);
+      setChildPassenger(child);
+      setBabyPassenger(baby);
+      setPassenger(+adults + child);
       if (!isNaN(flight.price)) {
+        setAdultPrice(+adultPassenger * +flight.price);
+        setChildPrice(+childPassenger * +flight.price);
+        setBabyPrice(0);
         setPrice(+passenger * +flight.price);
       } else {
         setPrice(30);
@@ -57,7 +68,7 @@ function CheckoutCol2() {
   async function fetchPost() {
     try {
       const response = await axios.get(
-        `https://final-project-production-b6fe.up.railway.app/flight/${params.id}`
+        `${process.env.REACT_APP_API_KEY}/flight/${params.id}`
       );
       setFlight(response.data.data);
       setDepartureAirport(response.data.data.departureAirport);
@@ -170,14 +181,33 @@ function CheckoutCol2() {
       <h6 className="fw-bold fs-14">Rincian Harga</h6>
       <div className="d-flex flex-row justify-content-between">
         <div className="d-flex flex-column">
-          <h6 className="fw-normal fs-14">{passenger} Passenger</h6>
+          {adultPassenger ? (
+            <h6 className="fw-normal fs-14 ">{adultPassenger} Adult</h6>
+          ) : null}
+          {childPassenger ? (
+            <h6 className="fw-normal fs-14 ">{childPassenger} Child</h6>
+          ) : null}
+          {babyPassenger ? (
+            <h6 className="fw-normal fs-14 ">{babyPassenger} Baby</h6>
+          ) : null}
           <h6 className="fw-normal fs-14">Tax</h6>
         </div>
         <div className="d-flex flex-column">
-          <h6 className="fw-bold fs-14 text-end"> </h6>
-          <h6 className="fw-normal fs-14 text-end">
-            {formatter.format(price)}
-          </h6>
+          {adultPassenger ? (
+            <h6 className="fw-normal fs-14 text-end">
+              {formatter.format(adultPrice)}
+            </h6>
+          ) : null}
+          {childPassenger ? (
+            <h6 className="fw-normal fs-14 text-end">
+              {formatter.format(childPrice)}
+            </h6>
+          ) : null}
+          {babyPassenger ? (
+            <h6 className="fw-normal fs-14 text-end">
+              {formatter.format(babyPrice)}
+            </h6>
+          ) : null}
           <h6 className="fw-normal fs-14 text-end">Rp 300.000</h6>
         </div>
       </div>

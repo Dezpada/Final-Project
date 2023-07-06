@@ -13,6 +13,7 @@ function Checkout() {
   const [show, setShow] = useState(false);
   const [passengerData, setPassengerData] = useState([]);
   const [total_passenger, setTotalPassenger] = useState("");
+  const [flight_id, setFlightId] = useState();
   const [adultPassenger, setAdultPassenger] = useState();
   const [childPassenger, setChildPassenger] = useState();
   const [babyPassenger, setBabyPassenger] = useState();
@@ -42,12 +43,10 @@ function Checkout() {
         dataPassenger: passengerData,
       });
       let token = localStorage.getItem("Authorization");
-      console.log(token);
-      console.log(payload);
       let config = {
         method: "post",
         maxBodyLength: Infinity,
-        url: "https://final-project-production-b6fe.up.railway.app/flight/booking",
+        url: `${process.env.REACT_APP_API_KEY}/flight/booking`,
         headers: {
           Authorization: token,
           "Content-Type": "application/json",
@@ -60,7 +59,7 @@ function Checkout() {
       toast.success(response.data.message);
       setTimeout(
         navigate(`/page-payment/${ticketCode}`, {
-          state: { ticket_code: ticketCode },
+          state: { ticket_code: ticketCode, flight_id: flight_id },
         }),
         [3000]
       );
@@ -71,35 +70,7 @@ function Checkout() {
         toast.error(error.message);
       }
     }
-    // window.location.href = "/";
   };
-  // const handleOnClick = async (e) => {
-  // try {
-  //   let data = JSON.stringify({
-  //     name,
-  //     email,
-  //     telp,
-  //     password,
-  //   });
-  //   let config = {
-  //     method: "post",
-  //     url: `${process.env.REACT_APP_API_KEY}/flight/booking`,
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     data: data,
-  //   };
-  //   const response = await axios.request(config);
-  //   toast.success(response.data.message);
-  // } catch (error) {
-  //   if (axios.isAxiosError(error)) {
-  //     toast.error(error.response.data.message);
-  //     return;
-  //   }
-  //   toast.error(error.message);
-  // }
-  // window.location.href = "/";
-  //};
 
   const renderCard = () => {
     let passenger = total_passenger;
