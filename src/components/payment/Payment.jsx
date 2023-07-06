@@ -50,7 +50,6 @@ function Payment() {
   const [price, setPrice] = useState(0);
   const [totalPrice, setTotalPrice] = useState();
 
-  const params = useParams();
 
   const formatter = new Intl.NumberFormat("id-ID", {
     style: "currency",
@@ -86,6 +85,8 @@ function Payment() {
       alert(error);
     }
   }
+
+  const params = useParams();
 
   async function fetchPost() {
     try {

@@ -109,7 +109,10 @@ const FlightForm = () => {
                 <Row>
                   <Col xs={12} md={6}>
                     <Form.Group controlId="origin_airport">
-                      <Form.Label className="label">
+                      <Form.Label
+                        className="label"
+                        style={{ color: "#7126b5", fontWeight: "bold" }}
+                      >
                         <FaPlaneDeparture className="icon" /> Dari
                       </Form.Label>
                       <Form.Control
@@ -128,7 +131,10 @@ const FlightForm = () => {
                   </Col>
                   <Col xs={12} md={6}>
                     <Form.Group controlId="destination_airport">
-                      <Form.Label className="label">
+                      <Form.Label
+                        className="label"
+                        style={{ color: "#7126b5", fontWeight: "bold" }}
+                      >
                         <FaPlaneArrival className="icon" /> Tujuan
                       </Form.Label>
                       <Form.Control
@@ -152,7 +158,10 @@ const FlightForm = () => {
                     <Row>
                       <Col xs={12} md={6} className="mt-2">
                         <Form.Group controlId="flight_date">
-                          <Form.Label className="label">
+                          <Form.Label
+                            className="label"
+                            style={{ color: "#7126b5", fontWeight: "bold" }}
+                          >
                             <FaCalendarAlt className="icon" /> Tanggal
                             Keberangkatan
                           </Form.Label>
@@ -180,7 +189,10 @@ const FlightForm = () => {
                       {formData.tripType === "twoway" && (
                         <Col xs={12} md={6} className="mt-2">
                           <Form.Group controlId="return_date">
-                            <Form.Label className="label">
+                            <Form.Label
+                              className="label"
+                              style={{ color: "#7126b5", fontWeight: "bold" }}
+                            >
                               <FaCalendarAlt className="icon" /> Tanggal Kembali
                             </Form.Label>
                             <Form.Control
@@ -199,7 +211,10 @@ const FlightForm = () => {
                     <Row>
                       <Col xs={6} md={6} className="mt-2">
                         <Form.Group controlId="total_passenger">
-                          <Form.Label className="label">
+                          <Form.Label
+                            className="label"
+                            style={{ color: "#7126b5", fontWeight: "bold" }}
+                          >
                             <FaUser className="icon" /> Jumlah Penumpang
                           </Form.Label>
                           <Form.Control
@@ -213,7 +228,10 @@ const FlightForm = () => {
                       </Col>
                       <Col xs={6} md={6} className="mt-2">
                         <Form.Group controlId="class">
-                          <Form.Label className="label">
+                          <Form.Label
+                            className="label"
+                            style={{ color: "#7126b5", fontWeight: "bold" }}
+                          >
                             <FaCogs className="icon" /> Kelas
                           </Form.Label>
                           <Form.Control
