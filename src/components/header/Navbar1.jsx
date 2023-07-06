@@ -5,10 +5,12 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Navbar1 = () => {
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("Authorization");
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   useEffect(() => {
+    const token = localStorage.getItem("Authorization");
+
     if (token) {
       setIsLoggedIn(true);
     }
@@ -19,8 +21,7 @@ const Navbar1 = () => {
       Authorization: token,
     },
   };
-  const url =
-    "https://final-project-production-b6fe.up.railway.app/auth/whoami";
+  const url = `${process.env.REACT_APP_API_KEY}/auth/whoami`;
   const [user, setUser] = useState([]);
 
   const fetchData = async () => {
@@ -44,13 +45,14 @@ const Navbar1 = () => {
   };
 
   return (
-    <Navbar className="navbar">
+    <Navbar className="navbar d-sm-block d-none">
       <Container>
         <Navbar.Brand as={Link} to={"/"}>
           <img
             src="/img/logo.svg"
             className="d-inline-block align-top"
             alt="Logo"
+            height={100}
           />
         </Navbar.Brand>
         <Nav className="w-50">

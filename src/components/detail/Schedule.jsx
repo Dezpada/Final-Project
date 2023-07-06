@@ -52,7 +52,7 @@ const Schedule = ({ onDateSelect, selectedDate }) => {
   const fetchData = async () => {
     try {
       const response = await axios.get(
-        "https://final-project-production-b6fe.up.railway.app/airports?page=1&per_page=50"
+        `${process.env.REACT_APP_API_KEY}/airports?page=1&per_page=50`
       );
       let newCityFrom = response.data.data.find(
         (cityfromid) => cityfromid.id === Number(idFrom)
@@ -78,7 +78,7 @@ const Schedule = ({ onDateSelect, selectedDate }) => {
       <Container className="">
         <Row>
           <Col sm={2}></Col>
-          <Col sm={8}>
+          <Col>
             <h5 className="mb-4">Detail Penerbangan</h5>
             <Row>
               <Col className="rounded-4 my-1 py-2 px-2 bg-purple text-white  ">
@@ -126,11 +126,11 @@ const Schedule = ({ onDateSelect, selectedDate }) => {
                 </div>
               </Col>
             </Row>
-            <Row xs="auto mt-3 mx-auto">
+            <div className="d-flex flex-wrap">
               {datesWithDayNames.map((item) => (
-                <Col
+                <div
                   key={item.date}
-                  className={`mx-auto rounded-3 px-2 py-1 border button-schedule text-center ${
+                  className={`mx-auto rounded-3 px-2 py-1 mt-2 border button-schedule text-center ${
                     selectedDate === item.date ? "active-btn" : ""
                   }`}
                   style={{ cursor: "pointer" }}
@@ -138,9 +138,9 @@ const Schedule = ({ onDateSelect, selectedDate }) => {
                 >
                   <h6 className="fw-semibold">{item.day}</h6>
                   <h6 className="fw-normal fs-12 date">{item.date}</h6>
-                </Col>
+                </div>
               ))}
-            </Row>
+            </div>
           </Col>
           <Col sm={2}></Col>
         </Row>

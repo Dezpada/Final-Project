@@ -2,16 +2,17 @@ import React, { useEffect, useState } from "react";
 import { Row, Col, Container, ListGroup, Form } from "react-bootstrap";
 import Navbar1 from "../components/header/Navbar1";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import NavbarMobile from "../components/header/NavbarMobile";
 
 const User = () => {
   const [user, setUser] = useState([]);
 
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("Authorization");
 
-  const url = "https://final-project-production-b6fe.up.railway.app/auth/user";
-
+  const url = `${process.env.REACT_APP_API_KEY}/auth/whoami`;
+  const urledit = `${process.env.REACT_APP_API_KEY}/auth/user`;
   let config = {
     headers: {
       Authorization: token,
@@ -35,10 +36,12 @@ const User = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(
-        "https://final-project-production-b6fe.up.railway.app/auth/whoami",
-        config
-      );
+
+      const response = await axios.get(url, config);
+
+
+
+
       setUser(response.data.data);
     } catch (error) {
       console.log(error);
@@ -59,7 +62,7 @@ const User = () => {
       email: email,
     };
     axios
-      .put(url, data, config)
+      .put(urledit, data, config)
       .then((response) => {
         toast.success("berhasil update data");
       })
@@ -77,12 +80,18 @@ const User = () => {
             <Col md={2}></Col>
             <Col md={8}>
               <h5 className="fw-semibold my-4">Akun</h5>
-              <div className="d-flex">
-                <div className="py-2 my-auto bg-purple rounded-3 w-100 me-2">
-                  <button>
-                    <img src="/img/fi_arrow-left.svg" alt="" className="mx-2" />
-                  </button>
-                  <span className="text-white">Beranda</span>
+              <div className="py-2 my-auto bg-purple rounded-3 w-100 me-2">
+                <div className="d-flex">
+                  <div>
+                    <Link to={"/"}>
+                      <img
+                        src="/img/fi_arrow-left.svg"
+                        alt=""
+                        className="mx-2"
+                      />
+                    </Link>
+                  </div>
+                  <h6 className="text-white my-auto">Beranda</h6>
                 </div>
               </div>
             </Col>
@@ -90,7 +99,7 @@ const User = () => {
           </Row>
         </Container>
       </div>
-      <div>
+      <div className="overflow-y-scroll mb-5">
         <Container>
           <Row className="mt-5">
             <Col md={2}></Col>
@@ -107,6 +116,7 @@ const User = () => {
 
                     <button
                       onClick={() => {
+                        localStorage.removeItem("Authorization");
                         localStorage.removeItem("token");
                         return navigate("/");
                       }}
@@ -119,7 +129,7 @@ const User = () => {
                   </ListGroup>
                 </Col>
                 <Col md={8}>
-                  <div className="border p-2">
+                  <div className="border p-2 mb-5">
                     <h5 className="fw-semibold my-4">Ubah data Profil</h5>
                     <div className="rounded-top-3 bg-purple text-white">
                       <h6 className="ms-3 p-2">Data Diri</h6>
@@ -171,6 +181,9 @@ const User = () => {
           </Row>
         </Container>
       </div>
+      <div className="mb-5"></div>
+      <div className="mb-5"></div>
+      <NavbarMobile />
     </>
   );
 };

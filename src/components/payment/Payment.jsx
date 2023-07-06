@@ -50,7 +50,7 @@ function Payment() {
   const [price, setPrice] = useState(0);
   const [totalPrice, setTotalPrice] = useState();
 
-
+  
   const formatter = new Intl.NumberFormat("id-ID", {
     style: "currency",
     currency: "IDR",

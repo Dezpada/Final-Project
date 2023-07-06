@@ -21,13 +21,22 @@ import axios from "axios";
 
 const FlightForm = () => {
   // set req body awal
-
+  const [formData, setFormData] = useState({
+    class: "ECONOMY",
+    destination_airport: 1,
+    flight_date: "",
+    origin_airport: 1,
+    departure_date: "",
+    return_date: "",
+    // total_passenger: 1,
+    tripType: "oneway",
+  });
   // get api oneway / twoway
   const getApiEndpoint = (tripType) => {
     if (tripType === "oneway") {
-      return `${process.env.REACT_APP_API_KEY}/flight/search/oneway`;
+      return "https://final-project-production-b6fe.up.railway.app/flight/search/oneway";
     } else {
-      return `${process.env.REACT_APP_API_KEY}/flight/search/twoway`;
+      return "https://final-project-production-b6fe.up.railway.app/flight/search/twoway";
     }
   };
   // get req body oneway / twoway
@@ -37,10 +46,7 @@ const FlightForm = () => {
         origin_airport: Number(formData.origin_airport),
         destination_airport: Number(formData.destination_airport),
         flight_date: formData.flight_date,
-        total_passenger: total_passenger,
-        adults: selectedPassengers.adults,
-        child: selectedPassengers.children,
-        baby: selectedPassengers.baby,
+        total_passenger: formData.total_passenger,
         class: formData.class,
         tripType: formData.tripType,
       };
@@ -50,10 +56,7 @@ const FlightForm = () => {
         destination_airport: Number(formData.destination_airport),
         departure_date: formData.flight_date,
         return_date: formData.return_date,
-        total_passenger: total_passenger,
-        adults: selectedPassengers.adults,
-        child: selectedPassengers.children,
-        baby: selectedPassengers.baby,
+        total_passenger: formData.total_passenger,
         class: formData.class,
         tripType: formData.tripType,
         flight_date: formData.flight_date,
@@ -64,7 +67,7 @@ const FlightForm = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_API_KEY}/airports?page=1&per_page=50`
+        "https://final-project-production-b6fe.up.railway.app/airports?page=1&per_page=50"
       );
       setAirports(response.data.data);
     } catch (error) {
@@ -139,24 +142,10 @@ const FlightForm = () => {
 
     return selectedPassengersString.trim();
   };
-  const total_passenger =
-    selectedPassengers.adults +
-    selectedPassengers.children +
-    selectedPassengers.baby;
 
   const handleClick = () => {
     handleClose();
   };
-  const [formData, setFormData] = useState({
-    class: "ECONOMY",
-    destination_airport: 1,
-    flight_date: "",
-    origin_airport: 1,
-    departure_date: "",
-    return_date: "",
-    total_passenger: total_passenger,
-    tripType: "oneway",
-  });
 
   return (
     <Container className="mt-1">
@@ -174,6 +163,7 @@ const FlightForm = () => {
                       >
                         <FaPlaneDeparture className="icon" /> Dari
                       </Form.Label>
+
                       <Form.Control
                         as="select"
                         name="origin_airport"
@@ -242,7 +232,7 @@ const FlightForm = () => {
                             checked={formData.tripType === "twoway"}
                             onChange={handleTripTypeChange}
                           />
-                          <h6>Pulang/Pergi </h6>
+                          <h6 style={{ color: "#7126b5" }}>Pulang/Pergi</h6>
                         </div>
                       </Col>
                       {formData.tripType === "twoway" && (
@@ -269,22 +259,92 @@ const FlightForm = () => {
                   <Col xs={12} md={6}>
                     <Row>
                       <Col xs={6} md={6} className="mt-2">
-                        <Form.Group controlId="total_passenger">
-                          <Form.Label
-                            className="label"
-                            style={{ color: "#7126b5", fontWeight: "bold" }}
-                          >
-                            <FaUser className="icon" /> Jumlah Penumpang
-                          </Form.Label>
-                          <Form.Control
-                            type="number"
-                            name="total_passenger"
-                            min={1}
-                            value={formData.total_passenger}
-                            onChange={handleInputChange}
-                          />
-                        </Form.Group>
+                        <Form.Label
+                          className="label"
+                          style={{ color: "#7126b5", fontWeight: "bold" }}
+                        >
+                          <FaUser className="icon" /> Jumlah Penumpang
+                        </Form.Label>
+                        <Form.Control
+                          type="text"
+                          readOnly
+                          value={renderSelectedPassengers()}
+                          onClick={handleShow}
+                        />
+                        <Modal show={showModal} onHide={handleClose}>
+                          <Modal.Header closeButton>
+                            <Modal.Title>Pilih Jenis Penumpang</Modal.Title>
+                          </Modal.Header>
+                          <Modal.Body>
+                            <Form>
+                              <Form.Group controlId="adults" className="mb-2">
+                                <Form.Label>
+                                  <strong style={{ color: "#7126b5" }}>
+                                    Dewasa
+                                  </strong>
+                                  <br />
+                                  <small className="text-muted ml-2">
+                                    (12 tahun keatas)
+                                  </small>
+                                </Form.Label>
+                                <Form.Control
+                                  type="number"
+                                  min="0"
+                                  name="adults"
+                                  value={selectedPassengers.adults}
+                                  onChange={handlePassengerChange}
+                                />
+                              </Form.Group>
 
+                              <Form.Group controlId="children" className="mb-2">
+                                <Form.Label>
+                                  <strong style={{ color: "#7126b5" }}>
+                                    Anak
+                                  </strong>
+                                  <br />
+                                  <small className="text-muted ml-2">
+                                    (2 - 11 tahun)
+                                  </small>
+                                </Form.Label>
+                                <Form.Control
+                                  type="number"
+                                  min="0"
+                                  name="children"
+                                  value={selectedPassengers.children}
+                                  onChange={handlePassengerChange}
+                                />
+                              </Form.Group>
+
+                              <Form.Group controlId="baby" className="mb-3">
+                                <Form.Label>
+                                  <strong style={{ color: "#7126b5" }}>
+                                    Bayi
+                                  </strong>
+                                  <br />
+                                  <small className="text-muted ml-2">
+                                    (Dibawah 2 tahun)
+                                  </small>
+                                </Form.Label>
+                                <Form.Control
+                                  type="number"
+                                  min="0"
+                                  name="baby"
+                                  value={selectedPassengers.baby}
+                                  onChange={handlePassengerChange}
+                                />
+                              </Form.Group>
+                              <div className="button-posisition">
+                                <Button
+                                  onClick={handleClick}
+                                  className="button-passenger text-light"
+                                  style={{ backgroundColor: "#7126b5" }}
+                                >
+                                  Submit
+                                </Button>
+                              </div>
+                            </Form>
+                          </Modal.Body>
+                        </Modal>
                       </Col>
                       <Col xs={6} md={6} className="mt-2">
                         <Form.Group controlId="class">
