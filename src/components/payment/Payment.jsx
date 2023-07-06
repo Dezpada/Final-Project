@@ -239,7 +239,7 @@ function Payment() {
                         value={formData.cardNumber}
                         onChange={handleChange}
                         className="borderless-input"
-                        style={{ width: "80%", marginLeft: "46px" }} // Mengatur lebar input menjadi 100%
+                        style={{ width: "80%", marginLeft: "46px" }} 
                       />
                     </label>
                   </Row>
@@ -303,7 +303,7 @@ function Payment() {
                         value={formData.cardNumber}
                         onChange={handleChange}
                         className="borderless-input"
-                        style={{ width: "80%", marginLeft: "46px" }} // Mengatur lebar input menjadi 100%
+                        style={{ width: "80%", marginLeft: "46px" }} 
                       />
                     </label>
                   </Row>
@@ -388,7 +388,6 @@ function Payment() {
                     <Button
                       type="submit"
                       size="md"
-                      // className="custom-button-lgn text-light custom-button-small"
                       style={{
                         width: "96%",
                         backgroundColor: "#7126B5",
