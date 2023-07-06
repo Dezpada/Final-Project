@@ -42,12 +42,10 @@ function Checkout() {
         dataPassenger: passengerData,
       });
       let token = localStorage.getItem("Authorization");
-      console.log(token);
-      console.log(payload);
       let config = {
         method: "post",
         maxBodyLength: Infinity,
-        url: "https://final-project-production-b6fe.up.railway.app/flight/booking",
+        url: `${process.env.REACT_APP_API_KEY}/flight/booking`,
         headers: {
           Authorization: token,
           "Content-Type": "application/json",
@@ -60,7 +58,11 @@ function Checkout() {
       toast.success(response.data.message);
       setTimeout(
         navigate(`/page-payment/${ticketCode}`, {
-          state: { ticket_code: ticketCode },
+          state: {
+            ticket_code: ticketCode,
+            departure_flight_id: departure_flight_id,
+            return_flight_id: return_flight_id,
+          },
         }),
         [3000]
       );
@@ -71,35 +73,7 @@ function Checkout() {
         toast.error(error.message);
       }
     }
-    // window.location.href = "/";
   };
-  // const handleOnClick = async (e) => {
-  // try {
-  //   let data = JSON.stringify({
-  //     name,
-  //     email,
-  //     telp,
-  //     password,
-  //   });
-  //   let config = {
-  //     method: "post",
-  //     url: `${process.env.REACT_APP_API_KEY}/flight/booking`,
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     data: data,
-  //   };
-  //   const response = await axios.request(config);
-  //   toast.success(response.data.message);
-  // } catch (error) {
-  //   if (axios.isAxiosError(error)) {
-  //     toast.error(error.response.data.message);
-  //     return;
-  //   }
-  //   toast.error(error.message);
-  // }
-  // window.location.href = "/";
-  //};
 
   const renderCard = () => {
     let passenger = total_passenger;
@@ -119,20 +93,17 @@ function Checkout() {
   };
 
   useEffect(() => {
-    const { total_passenger, flight_id, is_roundtrip, adults, child, baby } =
+    const { total_passenger, flight_id, return_flight_id, is_roundtrip } =
       location.state;
     setTotalPassenger(total_passenger);
     setRoundTrip(is_roundtrip);
     setDepartFlightID(flight_id);
-    setAdultPassenger(adults);
-    setChildPassenger(child);
-    setBabyPassenger(baby);
-    // if (roundTrip === false) {
-    //   setDepartFlightID(flight_id);
-    // } else {
-    //   setDepartFlightID(flight_id);
-    //   setReturnFlightID(return_flight_id);
-    // }
+    if (is_roundtrip === false) {
+      setDepartFlightID(flight_id);
+    } else {
+      setDepartFlightID(flight_id);
+      setReturnFlightID(return_flight_id);
+    }
   }, [location.state]);
 
   return (
