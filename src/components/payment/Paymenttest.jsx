@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { useLocation, useParams, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./Paymenttest.css";
-
+ 
 function Paymenttest() {
   const { ticketCode } = useParams();
   const navigate = useNavigate();

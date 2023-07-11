@@ -4,7 +4,7 @@ import NavbarCO from "../components/checkout/NavbarCO";
 import Paymenttest from "../components/payment/Paymenttest";
 import { Container, Row, Col } from "react-bootstrap";
 import "./style.css";
-
+ 
 const PagePaymenttest = () => {
   return (
     <>
