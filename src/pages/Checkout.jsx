@@ -56,14 +56,13 @@ function Checkout() {
       };
 
       const response = await axios.request(config);
-      const { ticketCode } = response.data.data.ticket_code;
+      const ticketCode = response.data.data.ticket_code;
       toast.success(response.data.message);
-      setTimeout(
-        navigate(`/page-payment/${ticketCode}`, {
+      setTimeout(() => {
+        navigate(`/page-paymenttest/${ticketCode}`, {
           state: { ticket_code: ticketCode },
-        }),
-        [3000]
-      );
+        });
+      }, 3000);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         toast.error(error.response.data.message);
@@ -71,35 +70,7 @@ function Checkout() {
         toast.error(error.message);
       }
     }
-    // window.location.href = "/";
   };
-  // const handleOnClick = async (e) => {
-  // try {
-  //   let data = JSON.stringify({
-  //     name,
-  //     email,
-  //     telp,
-  //     password,
-  //   });
-  //   let config = {
-  //     method: "post",
-  //     url: `${process.env.REACT_APP_API_KEY}/flight/booking`,
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     data: data,
-  //   };
-  //   const response = await axios.request(config);
-  //   toast.success(response.data.message);
-  // } catch (error) {
-  //   if (axios.isAxiosError(error)) {
-  //     toast.error(error.response.data.message);
-  //     return;
-  //   }
-  //   toast.error(error.message);
-  // }
-  // window.location.href = "/";
-  //};
 
   const renderCard = () => {
     let passenger = total_passenger;
@@ -127,12 +98,6 @@ function Checkout() {
     setAdultPassenger(adults);
     setChildPassenger(child);
     setBabyPassenger(baby);
-    // if (roundTrip === false) {
-    //   setDepartFlightID(flight_id);
-    // } else {
-    //   setDepartFlightID(flight_id);
-    //   setReturnFlightID(return_flight_id);
-    // }
   }, [location.state]);
 
   return (
