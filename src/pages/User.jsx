@@ -11,8 +11,8 @@ const User = () => {
 
   const token = localStorage.getItem("Authorization");
 
-  const url = "https://final-project-production-b6fe.up.railway.app/auth/user";
-
+  const url = `${process.env.REACT_APP_API_KEY}/auth/whoami`;
+  const urledit = `${process.env.REACT_APP_API_KEY}/auth/user`;
   let config = {
     headers: {
       Authorization: token,
@@ -36,10 +36,8 @@ const User = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(
-        `${process.env.REACT_APP_API_KEY}/auth/whoami`,
-        config
-      );
+      const response = await axios.get(url, config);
+
       setUser(response.data.data);
     } catch (error) {
       console.log(error);
@@ -60,7 +58,7 @@ const User = () => {
       email: email,
     };
     axios
-      .put(url, data, config)
+      .put(urledit, data, config)
       .then((response) => {
         toast.success("berhasil update data");
       })

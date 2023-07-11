@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Button, Modal } from "react-bootstrap";
 import { FiChevronDown, FiChevronUp } from "react-icons/fi";
-// import masterCard from '../assets/mastercard_logo.png';
 import "./Payment.css";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { Link, useParams, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import moment from "moment";
 import "moment/locale/id";
@@ -25,8 +24,6 @@ function Payment() {
   const [formData, setFormData] = useState({
     cardNumber: "",
     cardHolderName: "",
-    // ccv: "",
-    // expiryDate: "",
   });
 
   const handleToggleForm = (formType) => {
@@ -51,50 +48,73 @@ function Payment() {
   const [price, setPrice] = useState(0);
   const [totalPrice, setTotalPrice] = useState();
 
+  
+  const formatter = new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+    minimumFractionDigits: 0,
+  });
+
+  const location = useLocation();
+
+  function calculatePricePassengers() {
+    try {
+      const { total_passenger, adults, child, baby } = location.state;
+      setPassenger(total_passenger);
+
+      if (!isNaN(flight.price)) {
+        setPrice(+passenger * +flight.price);
+      } else {
+        setPrice(30);
+      }
+    } catch (error) {
+      alert(error);
+    }
+  }
+
+  function calculatePriceTotal() {
+    try {
+      if (!isNaN(price)) {
+        setTotalPrice(+price + 300000);
+      } else {
+        setTotalPrice(20);
+      }
+    } catch (error) {
+      alert(error);
+    }
+  }
+
   const params = useParams();
 
+  async function fetchPost() {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_KEY}/flight/${params.ticket_code}`
+      );
+      setFlight(response.data.data);
+      setDepartureAirport(response.data.data.departureAirport);
+      setArrivalAirport(response.data.data.arrivalAirport);
+      setAirplane(response.data.data.airplane);
+      setAirline(response.data.data.airplane.airline);
+      //console.log(flight.price);
+      calculatePricePassengers();
+      calculatePriceTotal();
+    } catch (error) {
+      alert(error);
+    }
+  }
+
   useEffect(() => {
-    async function fetchPost() {
-      try {
-        const response = await axios.get(
-          `${process.env.REACT_APP_API_KEY}/flight/${params.id}`
-        );
-        setFlight(response.data.data);
-        setDepartureAirport(response.data.data.departureAirport);
-        setArrivalAirport(response.data.data.arrivalAirport);
-        setAirplane(response.data.data.airplane);
-        setAirline(response.data.data.airplane.airline);
-        //console.log(flight.price);
-        calculatePricePassengers();
-        calculatePriceTotal();
-      } catch (error) {
-        alert(error);
+    if (price === undefined) {
+      if (params?.ticket_code) {
+        fetchPost();
+      }
+    } else {
+      if (params?.ticket_code) {
+        fetchPost();
       }
     }
-
-    function calculatePricePassengers() {
-      try {
-        const passengers = window.localStorage.getItem("passengers");
-        setPassenger(passengers);
-
-        setPrice(parseInt(passenger) * parseInt(flight.price));
-      } catch (error) {
-        alert(error);
-      }
-    }
-
-    function calculatePriceTotal() {
-      try {
-        setTotalPrice(parseInt(price) + 300000);
-      } catch (error) {
-        alert(error);
-      }
-    }
-
-    if (params?.id) {
-      fetchPost();
-    }
-  }, [params]);
+  }, [params, price]);
 
   const handleChange = (e) => {
     setFormData({
@@ -105,7 +125,7 @@ function Payment() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData); // Lakukan sesuatu dengan data yang diinputkan
+    console.log(formData);
     setFormData({
       cardNumber: "",
       cardHolderName: "",
@@ -116,7 +136,7 @@ function Payment() {
   const handlePayment = () => {
     // Data yang akan dikirim ke API
     const data = {
-      // ...isi data yang ingin dikirim
+      ticket_code: {},
     };
     axios
       .post(`${process.env.REACT_APP_API_KEY}/flight/booking/checkout`, data)
@@ -128,6 +148,7 @@ function Payment() {
         console.error(error);
       });
   };
+
   const navigate = useNavigate();
 
   const [showModal, setShowModal] = useState(false);
@@ -216,7 +237,7 @@ function Payment() {
                         value={formData.cardNumber}
                         onChange={handleChange}
                         className="borderless-input"
-                        style={{ width: "80%", marginLeft: "46px" }} // Mengatur lebar input menjadi 100%
+                        style={{ width: "80%", marginLeft: "46px" }} 
                       />
                     </label>
                   </Row>
@@ -280,7 +301,7 @@ function Payment() {
                         value={formData.cardNumber}
                         onChange={handleChange}
                         className="borderless-input"
-                        style={{ width: "80%", marginLeft: "46px" }} // Mengatur lebar input menjadi 100%
+                        style={{ width: "80%", marginLeft: "46px" }} 
                       />
                     </label>
                   </Row>
@@ -344,7 +365,7 @@ function Payment() {
                         value={formData.cardNumber}
                         onChange={handleChange}
                         className="borderless-input"
-                        style={{ width: "80%", marginLeft: "46px" }} // Mengatur lebar input menjadi 100%
+                        style={{ width: "80%", marginLeft: "46px" }}
                       />
                     </label>
                     <label className="fw-medium" style={{ textIndent: "50px" }}>
@@ -357,7 +378,7 @@ function Payment() {
                         value={formData.cardHolderName}
                         onChange={handleChange}
                         className="borderless-input"
-                        style={{ width: "80%", marginLeft: "46px" }} // Mengatur lebar input menjadi 100%
+                        style={{ width: "80%", marginLeft: "46px" }}
                       />
                     </label>
                   </Row>
@@ -365,7 +386,6 @@ function Payment() {
                     <Button
                       type="submit"
                       size="md"
-                      // className="custom-button-lgn text-light custom-button-small"
                       style={{
                         width: "96%",
                         backgroundColor: "#7126B5",
@@ -395,6 +415,9 @@ function Payment() {
               <Row>
                 <Col>
                   <p className="fw-bold">{flight.departure_time}</p>
+                  <p className="fw-normal">
+                    {moment(flight.flight_date).format("LL")}
+                  </p>
                 </Col>
                 <Col style={{ textAlign: "right" }}>
                   <p className="ms-auto my-auto fs-12 txt-clr fw-bold">
@@ -455,6 +478,9 @@ function Payment() {
             <Row>
               <Col>
                 <p className="fw-bold">{flight.arrival_time}</p>
+                <p className="fw-normal">
+                  {moment(flight.flight_date).format("LL")}
+                </p>
               </Col>
               <Col style={{ textAlign: "right" }}>
                 <p className="ms-auto my-auto fs-12 txt-clr fw-bold">
@@ -482,9 +508,9 @@ function Payment() {
             </Col>
             <Col style={{ textAlign: "right" }}>
               <p>
-                IDR {price}
+                {formatter.format(price)}
                 <br />
-                IDR 300000
+                Rp 300.000
               </p>
             </Col>
             <hr />
@@ -494,7 +520,7 @@ function Payment() {
               <p>Total</p>
             </Col>
             <Col style={{ textAlign: "right" }}>
-              <p className="total-clr">IDR {totalPrice}</p>
+              <p className="total-clr"> {formatter.format(totalPrice)}</p>
             </Col>
           </Row>
           <p>Loading...</p>
