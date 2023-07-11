@@ -10,11 +10,12 @@ import Notifikasi from "./pages/Notifikasi";
 import ResetPass from "./pages/ResetPass";
 import Otp from "./pages/Otp";
 import PagePayment from "./pages/PagePayment";
+import PagePaymenttest from "./pages/PagePaymenttest";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import Checkout from "./pages/Checkout";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-// import { GoogleOAuthProvider } from "@react-oauth/google";
+// import { GoogleOAuthProvider } from "@react-oauth/google"; 
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
         <Route path="/page-payment/:ticket_code" element={<PagePayment />} />
         <Route path="/payment-success" element={<PaymentSuccess />} />
         <Route path="/checkout/:id" element={<Checkout />} />
+        <Route path="/page-paymenttest/:ticketCode" element={<PagePaymenttest />} />
       </Routes>
       <ToastContainer theme="colored" position="bottom-center" />
     </BrowserRouter>

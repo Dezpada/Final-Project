@@ -52,20 +52,19 @@ function Checkout() {
         },
         data: payload,
       };
-
+ 
       const response = await axios.request(config);
-      const { ticketCode } = response.data.data.ticket_code;
+      const ticketCode = response.data.data.ticket_code;
       toast.success(response.data.message);
-      setTimeout(
-        navigate(`/page-payment/${ticketCode}`, {
+      setTimeout(() => {
+        navigate(`/page-paymenttest/${ticketCode}`, {
           state: {
             ticket_code: ticketCode,
             departure_flight_id: departure_flight_id,
             return_flight_id: return_flight_id,
           },
-        }),
-        [3000]
-      );
+        });
+    }, 3000);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         toast.error(error.response.data.message);
