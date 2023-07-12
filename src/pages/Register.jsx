@@ -31,7 +31,7 @@ function Register() {
 
       let config = {
         method: "post",
-        url: `https://final-project-production-b6fe.up.railway.app/resend-otp`,
+        url: `${process.env.REACT_APP_API_KEY}/resend-otp`,
         headers: {
           "Content-Type": "application/json",
         },
